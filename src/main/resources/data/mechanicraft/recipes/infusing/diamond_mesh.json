@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:infuser_recipes",
+	"input1": {
+	
+		"item": "mechanicraft:reinforced_steel_mesh"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:gems/diamond"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:diamond_mesh"
+	
+	}
+
+}

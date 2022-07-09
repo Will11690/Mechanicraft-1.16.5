@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "I"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/copper"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:copper_nugget",
+        "count": 9
+    }
+}

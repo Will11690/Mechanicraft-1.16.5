@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "DRD",
+        "RMR",
+        "DCD"      
+    ],
+    
+    "key":
+    {
+        "D":
+        {
+            "tag": "forge:nuggets/diamonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t4_gear_box"
+        },
+        "R":
+        {
+            "tag": "forge:storage_blocks/redstone"
+        },
+        "C":
+        {
+            "item": "mechanicraft:t3_energy_cube"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t4_energy_cube",
+        "count": 1
+    }
+}

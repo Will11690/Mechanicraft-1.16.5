@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "B"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:storage_blocks/ruby"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:ruby_gem",
+        "count": 9
+    }
+}

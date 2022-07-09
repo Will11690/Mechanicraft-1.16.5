@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "OOO",
+        "SMS",
+        "OPO"      
+    ],
+    
+    "key":
+    {
+        "O":
+        {
+            "tag": "forge:ingots/obsidium"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t3_gear_box"
+        },
+        "S":
+        {
+            "tag": "forge:ingots/steel"
+        },
+        "P":
+        {
+            "item": "mechanicraft:t2_press"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t3_press",
+        "count": 1
+    }
+}

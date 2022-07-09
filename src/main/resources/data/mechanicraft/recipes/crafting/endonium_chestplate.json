@@ -1,0 +1,40 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "BOB",
+        "SBR",
+        "BEB"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+		"O":
+        {
+            "item": "mechanicraft:obsidium_chestplate"
+        },
+		"E":
+        {
+            "item": "mechanicraft:emeronium_chestplate"
+        },
+		"S":
+        {
+            "item": "mechanicraft:saphonium_chestplate"
+        },
+		"R":
+        {
+            "item": "mechanicraft:rubonium_chestplate"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:endonium_chestplate",
+        "count": 1
+    }
+}

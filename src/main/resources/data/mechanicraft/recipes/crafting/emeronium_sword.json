@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "I",
+        "I",
+        "S"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/emeronium"
+        },
+        "S":
+        {
+            "tag": "forge:rods/wooden"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:emeronium_sword",
+        "count": 1
+    }
+}

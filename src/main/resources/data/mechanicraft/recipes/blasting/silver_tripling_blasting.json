@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:blasting",
+	
+    "ingredient": {
+	
+		"item": "mechanicraft:silver_refined_chunks"
+		
+    },
+	
+    "result": { 
+	"item": "mechanicraft:silver_ingot",
+	"count": 3,
+    "experience": 1.0,
+    "cookingtime": 100
+	}
+}

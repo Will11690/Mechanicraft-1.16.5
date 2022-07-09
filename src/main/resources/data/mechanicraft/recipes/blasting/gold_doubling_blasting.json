@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:blasting",
+	
+    "ingredient": {
+	
+		"item": "mechanicraft:gold_dirty_chunks"
+		
+    },
+	
+    "result": { 
+	"item": "minecraft:gold_ingot",
+	"count": 2,
+    "experience": 1.0,
+    "cookingtime": 100
+	}
+}

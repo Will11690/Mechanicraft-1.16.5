@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "OOO",
+        "OMO",
+        "OSO"      
+    ],
+    
+    "key":
+    {
+        "O":
+        {
+            "tag": "forge:ingots/obsidium"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t3_gear_box"
+        },
+        "S":
+        {
+            "item": "mechanicraft:t2_powered_sieve"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t3_powered_sieve",
+        "count": 1
+    }
+}

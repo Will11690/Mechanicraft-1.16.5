@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "EEE",
+        "SMS",
+        "EPE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:gems/endonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t6_gear_box"
+        },
+        "S":
+        {
+            "tag": "forge:ingots/steel"
+        },
+        "P":
+        {
+            "item": "mechanicraft:t5_press"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t6_press",
+        "count": 1
+    }
+}

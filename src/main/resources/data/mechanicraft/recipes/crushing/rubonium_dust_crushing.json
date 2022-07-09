@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:crusher_recipes",
+	"input": {
+	
+		"tag": "forge:ingots/rubonium"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:rubonium_dust"
+	
+	},
+	
+	"secondaryOutput": {
+	
+		"item": "minecraft:air",
+		"weight": 100
+	}
+
+}

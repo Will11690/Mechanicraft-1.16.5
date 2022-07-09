@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:infuser_recipes",
+	"input1": {
+	
+		"item": "mechanicraft:reinforced_string_mesh"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:ingots/iron"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:iron_mesh"
+	
+	}
+
+}

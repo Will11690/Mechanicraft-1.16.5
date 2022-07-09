@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:infuser_recipes",
+	"input1": {
+	
+		"tag": "forge:storage_blocks/iron"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:storage_blocks/coal"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:steel_block"
+	
+	}
+
+}

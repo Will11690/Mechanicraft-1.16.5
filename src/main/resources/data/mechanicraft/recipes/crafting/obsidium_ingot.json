@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "B"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:ingots/obsidium"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:obsidium_ingot",
+        "count": 9
+    }
+}

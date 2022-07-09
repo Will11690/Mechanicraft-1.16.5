@@ -1,0 +1,63 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"tag": "forge:nuggets/diamond"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:nuggets/diamond"
+		
+		},
+		
+	"input3": {
+	
+		"tag": "forge:nuggets/diamond"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "forge:nuggets/diamond"
+		
+		},
+		
+	"input5": {
+	
+		"tag": "forge:nuggets/diamond"
+		
+		},
+		
+	"input6": {
+	
+		"tag": "forge:nuggets/diamond"
+		
+		},
+		
+	"input7": {
+	
+		"tag": "forge:nuggets/diamond"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "forge:nuggets/diamond"
+		
+		},
+	
+	"input9": {
+	
+		"item": "mechanicraft:steel_mesh"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:reinforced_steel_mesh"
+	
+	}
+
+}

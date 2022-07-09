@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "BBB",
+        "BMB",
+        "BSB"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:ingots/bronze"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t2_gear_box"
+        },
+        "S":
+        {
+            "item": "mechanicraft:t1_powered_sieve"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t2_powered_sieve",
+        "count": 1
+    }
+}

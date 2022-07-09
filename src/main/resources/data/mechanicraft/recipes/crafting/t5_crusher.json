@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "EEE",
+        "EME",
+        "ECE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t5_gear_box"
+        },
+        "C":
+        {
+            "item": "mechanicraft:t4_crusher"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t5_crusher",
+        "count": 1
+    }
+}

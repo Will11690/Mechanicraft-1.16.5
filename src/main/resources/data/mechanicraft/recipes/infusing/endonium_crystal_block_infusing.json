@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:infuser_recipes",
+	"input1": {
+	
+		"tag": "forge:gems/diamonium_crystal"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:storage_blocks/endonium"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:endonium_crystal_block"
+	
+	}
+
+}

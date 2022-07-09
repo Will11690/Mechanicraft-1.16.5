@@ -1,0 +1,27 @@
+{
+	"type": "mechanicraft:sieve_recipes",
+	"input1": {
+	
+		"item": "mechanicraft:copper_dirty_chunks"
+		
+		},
+		
+	"input2": {
+	
+		"item": "mechanicraft:string_mesh"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:copper_refined_chunks"
+	
+	},
+	
+	"secondaryOutput": {
+	
+		"item": "minecraft:sand",
+		"weight": 4
+	}
+
+}

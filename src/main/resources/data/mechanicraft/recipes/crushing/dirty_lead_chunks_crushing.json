@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:crusher_recipes",
+	"input": {
+	
+		"tag": "forge:ores/lead"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:lead_dirty_chunks"
+	
+	},
+	
+	"secondaryOutput": {
+	
+		"item": "minecraft:gravel",
+		"weight": 4
+	}
+
+}

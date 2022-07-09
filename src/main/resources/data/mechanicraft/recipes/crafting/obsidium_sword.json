@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "I",
+        "I",
+        "S"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/obsidium"
+        },
+        "S":
+        {
+            "tag": "forge:rods/wooden"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:obsidium_sword",
+        "count": 1
+    }
+}

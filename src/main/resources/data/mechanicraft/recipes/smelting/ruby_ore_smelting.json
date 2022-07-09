@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:smelting",
+	
+    "ingredient": {
+	
+		"tag": "forge:ores/ruby"
+		
+    },
+	
+    "result": "mechanicraft:ruby_gem",
+    "experience": 1.0,
+    "cookingtime": 200
+	
+}

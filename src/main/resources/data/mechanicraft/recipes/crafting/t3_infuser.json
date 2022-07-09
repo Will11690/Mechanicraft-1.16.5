@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "OOO",
+        "OMO",
+        "OIO"      
+    ],
+    
+    "key":
+    {
+        "O":
+        {
+            "tag": "forge:ingots/obsidium"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t3_gear_box"
+        },
+        "I":
+        {
+            "item": "mechanicraft:t2_metallic_infuser"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t3_metallic_infuser",
+        "count": 1
+    }
+}

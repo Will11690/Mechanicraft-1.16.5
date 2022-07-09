@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:crusher_recipes",
+	"input": {
+	
+		"tag": "forge:gems/ruby"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:ruby_dust"
+	
+	},
+	
+	"secondaryOutput": {
+	
+		"item": "minecraft:air",
+		"weight": 100
+	}
+
+}

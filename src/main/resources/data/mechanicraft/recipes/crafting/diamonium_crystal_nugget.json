@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "D"      
+    ],
+    
+    "key":
+    {
+        "D":
+        {
+            "tag": "forge:gems/diamonium_crystal"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:diamonium_crystal_nugget",
+        "count": 9
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "II",
+        "SI",
+        "S "      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+        "S":
+        {
+            "tag": "forge:rods/wooden"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:endonium_axe",
+        "count": 1
+    }
+}

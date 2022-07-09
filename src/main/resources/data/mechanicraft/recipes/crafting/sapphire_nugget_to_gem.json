@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "NNN",
+        "NNN",
+        "NNN"      
+    ],
+    
+    "key":
+    {
+        "N":
+        {
+            "tag": "forge:nuggets/sapphire"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:sapphire_gem",
+        "count": 1
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "R"      
+    ],
+    
+    "key":
+    {
+        "R":
+        {
+            "tag": "forge:gems/ruby"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:ruby_nugget",
+        "count": 9
+    }
+}

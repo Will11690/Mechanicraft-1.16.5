@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "DDD",
+        "SMS",
+        "DPD"      
+    ],
+    
+    "key":
+    {
+        "D":
+        {
+            "tag": "forge:nuggets/diamonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t4_gear_box"
+        },
+        "S":
+        {
+            "tag": "forge:ingots/steel"
+        },
+        "P":
+        {
+            "item": "mechanicraft:t3_press"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t4_press",
+        "count": 1
+    }
+}

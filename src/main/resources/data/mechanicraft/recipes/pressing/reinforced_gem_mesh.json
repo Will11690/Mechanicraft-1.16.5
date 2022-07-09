@@ -1,0 +1,63 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"tag": "forge:nuggets/endonium"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:nuggets/endonium"
+		
+		},
+		
+	"input3": {
+	
+		"tag": "forge:nuggets/endonium"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "forge:nuggets/endonium"
+		
+		},
+		
+	"input5": {
+	
+		"tag": "forge:nuggets/endonium"
+		
+		},
+		
+	"input6": {
+	
+		"tag": "forge:nuggets/endonium"
+		
+		},
+		
+	"input7": {
+	
+		"tag": "forge:nuggets/endonium"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "forge:nuggets/endonium"
+		
+		},
+	
+	"input9": {
+	
+		"item": "mechanicraft:gem_mesh"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:reinforced_gem_mesh"
+	
+	}
+
+}

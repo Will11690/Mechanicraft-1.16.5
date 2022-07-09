@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "I I",
+        "IGI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/saphonium"
+        },
+		"G":
+        {
+            "item": "mechanicraft:glass_boots"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:saphonium_boots",
+        "count": 1
+    }
+}

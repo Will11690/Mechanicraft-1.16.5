@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "ETE",
+        "TMT",
+        "ESE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t5_gear_box"
+        },
+        "T":
+        {
+            "item": "mechanicraft:supreme_fluid_tank"
+        },
+        "S":
+        {
+            "item": "mechanicraft:t4_slurry_processor"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t5_slurry_processor",
+        "count": 1
+    }
+}

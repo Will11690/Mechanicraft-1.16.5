@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:infuser_recipes",
+	"input1": {
+	
+		"item": "mechanicraft:reinforced_gem_mesh"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:ingots/endonium"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:endonium_mesh"
+	
+	}
+
+}

@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "I"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/gold_infused_iron"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:gold_infused_iron_nugget",
+        "count": 9
+    }
+}

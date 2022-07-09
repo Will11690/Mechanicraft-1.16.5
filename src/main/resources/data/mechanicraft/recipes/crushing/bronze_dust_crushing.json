@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:crusher_recipes",
+	"input": {
+	
+		"tag": "forge:ingots/bronze"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:bronze_dust"
+	
+	},
+	
+	"secondaryOutput": {
+	
+		"item": "minecraft:air",
+		"weight": 100
+	}
+
+}

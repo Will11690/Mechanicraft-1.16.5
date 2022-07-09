@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:blasting",
+	
+    "ingredient": {
+	
+		"item": "mechanicraft:iron_pure_chunks"
+		
+    },
+	
+    "result": { 
+	"item": "minecraft:iron_ingot",
+	"count": 4,
+    "experience": 1.0,
+    "cookingtime": 100
+	}
+}

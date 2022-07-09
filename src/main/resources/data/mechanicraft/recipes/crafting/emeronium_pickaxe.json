@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "III",
+        " S ",
+        " S "      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/emeronium"
+        },
+        "S":
+        {
+            "tag": "forge:rods/wooden"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:emeronium_pickaxe",
+        "count": 1
+    }
+}

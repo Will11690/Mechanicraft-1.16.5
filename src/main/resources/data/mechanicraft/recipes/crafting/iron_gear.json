@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "CIC",
+        "IGI",
+        "CIC"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/iron"
+        },
+        "G":
+        {
+            "tag": "forge:gears/stone"
+        },
+        "C":
+        {
+            "tag": "forge:nuggets/iron"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:iron_gear",
+        "count": 1
+    }
+}

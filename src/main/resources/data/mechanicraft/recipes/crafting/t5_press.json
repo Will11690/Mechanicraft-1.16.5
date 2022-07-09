@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "EEE",
+        "SMS",
+        "EPE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t5_gear_box"
+        },
+        "S":
+        {
+            "tag": "forge:ingots/steel"
+        },
+        "P":
+        {
+            "item": "mechanicraft:t4_press"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t5_press",
+        "count": 1
+    }
+}

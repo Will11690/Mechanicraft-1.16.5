@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "III",
+        "III",
+        "III"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/rubonium"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:rubonium_block",
+        "count": 1
+    }
+}

@@ -1,0 +1,30 @@
+{
+	"type": "mechanicraft:slurry_recipes",
+	"inputFluid1": {
+	
+		"fluid": "minecraft:lava",
+		"amount": 1000
+		
+		},
+		
+	"inputFluid2": {
+	
+		"fluid": "mechanicraft:iron_ore_slurry_fluid",
+		"amount": 1000
+		
+		},
+		
+	"outputStack": {
+	
+		"item": "mechanicraft:iron_pure_chunks"
+		
+		},
+		
+	"outputFluid": {
+	
+		"fluid": "mechanicraft:liquid_slag_fluid",
+		"amount": 250
+	
+	}
+
+}

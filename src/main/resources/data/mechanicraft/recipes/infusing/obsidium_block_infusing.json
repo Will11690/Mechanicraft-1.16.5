@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:infuser_recipes",
+	"input1": {
+	
+		"tag": "forge:storage_blocks/gold_infused_iron"
+		
+		},
+		
+	"input2": {
+	
+		"item": "minecraft:obsidian"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:obsidium_block"
+	
+	}
+
+}

@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "G G",
+        "G G"      
+    ],
+    
+    "key":
+    {
+        "G":
+        [
+            {"tag": "forge:glass/colorless"},
+            {"tag": "forge:stained_glass"}
+        ]
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:glass_boots",
+        "count": 1
+    }
+}

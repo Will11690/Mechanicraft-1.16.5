@@ -1,0 +1,39 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "OIE",
+        "S R"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+		"O":
+        {
+            "item": "mechanicraft:obsidium_helmet"
+        },
+		"E":
+        {
+            "item": "mechanicraft:emeronium_helmet"
+        },
+		"S":
+        {
+            "item": "mechanicraft:saphonium_helmet"
+        },
+		"R":
+        {
+            "item": "mechanicraft:rubonium_helmet"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:endonium_helmet",
+        "count": 1
+    }
+}

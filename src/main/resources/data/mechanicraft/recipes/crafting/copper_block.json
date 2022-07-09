@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "III",
+        "III",
+        "III"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/copper"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:copper_block",
+        "count": 1
+    }
+}

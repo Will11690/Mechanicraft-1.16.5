@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "EEE",
+        "EME",
+        "EIE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:gems/endonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t6_gear_box"
+        },
+        "I":
+        {
+            "item": "mechanicraft:t5_metallic_infuser"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t6_metallic_infuser",
+        "count": 1
+    }
+}

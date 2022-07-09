@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:smelting",
+	
+	"ingredient": {
+	
+		"tag": "forge:dusts/sapphire"
+		
+		},
+	
+	"result": "mechanicraft:sapphire_gem",
+    "experience": 0.0,
+    "cookingtime": 200
+	
+	}
+
+}

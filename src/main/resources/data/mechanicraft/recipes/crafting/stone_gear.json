@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "WCW",
+        "CGC",
+        "WCW"      
+    ],
+    
+    "key":
+    {
+        "C":
+        {
+            "tag": "forge:cobblestone"
+        },
+        "G":
+        {
+            "tag": "forge:gears/wooden"
+        },
+        "W":
+        {
+            "tag": "forge:rods/wooden"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:stone_gear",
+        "count": 1
+    }
+}

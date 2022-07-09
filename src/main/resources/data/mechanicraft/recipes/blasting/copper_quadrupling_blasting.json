@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:blasting",
+	
+    "ingredient": {
+	
+		"item": "mechanicraft:copper_pure_chunks"
+		
+    },
+	
+    "result": { 
+	"item": "mechanicraft:copper_ingot",
+	"count": 4,
+    "experience": 1.0,
+    "cookingtime": 100
+	}
+}

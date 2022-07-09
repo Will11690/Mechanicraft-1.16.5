@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "BGB",
+        "GTG",
+        "BGB"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:ingots/bronze"
+        },
+        "T":
+        {
+            "item": "mechanicraft:basic_fluid_tank"
+        },
+        "G":
+        {
+            "tag": "forge:glass_panes"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:advanced_fluid_tank",
+        "count": 1
+    }
+}

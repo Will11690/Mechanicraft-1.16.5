@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "DTD",
+        "TMT",
+        "DSD"      
+    ],
+    
+    "key":
+    {
+        "D":
+        {
+            "tag": "forge:nuggets/diamonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t4_gear_box"
+        },
+        "T":
+        {
+            "item": "mechanicraft:superior_fluid_tank"
+        },
+        "S":
+        {
+            "item": "mechanicraft:t3_slurry_processor"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t4_slurry_processor",
+        "count": 1
+    }
+}

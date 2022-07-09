@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "DDD",
+        "DMD",
+        "DID"      
+    ],
+    
+    "key":
+    {
+        "D":
+        {
+            "tag": "forge:nuggets/diamonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t4_gear_box"
+        },
+        "I":
+        {
+            "item": "mechanicraft:t3_metallic_infuser"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t4_metallic_infuser",
+        "count": 1
+    }
+}

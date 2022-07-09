@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "I I",
+        "IGI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/emeronium"
+        },
+		"G":
+        {
+            "item": "mechanicraft:glass_boots"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:emeronium_boots",
+        "count": 1
+    }
+}

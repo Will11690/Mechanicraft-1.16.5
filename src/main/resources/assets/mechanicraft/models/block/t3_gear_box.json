@@ -1,0 +1,6 @@
+{
+   "parent": "block/cube_all",
+   "textures": {
+       "all": "mechanicraft:blocks/t3_gear_box"
+   }
+}

@@ -1,0 +1,44 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "IDI",
+        "SMR",
+        "IEI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t4_gear_box"
+        },
+        "D":
+        {
+            "tag": "forge:gears/diamonium"
+        },
+        "R":
+        {
+            "tag": "forge:gears/rubonium"
+        },
+        "S":
+        {
+            "tag": "forge:gears/saphonium"
+        },
+        "E":
+        {
+            "tag": "forge:gears/emeronium"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t5_gear_box",
+        "count": 1
+    }
+}

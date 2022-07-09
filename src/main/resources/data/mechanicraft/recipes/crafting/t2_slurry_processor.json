@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "BTB",
+        "TMT",
+        "BSB"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:ingots/bronze"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t2_gear_box"
+        },
+        "T":
+        {
+            "item": "mechanicraft:advanced_fluid_tank"
+        },
+        "S":
+        {
+            "item": "mechanicraft:t1_slurry_processor"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t2_slurry_processor",
+        "count": 1
+    }
+}

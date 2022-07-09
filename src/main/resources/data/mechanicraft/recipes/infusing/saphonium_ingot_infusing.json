@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:infuser_recipes",
+	"input1": {
+	
+		"tag": "forge:ingots/gold_infused_iron"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:gems/sapphire"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:saphonium_ingot"
+	
+	}
+
+}

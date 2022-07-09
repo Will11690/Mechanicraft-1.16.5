@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "IRI",
+        "IFI",
+        "IMI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/iron"
+        },
+        "M":
+        {
+            "item": "mechanicraft:machine_block"
+        },
+        "R":
+        {
+            "tag": "forge:storage_blocks/redstone"
+        },
+        "F":
+        {
+            "item": "minecraft:furnace"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:basic_coal_generator",
+        "count": 1
+    }
+}

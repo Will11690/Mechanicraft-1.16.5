@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "I"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/silver"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:silver_nugget",
+        "count": 9
+    }
+}

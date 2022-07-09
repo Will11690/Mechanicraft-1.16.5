@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "B"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:storage_blocks/ender"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:ender_ingot",
+        "count": 9
+    }
+}

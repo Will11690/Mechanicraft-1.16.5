@@ -1,0 +1,27 @@
+{
+	"type": "mechanicraft:sieve_recipes",
+	"input1": {
+	
+		"item": "mechanicraft:gold_dirty_chunks"
+		
+		},
+		
+	"input2": {
+	
+		"item": "mechanicraft:reinforced_endonium_mesh"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:gold_refined_chunks"
+	
+	},
+	
+	"secondaryOutput": {
+	
+		"item": "minecraft:sand",
+		"weight": 4
+	}
+
+}

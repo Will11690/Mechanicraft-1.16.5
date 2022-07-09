@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "DGD",
+        "GMG",
+        "DGD"     
+    ],
+    
+    "key":
+    {
+        "D":
+        {
+            "tag": "forge:nuggets/diamonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t3_gear_box"
+        },
+        "G":
+        {
+            "tag": "forge:gears/obsidium"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t4_gear_box",
+        "count": 1
+    }
+}

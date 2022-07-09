@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:crusher_recipes",
+	"input": {
+	
+		"tag": "forge:ingots/emeronium"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:emeronium_dust"
+	
+	},
+	
+	"secondaryOutput": {
+	
+		"item": "minecraft:air",
+		"weight": 100
+	}
+
+}

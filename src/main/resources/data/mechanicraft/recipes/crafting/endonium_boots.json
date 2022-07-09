@@ -1,0 +1,39 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "BOB",
+        "SER"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+		"O":
+        {
+            "item": "mechanicraft:obsidium_boots"
+        },
+		"E":
+        {
+            "item": "mechanicraft:emeronium_boots"
+        },
+		"S":
+        {
+            "item": "mechanicraft:saphonium_boots"
+        },
+		"R":
+        {
+            "item": "mechanicraft:rubonium_boots"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:endonium_boots",
+        "count": 1
+    }
+}

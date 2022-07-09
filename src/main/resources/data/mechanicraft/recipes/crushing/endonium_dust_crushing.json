@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:crusher_recipes",
+	"input": {
+	
+		"tag": "forge:ingots/endonium"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:endonium_dust"
+	
+	},
+	
+	"secondaryOutput": {
+	
+		"item": "minecraft:air",
+		"weight": 100
+	}
+
+}

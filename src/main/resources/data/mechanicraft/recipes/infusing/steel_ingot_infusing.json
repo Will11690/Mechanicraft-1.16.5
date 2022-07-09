@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:infuser_recipes",
+	"input1": {
+	
+		"tag": "forge:ingots/iron"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "minecraft:coals"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:steel_ingot"
+	
+	}
+
+}

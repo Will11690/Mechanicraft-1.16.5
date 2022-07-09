@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "LCL",
+        "SGS",
+        "LCL"      
+    ],
+    
+    "key":
+    {
+        "L":
+        {
+            "tag": "forge:ingots/lead"
+        },
+        "C":
+        {
+            "tag": "forge:ingots/copper"
+        },
+        "G":
+        {
+            "tag": "forge:gears/iron"
+        },
+        "S":
+        {
+            "tag": "forge:ingots/silver"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:machine_block",
+        "count": 1
+    }
+}

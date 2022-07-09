@@ -1,0 +1,37 @@
+{
+	
+    "multipart": [
+	
+		{  
+		
+			"apply": { "model": "mechanicraft:block/fluid_tank/superior_fluid_tank/superior_fluid_tank_core" }
+		
+		},
+		{
+	
+			"when": { "con_north": true },
+			"apply": { "model": "mechanicraft:block/fluid_tank/superior_fluid_tank/connection/superior_fluid_tank_north" }
+	
+		},
+	
+		{
+	
+			"when": { "con_south": true },
+			"apply": { "model": "mechanicraft:block/fluid_tank/superior_fluid_tank/connection/superior_fluid_tank_south" }
+	
+		},
+	
+		{
+	
+			"when": { "con_east": true },
+			"apply": { "model": "mechanicraft:block/fluid_tank/superior_fluid_tank/connection/superior_fluid_tank_east" }
+	
+		},
+		{
+	
+			"when": { "con_west": true },
+			"apply": { "model": "mechanicraft:block/fluid_tank/superior_fluid_tank/connection/superior_fluid_tank_west" }
+	
+		}
+	]
+}

@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:crusher_recipes",
+	"input": {
+	
+		"tag": "forge:ores/copper"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:copper_dirty_chunks"
+	
+	},
+	
+	"secondaryOutput": {
+	
+		"item": "minecraft:gravel",
+		"weight": 4
+	}
+
+}

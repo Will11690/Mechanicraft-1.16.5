@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "II",
+        "S ",
+        "S "      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/saphonium"
+        },
+        "S":
+        {
+            "tag": "forge:rods/wooden"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:saphonium_hoe",
+        "count": 1
+    }
+}

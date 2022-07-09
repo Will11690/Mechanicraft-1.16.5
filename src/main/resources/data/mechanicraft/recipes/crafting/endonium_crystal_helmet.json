@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "III",
+        "IEI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:gems/endonium_crystal"
+        },
+		"E":
+        {
+            "item": "mechanicraft:endonium_helmet"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:endonium_crystal_helmet",
+        "count": 1
+    }
+}

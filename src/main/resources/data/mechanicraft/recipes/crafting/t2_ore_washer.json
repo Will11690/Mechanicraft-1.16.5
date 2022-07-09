@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "BBB",
+        "TMT",
+        "BCB"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:ingots/bronze"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t2_gear_box"
+        },
+        "T":
+        {
+            "item": "mechanicraft:advanced_fluid_tank"
+        },
+        "C":
+        {
+            "item": "mechanicraft:t1_ore_washer"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t2_ore_washer",
+        "count": 1
+    }
+}

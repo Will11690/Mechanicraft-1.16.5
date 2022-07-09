@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "III",
+        " S ",
+        " S "      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+        "S":
+        {
+            "tag": "forge:rods/wooden"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:endonium_pickaxe",
+        "count": 1
+    }
+}

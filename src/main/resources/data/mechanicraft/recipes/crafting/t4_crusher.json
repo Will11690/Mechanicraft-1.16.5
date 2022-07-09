@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "DDD",
+        "DMD",
+        "DCD"      
+    ],
+    
+    "key":
+    {
+        "D":
+        {
+            "tag": "forge:nuggets/diamonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t4_gear_box"
+        },
+        "C":
+        {
+            "item": "mechanicraft:t3_crusher"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t4_crusher",
+        "count": 1
+    }
+}

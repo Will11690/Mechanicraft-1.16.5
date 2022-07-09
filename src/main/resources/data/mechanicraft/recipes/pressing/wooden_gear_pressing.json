@@ -1,0 +1,64 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"tag": "forge:rods/wooden"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "minecraft:planks"
+		
+		},
+		
+	"input3": {
+	
+		"tag": "forge:rods/wooden"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "minecraft:planks"
+		
+		},
+		
+	"input5": {
+	
+		"tag": "forge:rods/wooden"
+		
+		},
+		
+	"input6": {
+	
+		"tag": "minecraft:planks"
+		
+		},
+		
+	"input7": {
+	
+		"tag": "forge:rods/wooden"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "minecraft:planks"
+		
+		},
+	
+	"input9": {
+	
+		"tag": "forge:press_dies/gear_die"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:wooden_gear",
+		"count": 2
+	
+	}
+
+}

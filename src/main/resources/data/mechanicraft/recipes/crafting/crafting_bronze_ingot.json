@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "CC",
+        "CT"      
+    ],
+    
+    "key":
+    {
+        "C":
+        {
+            "tag": "forge:ingots/copper"
+        },
+        
+        "T":
+        {
+            "tag": "forge:ingots/tin"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:bronze_ingot",
+        "count": 4
+    }
+}

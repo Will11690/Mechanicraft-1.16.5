@@ -1,0 +1,47 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/cube_all",
+	"texture_size": [32, 32],
+	"textures": {
+		"1": "mechanicraft:models/item_chute/t1item_chute_connector",
+		"2": "mechanicraft:models/item_chute/t1item_chute_extension",
+		"particle": "mechanicraft:models/item_chute/t1item_chute_core"
+	},
+	"elements": [
+		{
+			"name": "extension_east",
+			"from": [10, 6, 6],
+			"to": [13, 10, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [19, 8, 15]},
+			"faces": {
+				"north": {"uv": [12.5, 0, 15.5, 4], "texture": "#2"},
+				"east": {"uv": [0, 8, 8, 16], "texture": "#2"},
+				"south": {"uv": [4.5, 0, 7.5, 4], "texture": "#2"},
+				"west": {"uv": [0, 8, 8, 16], "texture": "#2"},
+				"up": {"uv": [4.5, 0, 7.5, 4], "texture": "#2"},
+				"down": {"uv": [4.5, 0, 7.5, 4], "texture": "#2"}
+			}
+		},
+		{
+			"name": "connector_east",
+			"from": [13, 5, 5],
+			"to": [16, 11, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [21, 13, 13]},
+			"faces": {
+				"north": {"uv": [10, 0, 13, 5], "texture": "#1"},
+				"east": {"uv": [0, 3, 10, 5], "texture": "#1"},
+				"south": {"uv": [13, 0, 16, 5], "texture": "#1"},
+				"west": {"uv": [0, 5.5, 10.5, 16], "texture": "#1"},
+				"up": {"uv": [13, 0, 16, 5], "texture": "#1"},
+				"down": {"uv": [13, 0, 16, 5], "texture": "#1"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "t1item_chute_east",
+			"origin": [8, 8, 8],
+			"children": [0, 1]
+		}
+	]
+}

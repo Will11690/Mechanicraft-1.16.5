@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "ETE",
+        "TMT",
+        "ESE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:gems/endonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t6_gear_box"
+        },
+        "T":
+        {
+            "item": "mechanicraft:ultimate_fluid_tank"
+        },
+        "S":
+        {
+            "item": "mechanicraft:t5_slurry_processor"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t6_slurry_processor",
+        "count": 1
+    }
+}

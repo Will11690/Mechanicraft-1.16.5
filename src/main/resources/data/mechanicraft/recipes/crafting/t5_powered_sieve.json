@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "EEE",
+        "EME",
+        "ESE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t5_gear_box"
+        },
+        "S":
+        {
+            "item": "mechanicraft:t4_powered_sieve"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t5_powered_sieve",
+        "count": 1
+    }
+}

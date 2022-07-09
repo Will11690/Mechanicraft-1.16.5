@@ -1,0 +1,12 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "particle": "mechanicraft:blocks/tier2_machine",
+        "up": "mechanicraft:blocks/tier2_machine",
+        "down": "mechanicraft:blocks/tier2_machine",
+        "north": "mechanicraft:blocks/t2metallic_infuser_front_off",
+        "east": "mechanicraft:blocks/tier2_machine",
+        "south": "mechanicraft:blocks/tier2_machine",
+        "west": "mechanicraft:blocks/tier2_machine"
+    }
+}

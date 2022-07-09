@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:infuser_recipes",
+	"input1": {
+	
+		"tag": "forge:nuggets/diamonium_crystal"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:ingots/endonium"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:endonium_crystal"
+	
+	}
+
+}

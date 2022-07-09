@@ -1,0 +1,64 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"tag": "forge:nuggets/obsidium"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:ingots/saphonium"
+		
+		},
+		
+	"input3": {
+	
+		"tag": "forge:nuggets/obsidium"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "forge:ingots/saphonium"
+		
+		},
+		
+	"input5": {
+	
+		"tag": "forge:nuggets/obsidium"
+		
+		},
+		
+	"input6": {
+	
+		"tag": "forge:ingots/saphonium"
+		
+		},
+		
+	"input7": {
+	
+		"tag": "forge:nuggets/obsidium"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "forge:ingots/saphonium"
+		
+		},
+	
+	"input9": {
+	
+		"tag": "forge:press_dies/gear_die"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:saphonium_gear",
+		"count": 2
+	
+	}
+
+}

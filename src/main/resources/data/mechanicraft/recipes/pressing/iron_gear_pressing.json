@@ -1,0 +1,64 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"tag": "forge:nuggets/iron"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:ingots/iron"
+		
+		},
+		
+	"input3": {
+	
+		"tag": "forge:nuggets/iron"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "forge:ingots/iron"
+		
+		},
+		
+	"input5": {
+	
+		"tag": "forge:nuggets/iron"
+		
+		},
+		
+	"input6": {
+	
+		"tag": "forge:ingots/iron"
+		
+		},
+		
+	"input7": {
+	
+		"tag": "forge:nuggets/iron"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "forge:ingots/iron"
+		
+		},
+	
+	"input9": {
+	
+		"tag": "forge:press_dies/gear_die"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:iron_gear",
+		"count": 2
+	
+	}
+
+}

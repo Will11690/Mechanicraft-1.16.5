@@ -1,0 +1,12 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "particle": "mechanicraft:blocks/basic_machine",
+        "up": "mechanicraft:blocks/basic_machine",
+        "down": "mechanicraft:blocks/basic_machine",
+        "north": "mechanicraft:blocks/basic_coal_generator_front_off",
+        "east": "mechanicraft:blocks/basic_machine",
+        "south": "mechanicraft:blocks/basic_machine",
+        "west": "mechanicraft:blocks/basic_machine"
+    }
+}

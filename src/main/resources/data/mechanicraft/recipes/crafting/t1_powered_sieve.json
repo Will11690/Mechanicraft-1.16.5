@@ -1,0 +1,40 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "IBI",
+        "DMD",
+        "ICI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/gold_infused_iron"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t1_gear_box"
+        },
+        "B":
+        {
+            "item": "minecraft:bucket"
+        },
+        "C":
+        {
+            "tag": "forge:chests/wooden"
+        },
+        "D":
+        {
+            "item": "minecraft:dropper"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t1_powered_sieve",
+        "count": 1
+    }
+}

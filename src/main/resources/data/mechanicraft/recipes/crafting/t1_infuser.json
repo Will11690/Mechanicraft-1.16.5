@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "III",
+        "IMI",
+        "IBI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/gold_infused_iron"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t1_gear_box"
+        },
+        "B":
+        {
+            "item": "mechanicraft:basic_metallic_infuser"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t1_metallic_infuser",
+        "count": 1
+    }
+}

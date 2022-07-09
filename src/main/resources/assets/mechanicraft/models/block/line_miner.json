@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube_all",
+   "textures": {
+        "particle": "mechanicraft:blocks/line_miner_sides",
+        "up": "mechanicraft:blocks/line_miner_top",
+        "down": "mechanicraft:blocks/line_miner_bottom",
+        "north": "mechanicraft:blocks/line_miner_sides",
+        "east": "mechanicraft:blocks/line_miner_sides",
+        "south": "mechanicraft:blocks/line_miner_sides",
+        "west": "mechanicraft:blocks/line_miner_sides"
+    }
+}

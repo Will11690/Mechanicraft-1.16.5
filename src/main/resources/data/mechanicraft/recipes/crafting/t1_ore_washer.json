@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "III",
+        "TMT",
+        "IFI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/gold_infused_iron"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t1_gear_box"
+        },
+        "T":
+        {
+            "item": "mechanicraft:basic_fluid_tank"
+        },
+        "F":
+        {
+            "item": "minecraft:furnace"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t1_ore_washer",
+        "count": 1
+    }
+}

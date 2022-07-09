@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:infuser_recipes",
+	"input1": {
+	
+		"tag": "forge:storage_blocks/gold_infused_iron"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:storage_blocks/ruby"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:rubonium_block"
+	
+	}
+
+}

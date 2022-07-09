@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "B"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:storage_blocks/lead"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:lead_ingot",
+        "count": 9
+    }
+}

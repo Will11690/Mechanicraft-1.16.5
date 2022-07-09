@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "EEE",
+        "EME",
+        "ECE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:gems/endonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t6_gear_box"
+        },
+        "C":
+        {
+            "item": "mechanicraft:t5_crusher"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t6_crusher",
+        "count": 1
+    }
+}

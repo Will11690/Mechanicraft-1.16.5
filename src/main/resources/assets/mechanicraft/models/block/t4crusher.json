@@ -1,0 +1,12 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "particle": "mechanicraft:blocks/tier4_machine",
+        "up": "mechanicraft:blocks/tier4_machine",
+        "down": "mechanicraft:blocks/tier4_machine",
+        "north": "mechanicraft:blocks/t4crusher_front_off",
+        "east": "mechanicraft:blocks/tier4_machine",
+        "south": "mechanicraft:blocks/tier4_machine",
+        "west": "mechanicraft:blocks/tier4_machine"
+    }
+}

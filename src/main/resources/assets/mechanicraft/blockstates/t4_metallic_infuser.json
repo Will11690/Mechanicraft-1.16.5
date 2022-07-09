@@ -1,0 +1,13 @@
+{
+    "variants": 
+    {
+        "lit=false,facing=north": { "model": "mechanicraft:/block/t4metallic_infuser" },
+        "lit=false,facing=east": { "model": "mechanicraft:/block/t4metallic_infuser", "y": 90 },
+        "lit=false,facing=south": { "model": "mechanicraft:/block/t4metallic_infuser", "y": 180 },
+        "lit=false,facing=west": { "model": "mechanicraft:/block/t4metallic_infuser", "y": 270 },
+        "lit=true,facing=north": { "model": "mechanicraft:/block/lit_t4metallic_infuser" },
+        "lit=true,facing=east": { "model": "mechanicraft:/block/lit_t4metallic_infuser", "y": 90 },
+        "lit=true,facing=south": { "model": "mechanicraft:/block/lit_t4metallic_infuser", "y": 180 },
+        "lit=true,facing=west": { "model": "mechanicraft:/block/lit_t4metallic_infuser", "y":270  }
+    }
+}

@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:items/press_dies/gear",
+    "#forge:items/press_dies/rod",
+    "#forge:items/press_dies/plate"
+  ]
+}

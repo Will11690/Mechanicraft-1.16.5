@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "SSS",
+        "SSS",
+        "SSS"      
+    ],
+    
+    "key":
+    {
+        "S":
+        {
+            "tag": "forge:string"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:string_mesh",
+        "count": 1
+    }
+}

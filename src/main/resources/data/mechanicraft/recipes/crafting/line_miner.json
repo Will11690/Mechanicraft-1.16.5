@@ -1,0 +1,40 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "EDE",
+        "PMP",
+        "ECE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+        "P":
+        {
+            "item": "minecraft:diamond_pickaxe"
+        },
+        "C":
+        {
+            "tag": "forge:chests/wooden"
+        },
+        "D":
+        {
+            "item": "minecraft:dispenser"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t5_gear_box"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:line_miner",
+        "count": 1
+    }
+}

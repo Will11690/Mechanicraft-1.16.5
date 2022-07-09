@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "G G",
+        "GGG",
+        "GGG"      
+    ],
+    
+    "key":
+    {
+        "G":
+        [
+            {"tag": "forge:glass/colorless"},
+            {"tag": "forge:stained_glass"}
+        ]
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:glass_chestplate",
+        "count": 1
+    }
+}

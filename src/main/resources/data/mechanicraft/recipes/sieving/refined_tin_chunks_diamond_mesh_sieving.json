@@ -1,0 +1,27 @@
+{
+	"type": "mechanicraft:sieve_recipes",
+	"input1": {
+	
+		"item": "mechanicraft:tin_dirty_chunks"
+		
+		},
+		
+	"input2": {
+	
+		"item": "mechanicraft:diamond_mesh"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:tin_refined_chunks"
+	
+	},
+	
+	"secondaryOutput": {
+	
+		"item": "minecraft:sand",
+		"weight": 4
+	}
+
+}

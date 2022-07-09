@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:blasting",
+	
+    "ingredient": {
+	
+		"item": "mechanicraft:tin_pure_chunks"
+		
+    },
+	
+    "result": { 
+	"item": "mechanicraft:tin_ingot",
+	"count": 4,
+    "experience": 1.0,
+    "cookingtime": 100
+	}
+}

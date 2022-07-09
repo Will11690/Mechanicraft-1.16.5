@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "DDD",
+        "TMT",
+        "DCD"      
+    ],
+    
+    "key":
+    {
+        "D":
+        {
+            "tag": "forge:nuggets/diamonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t4_gear_box"
+        },
+        "T":
+        {
+            "item": "mechanicraft:superior_fluid_tank"
+        },
+        "C":
+        {
+            "item": "mechanicraft:t3_ore_washer"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t4_ore_washer",
+        "count": 1
+    }
+}

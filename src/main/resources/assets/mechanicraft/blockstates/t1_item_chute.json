@@ -1,0 +1,93 @@
+{
+	
+    "multipart": [
+	
+		{  
+		
+			"apply": { "model": "mechanicraft:block/item_chute/t1item_chute/t1item_chute_core" }
+		
+		},
+		{
+	
+			"when": { "block_down": true },
+			"apply": { "model": "mechanicraft:block/item_chute/t1item_chute/conblock/t1item_chute_connected_down_block" }
+	
+		},
+	
+		{
+	
+			"when": { "block_east": true },
+			"apply": { "model": "mechanicraft:block/item_chute/t1item_chute/conblock/t1item_chute_connected_east_block" }
+	
+		},
+	
+		{
+	
+			"when": { "block_north": true },
+			"apply": { "model": "mechanicraft:block/item_chute/t1item_chute/conblock/t1item_chute_connected_north_block" }
+	
+		},
+	
+		{
+	
+			"when": { "block_south": true },
+			"apply": { "model": "mechanicraft:block/item_chute/t1item_chute/conblock/t1item_chute_connected_south_block" }
+	
+		},
+	
+		{
+	
+			"when": { "block_up": true },
+			"apply": { "model": "mechanicraft:block/item_chute/t1item_chute/conblock/t1item_chute_connected_up_block" }
+	
+		},
+	
+		{
+	
+			"when": { "block_west": true },
+			"apply": { "model": "mechanicraft:block/item_chute/t1item_chute/conblock/t1item_chute_connected_west_block" }
+	
+		},
+		{
+	
+			"when": { "chute_down": true },
+			"apply": { "model": "mechanicraft:block/item_chute/t1item_chute/conchute/t1item_chute_connected_down_chute" }
+	
+		},
+	
+		{
+	
+			"when": { "chute_east": true },
+			"apply": { "model": "mechanicraft:block/item_chute/t1item_chute/conchute/t1item_chute_connected_east_chute" }
+	
+		},
+	
+		{
+	
+			"when": { "chute_north": true },
+			"apply": { "model": "mechanicraft:block/item_chute/t1item_chute/conchute/t1item_chute_connected_north_chute" }
+	
+		},
+	
+		{
+	
+			"when": { "chute_south": true },
+			"apply": { "model": "mechanicraft:block/item_chute/t1item_chute/conchute/t1item_chute_connected_south_chute" }
+	
+		},
+	
+		{
+	
+			"when": { "chute_up": true },
+			"apply": { "model": "mechanicraft:block/item_chute/t1item_chute/conchute/t1item_chute_connected_up_chute" }
+	
+		},
+	
+		{
+	
+			"when": { "chute_west": true },
+			"apply": { "model": "mechanicraft:block/item_chute/t1item_chute/conchute/t1item_chute_connected_west_chute" }
+	
+		}
+	]
+}

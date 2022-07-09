@@ -1,0 +1,40 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "IPI",
+        "SMS",
+        "ICI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/gold_infused_iron"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t1_gear_box"
+        },
+        "C":
+        {
+            "item": "minecraft:crafting_table"
+        },
+        "S":
+        {
+            "tag": "forge:ingots/steel"
+        },
+        "P":
+        {
+            "item": "minecraft:piston"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t1_press",
+        "count": 1
+    }
+}

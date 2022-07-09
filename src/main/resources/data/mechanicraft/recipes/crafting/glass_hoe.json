@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "GG",
+        "S ",
+        "S "      
+    ],
+    
+    "key":
+    {
+        "G":
+        [
+            {"tag": "forge:glass/colorless"},
+            {"tag": "forge:stained_glass"}
+        ],
+        "S":
+        {
+            "tag": "forge:rods/wooden"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:glass_hoe",
+        "count": 1
+    }
+}

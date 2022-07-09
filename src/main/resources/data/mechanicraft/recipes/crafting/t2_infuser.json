@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "BBB",
+        "BMB",
+        "BIB"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:ingots/bronze"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t2_gear_box"
+        },
+        "I":
+        {
+            "item": "mechanicraft:t1_metallic_infuser"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t2_metallic_infuser",
+        "count": 1
+    }
+}

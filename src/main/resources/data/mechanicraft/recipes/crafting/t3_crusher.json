@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "OOO",
+        "OMO",
+        "OCO"      
+    ],
+    
+    "key":
+    {
+        "O":
+        {
+            "tag": "forge:ingots/obsidium"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t3_gear_box"
+        },
+        "C":
+        {
+            "item": "mechanicraft:t2_crusher"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t3_crusher",
+        "count": 1
+    }
+}

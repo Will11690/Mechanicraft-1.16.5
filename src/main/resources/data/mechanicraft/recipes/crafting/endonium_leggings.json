@@ -1,0 +1,40 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "OIE",
+        "I I",
+        "S R"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+		"O":
+        {
+            "item": "mechanicraft:obsidium_leggings"
+        },
+		"E":
+        {
+            "item": "mechanicraft:emeronium_leggings"
+        },
+		"S":
+        {
+            "item": "mechanicraft:saphonium_leggings"
+        },
+		"R":
+        {
+            "item": "mechanicraft:rubonium_leggings"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:endonium_leggings",
+        "count": 1
+    }
+}

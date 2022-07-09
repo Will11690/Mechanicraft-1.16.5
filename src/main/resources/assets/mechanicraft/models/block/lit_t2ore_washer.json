@@ -1,0 +1,12 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "particle": "mechanicraft:blocks/tier2_machine",
+        "up": "mechanicraft:blocks/tier2_machine",
+        "down": "mechanicraft:blocks/tier2_machine",
+        "north": "mechanicraft:blocks/t2ore_washer_front_on",
+        "east": "mechanicraft:blocks/tier2_machine",
+        "south": "mechanicraft:blocks/tier2_machine_output",
+        "west": "mechanicraft:blocks/tier2_machine"
+    }
+}

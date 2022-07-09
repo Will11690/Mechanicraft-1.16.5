@@ -1,0 +1,64 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"tag": "forge:nuggets/gold_infused_iron"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:ingots/obsidium"
+		
+		},
+		
+	"input3": {
+	
+		"tag": "forge:nuggets/gold_infused_iron"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "forge:ingots/obsidium"
+		
+		},
+		
+	"input5": {
+	
+		"tag": "forge:nuggets/gold_infused_iron"
+		
+		},
+		
+	"input6": {
+	
+		"tag": "forge:ingots/obsidium"
+		
+		},
+		
+	"input7": {
+	
+		"tag": "forge:nuggets/gold_infused_iron"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "forge:ingots/emeronium"
+		
+		},
+	
+	"input9": {
+	
+		"tag": "forge:press_dies/gear_die"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:obsidium_gear",
+		"count": 2
+	
+	}
+
+}

@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "INI",
+        "NBN",
+        "INI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/gold_infused_iron"
+        },
+        "B":
+        {
+            "item": "mechanicraft:basic_coal_generator"
+        },
+        "N":
+        {
+            "tag": "forge:nuggets/diamond"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:advanced_coal_generator",
+        "count": 1
+    }
+}

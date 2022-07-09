@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "BBB",
+        "BBB",
+        "BBB"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:gems/endonium_crystal"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:endonium_crystal_block",
+        "count": 1
+    }
+}

@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "III",
+        "RFR",
+        "IMI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/iron"
+        },
+        "M":
+        {
+            "item": "mechanicraft:machine_block"
+        },
+        "R":
+        {
+            "tag": "forge:dusts/redstone"
+        },
+        "F":
+        {
+            "item": "minecraft:furnace"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:basic_furnace",
+        "count": 1
+    }
+}

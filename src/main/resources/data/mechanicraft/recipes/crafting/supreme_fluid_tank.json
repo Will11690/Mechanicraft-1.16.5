@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "EGE",
+        "GBG",
+        "EGE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+        "B":
+        {
+            "item": "mechanicraft:superior_fluid_tank"
+        },
+        "G":
+        {
+            "tag": "forge:glass_panes"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:supreme_fluid_tank",
+        "count": 1
+    }
+}

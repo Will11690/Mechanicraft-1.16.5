@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "I"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/ender"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:ender_nugget",
+        "count": 9
+    }
+}

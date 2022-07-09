@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "OTO",
+        "TMT",
+        "OSO"      
+    ],
+    
+    "key":
+    {
+        "O":
+        {
+            "tag": "forge:ingots/obsidium"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t3_gear_box"
+        },
+        "T":
+        {
+            "item": "mechanicraft:elite_fluid_tank"
+        },
+        "S":
+        {
+            "item": "mechanicraft:t2_slurry_processor"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t3_slurry_processor",
+        "count": 1
+    }
+}

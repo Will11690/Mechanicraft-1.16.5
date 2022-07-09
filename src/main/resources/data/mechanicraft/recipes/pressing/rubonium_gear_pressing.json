@@ -1,0 +1,64 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"tag": "forge:nuggets/obsidium"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:ingots/rubonium"
+		
+		},
+		
+	"input3": {
+	
+		"tag": "forge:nuggets/obsidium"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "forge:ingots/rubonium"
+		
+		},
+		
+	"input5": {
+	
+		"tag": "forge:nuggets/obsidium"
+		
+		},
+		
+	"input6": {
+	
+		"tag": "forge:ingots/rubonium"
+		
+		},
+		
+	"input7": {
+	
+		"tag": "forge:nuggets/obsidium"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "forge:ingots/rubonium"
+		
+		},
+	
+	"input9": {
+	
+		"tag": "forge:press_dies/gear_die"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:rubonium_gear",
+		"count": 2
+	
+	}
+
+}

@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "IGI",
+        "GMG",
+        "IGI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/obsidium"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t2_gear_box"
+        },
+        "G":
+        {
+            "tag": "forge:gears/emeronium"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t3_gear_box",
+        "count": 1
+    }
+}

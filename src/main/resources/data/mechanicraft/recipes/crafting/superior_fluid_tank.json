@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "DGD",
+        "GBG",
+        "DGD"      
+    ],
+    
+    "key":
+    {
+        "D":
+        {
+            "tag": "forge:nuggets/diamonium_crystal"
+        },
+        "B":
+        {
+            "item": "mechanicraft:elite_fluid_tank"
+        },
+        "G":
+        {
+            "tag": "forge:glass_panes"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:superior_fluid_tank",
+        "count": 1
+    }
+}

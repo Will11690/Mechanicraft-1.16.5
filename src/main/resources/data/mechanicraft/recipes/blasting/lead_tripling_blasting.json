@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:blasting",
+	
+    "ingredient": {
+	
+		"item": "mechanicraft:lead_refined_chunks"
+		
+    },
+	
+    "result": { 
+	"item": "mechanicraft:lead_ingot",
+	"count": 3,
+    "experience": 1.0,
+    "cookingtime": 100
+	}
+}

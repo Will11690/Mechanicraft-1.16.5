@@ -1,0 +1,23 @@
+{
+	"type": "mechanicraft:washer_recipes",
+	"inputStack": {
+	
+		"item": "mechanicraft:copper_refined_chunks"
+		
+		},
+		
+	"inputFluid": {
+	
+		"fluid": "minecraft:water",
+		"amount": 1000
+		
+		},
+		
+	"outputFluid": {
+	
+		"fluid": "mechanicraft:copper_ore_slurry_fluid",
+		"amount": 1000
+	
+	}
+
+}

@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "ORO",
+        "RMR",
+        "OCO"      
+    ],
+    
+    "key":
+    {
+        "O":
+        {
+            "tag": "forge:ingots/obsidium"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t3_gear_box"
+        },
+        "R":
+        {
+            "tag": "forge:storage_blocks/redstone"
+        },
+        "C":
+        {
+            "item": "mechanicraft:t2_energy_cube"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t3_energy_cube",
+        "count": 1
+    }
+}

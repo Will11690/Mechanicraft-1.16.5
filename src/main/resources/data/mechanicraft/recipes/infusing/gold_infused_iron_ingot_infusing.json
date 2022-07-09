@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:infuser_recipes",
+	"input1": {
+	
+		"tag": "forge:ingots/iron"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:ingots/gold"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:gold_infused_iron_ingot"
+	
+	}
+
+}

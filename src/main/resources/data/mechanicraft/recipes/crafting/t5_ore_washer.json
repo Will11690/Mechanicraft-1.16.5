@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "EEE",
+        "TMT",
+        "ECE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:ingots/endonium"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t5_gear_box"
+        },
+        "T":
+        {
+            "item": "mechanicraft:supreme_fluid_tank"
+        },
+        "C":
+        {
+            "item": "mechanicraft:t4_ore_washer"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t5_ore_washer",
+        "count": 1
+    }
+}

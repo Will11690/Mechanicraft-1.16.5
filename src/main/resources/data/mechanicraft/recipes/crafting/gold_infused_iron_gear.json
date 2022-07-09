@@ -1,0 +1,34 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "NIN",
+        "IGI",
+        "NIN"      
+    ],
+    
+    "key":
+    {
+		"I":
+        {
+            "tag": "forge:ingots/gold_infused_iron"
+        },
+		
+        "G":
+        {
+            "tag": "forge:gears/iron"
+        },
+		
+        "N":
+        {
+            "tag": "forge:nuggets/iron"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:gold_infused_iron_gear",
+        "count": 1
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "IRI",
+        "RMR",
+        "IRI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/gold_infused_iron"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t1_gear_box"
+        },
+        "R":
+        {
+            "tag": "forge:storage_blocks/redstone"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t1_energy_cube",
+        "count": 1
+    }
+}

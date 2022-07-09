@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "III",
+        "IGI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/obsidium"
+        },
+		"G":
+        {
+            "item": "mechanicraft:glass_helmet"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:obsidium_helmet",
+        "count": 1
+    }
+}

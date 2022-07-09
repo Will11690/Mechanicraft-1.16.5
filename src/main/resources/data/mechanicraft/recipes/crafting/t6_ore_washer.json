@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "EEE",
+        "TMT",
+        "ECE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:gems/endonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t6_gear_box"
+        },
+        "T":
+        {
+            "item": "mechanicraft:ultimate_fluid_tank"
+        },
+        "C":
+        {
+            "item": "mechanicraft:t5_ore_washer"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t6_ore_washer",
+        "count": 1
+    }
+}

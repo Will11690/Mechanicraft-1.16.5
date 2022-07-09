@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "B"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:storage_blocks/saphonium"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:saphonium_ingot",
+        "count": 9
+    }
+}

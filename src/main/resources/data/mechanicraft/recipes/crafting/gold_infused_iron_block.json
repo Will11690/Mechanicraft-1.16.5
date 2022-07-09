@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "III",
+        "III",
+        "III"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/gold_infused_iron"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:gold_infused_iron_block",
+        "count": 1
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "variants": 
+    {
+        "lit=false,facing=north": { "model": "mechanicraft:/block/t5press" },
+        "lit=false,facing=east": { "model": "mechanicraft:/block/t5press", "y": 90 },
+        "lit=false,facing=south": { "model": "mechanicraft:/block/t5press", "y": 180 },
+        "lit=false,facing=west": { "model": "mechanicraft:/block/t5press", "y": 270 },
+        "lit=true,facing=north": { "model": "mechanicraft:/block/lit_t5press" },
+        "lit=true,facing=east": { "model": "mechanicraft:/block/lit_t5press", "y": 90 },
+        "lit=true,facing=south": { "model": "mechanicraft:/block/lit_t5press", "y": 180 },
+        "lit=true,facing=west": { "model": "mechanicraft:/block/lit_t5press", "y":270  }
+    }
+}

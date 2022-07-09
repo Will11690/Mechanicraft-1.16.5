@@ -1,0 +1,63 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"tag": "forge:nuggets/steel"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:nuggets/steel"
+		
+		},
+		
+	"input3": {
+	
+		"tag": "forge:nuggets/steel"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "forge:nuggets/steel"
+		
+		},
+		
+	"input5": {
+	
+		"tag": "forge:nuggets/steel"
+		
+		},
+		
+	"input6": {
+	
+		"tag": "forge:nuggets/steel"
+		
+		},
+		
+	"input7": {
+	
+		"tag": "forge:nuggets/steel"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "forge:nuggets/steel"
+		
+		},
+	
+	"input9": {
+	
+		"item": "mechanicraft:iron_mesh"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:reinforced_iron_mesh"
+	
+	}
+
+}

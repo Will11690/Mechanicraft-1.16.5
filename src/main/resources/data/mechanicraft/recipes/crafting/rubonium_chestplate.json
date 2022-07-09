@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "I I",
+        "IGI",
+        "III"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/rubonium"
+        },
+		"G":
+        {
+            "item": "mechanicraft:glass_chestplate"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:rubonium_chestplate",
+        "count": 1
+    }
+}

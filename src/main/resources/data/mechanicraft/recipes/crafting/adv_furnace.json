@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "IFI",
+        "NBN",
+        "INI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/gold_infused_iron"
+        },
+        "B":
+        {
+            "item": "mechanicraft:basic_furnace"
+        },
+        "N":
+        {
+            "tag": "forge:nuggets/diamond"
+        },
+        "F":
+        {
+            "item": "minecraft:furnace"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:advanced_furnace",
+        "count": 1
+    }
+}

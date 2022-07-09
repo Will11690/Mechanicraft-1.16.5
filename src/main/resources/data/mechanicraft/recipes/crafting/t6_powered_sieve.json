@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "EEE",
+        "EME",
+        "ESE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:gems/endonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t6_gear_box"
+        },
+        "S":
+        {
+            "item": "mechanicraft:t5_powered_sieve"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t6_powered_sieve",
+        "count": 1
+    }
+}

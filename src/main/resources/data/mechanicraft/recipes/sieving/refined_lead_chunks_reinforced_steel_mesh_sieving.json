@@ -1,0 +1,27 @@
+{
+	"type": "mechanicraft:sieve_recipes",
+	"input1": {
+	
+		"item": "mechanicraft:lead_dirty_chunks"
+		
+		},
+		
+	"input2": {
+	
+		"item": "mechanicraft:reinforced_steel_mesh"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:lead_refined_chunks"
+	
+	},
+	
+	"secondaryOutput": {
+	
+		"item": "minecraft:sand",
+		"weight": 4
+	}
+
+}

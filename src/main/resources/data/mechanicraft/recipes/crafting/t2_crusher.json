@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "BBB",
+        "BMB",
+        "BCB"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:ingots/bronze"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t2_gear_box"
+        },
+        "C":
+        {
+            "item": "mechanicraft:t1_crusher"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t2_crusher",
+        "count": 1
+    }
+}

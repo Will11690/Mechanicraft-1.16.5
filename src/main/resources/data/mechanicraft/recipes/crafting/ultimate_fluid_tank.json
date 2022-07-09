@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "EGE",
+        "GBG",
+        "EGE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:gems/endonium_crystal"
+        },
+        "B":
+        {
+            "item": "mechanicraft:supreme_fluid_tank"
+        },
+        "G":
+        {
+            "tag": "forge:glass_panes"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:ultimate_fluid_tank",
+        "count": 1
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "IGI",
+        "GMG",
+        "IGI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/bronze"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t1_gear_box"
+        },
+        "G":
+        {
+            "tag": "forge:gears/gold_infused_iron"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t2_gear_box",
+        "count": 1
+    }
+}

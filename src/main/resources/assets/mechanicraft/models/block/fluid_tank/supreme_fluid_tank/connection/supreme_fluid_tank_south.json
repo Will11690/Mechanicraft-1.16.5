@@ -1,0 +1,31 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "mechanicraft:models/fluid_tank/supreme_fluid_tank/tank_connector",
+		"particle": "mechanicraft:models/fluid_tank/supreme_fluid_tank/tank_walls"
+	},
+	"elements": [
+		{
+			"name": "tank_connector_south",
+			"from": [4, 4, 14],
+			"to": [12, 12, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [12, 12, 22]},
+			"faces": {
+				"north": {"uv": [0, 8, 8, 16], "texture": "#0"},
+				"east": {"uv": [14, 0, 16, 8], "texture": "#0"},
+				"south": {"uv": [0, 0, 8, 8], "texture": "#0"},
+				"west": {"uv": [14, 0, 16, 8], "texture": "#0"},
+				"up": {"uv": [8, 14, 16, 16], "texture": "#0"},
+				"down": {"uv": [8, 14, 16, 16], "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "tank_connectors",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [0]
+		}
+	]
+}

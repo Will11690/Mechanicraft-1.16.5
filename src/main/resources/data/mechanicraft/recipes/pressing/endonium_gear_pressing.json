@@ -1,0 +1,64 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"tag": "forge:gears/diamonium"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:ingots/endonium"
+		
+		},
+		
+	"input3": {
+	
+		"tag": "forge:gears/emeronium"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "forge:ingots/endonium"
+		
+		},
+		
+	"input5": {
+	
+		"tag": "forge:gears/rubonium"
+		
+		},
+		
+	"input6": {
+	
+		"tag": "forge:ingots/endonium"
+		
+		},
+		
+	"input7": {
+	
+		"tag": "forge:gears/saphonium"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "forge:ingots/endonium"
+		
+		},
+	
+	"input9": {
+	
+		"tag": "forge:press_dies/gear_die"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:endonium_gear",
+		"count": 4
+	
+	}
+
+}

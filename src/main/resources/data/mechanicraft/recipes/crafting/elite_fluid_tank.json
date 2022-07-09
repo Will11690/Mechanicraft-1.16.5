@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "OGO",
+        "GBG",
+        "OGO"      
+    ],
+    
+    "key":
+    {
+        "O":
+        {
+            "tag": "forge:ingots/obsidium"
+        },
+        "B":
+        {
+            "item": "mechanicraft:advanced_fluid_tank"
+        },
+        "G":
+        {
+            "tag": "forge:glass_panes"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:elite_fluid_tank",
+        "count": 1
+    }
+}

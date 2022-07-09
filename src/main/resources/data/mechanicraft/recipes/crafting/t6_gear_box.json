@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "IGI",
+        "GMG",
+        "IGI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:gems/endonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t5_gear_box"
+        },
+        "G":
+        {
+            "tag": "forge:gears/endonium"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t6_gear_box",
+        "count": 1
+    }
+}

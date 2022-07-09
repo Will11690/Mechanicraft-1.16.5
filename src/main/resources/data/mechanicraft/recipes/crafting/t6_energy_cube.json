@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "ERE",
+        "RMR",
+        "ECE"      
+    ],
+    
+    "key":
+    {
+        "E":
+        {
+            "tag": "forge:gems/endonium_crystal"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t6_gear_box"
+        },
+        "R":
+        {
+            "tag": "forge:storage_blocks/redstone"
+        },
+        "C":
+        {
+            "item": "mechanicraft:t5_energy_cube"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t6_energy_cube",
+        "count": 1
+    }
+}

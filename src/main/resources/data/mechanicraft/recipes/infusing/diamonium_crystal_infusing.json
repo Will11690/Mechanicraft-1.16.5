@@ -1,0 +1,21 @@
+{
+	"type": "mechanicraft:infuser_recipes",
+	"input1": {
+	
+		"item": "minecraft:nether_star"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:gems/diamond"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:diamonium_crystal"
+	
+	}
+
+}

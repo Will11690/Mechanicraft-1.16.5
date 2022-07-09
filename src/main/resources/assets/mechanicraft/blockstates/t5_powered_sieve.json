@@ -1,0 +1,13 @@
+{
+    "variants": 
+    {
+        "lit=false,facing=north": { "model": "mechanicraft:/block/t5powered_sieve" },
+        "lit=false,facing=east": { "model": "mechanicraft:/block/t5powered_sieve", "y": 90 },
+        "lit=false,facing=south": { "model": "mechanicraft:/block/t5powered_sieve", "y": 180 },
+        "lit=false,facing=west": { "model": "mechanicraft:/block/t5powered_sieve", "y": 270 },
+        "lit=true,facing=north": { "model": "mechanicraft:/block/lit_t5powered_sieve" },
+        "lit=true,facing=east": { "model": "mechanicraft:/block/lit_t5powered_sieve", "y": 90 },
+        "lit=true,facing=south": { "model": "mechanicraft:/block/lit_t5powered_sieve", "y": 180 },
+        "lit=true,facing=west": { "model": "mechanicraft:/block/lit_t5powered_sieve", "y":270  }
+    }
+}

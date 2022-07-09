@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "SSS",
+        "SSS",
+        "SSS"      
+    ],
+    
+    "key":
+    {
+        "S":
+        {
+            "tag": "forge:gems/sapphire"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:sapphire_block",
+        "count": 1
+    }
+}

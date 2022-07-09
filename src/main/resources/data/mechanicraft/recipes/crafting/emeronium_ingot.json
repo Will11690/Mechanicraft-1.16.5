@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "B"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:storage_blocks/emeronium"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:emeronium_ingot",
+        "count": 9
+    }
+}

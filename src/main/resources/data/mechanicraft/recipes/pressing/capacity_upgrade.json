@@ -1,0 +1,63 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"item": "minecraft:stone"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:chests/wooden"
+		
+		},
+		
+	"input3": {
+	
+		"item": "minecraft:stone"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "forge:dusts/redstone"
+		
+		},
+		
+	"input5": {
+	
+		"item": "minecraft:stone"
+		
+		},
+		
+	"input6": {
+	
+		"tag": "forge:storage_blocks/diamond"
+		
+		},
+		
+	"input7": {
+	
+		"item": "minecraft:stone"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "forge:dusts/redstone"
+		
+		},
+	
+	"input9": {
+	
+		"tag": "forge:gears/gold_infused_iron"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:capacity_upgrade"
+	
+	}
+
+}

@@ -1,0 +1,47 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/cube_all",
+	"texture_size": [32, 32],
+	"textures": {
+		"1": "mechanicraft:models/energy_chute/t1energy_chute_connector",
+		"2": "mechanicraft:models/energy_chute/t1energy_chute_extension",
+		"particle": "mechanicraft:models/energy_chute/t1energy_chute_core"
+	},
+	"elements": [
+		{
+			"name": "extension_block_west",
+			"from": [3, 6, 6],
+			"to": [6, 10, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [11, 14, 14]},
+			"faces": {
+				"north": {"uv": [12.5, 0, 15.5, 4], "texture": "#2"},
+				"east": {"uv": [0, 8, 8, 16], "texture": "#2"},
+				"south": {"uv": [12.5, 0, 15.5, 4], "texture": "#2"},
+				"west": {"uv": [0, 8, 8, 16], "texture": "#2"},
+				"up": {"uv": [12.5, 0, 15.5, 4], "texture": "#2"},
+				"down": {"uv": [12.5, 0, 15.5, 4], "texture": "#2"}
+			}
+		},
+		{
+			"name": "connector_block_west",
+			"from": [0, 5, 5],
+			"to": [3, 11, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 13, 13]},
+			"faces": {
+				"north": {"uv": [13, 0, 16, 5], "texture": "#1"},
+				"east": {"uv": [0, 5.5, 10.5, 16], "texture": "#1"},
+				"south": {"uv": [10, 0, 13, 5], "texture": "#1"},
+				"west": {"uv": [0, 3, 10, 5], "texture": "#1"},
+				"up": {"uv": [10, 0, 13, 5], "texture": "#1"},
+				"down": {"uv": [10, 0, 13, 5], "texture": "#1"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "t1energy_chute_block_west",
+			"origin": [8, 8, 8],
+			"children": [0, 1]
+		}
+	]
+}

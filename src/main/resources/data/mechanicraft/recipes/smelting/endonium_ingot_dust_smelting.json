@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:smelting",
+	
+	"ingredient": {
+	
+		"tag": "forge:dusts/endonium"
+		
+		},
+	
+	"result": "mechanicraft:endonium_ingot",
+    "experience": 0.0,
+    "cookingtime": 200
+	
+	}
+
+}

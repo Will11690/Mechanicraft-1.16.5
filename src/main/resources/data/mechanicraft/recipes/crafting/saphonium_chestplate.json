@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "I I",
+        "IGI",
+        "III"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/saphonium"
+        },
+		"G":
+        {
+            "item": "mechanicraft:glass_chestplate"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:saphonium_chestplate",
+        "count": 1
+    }
+}

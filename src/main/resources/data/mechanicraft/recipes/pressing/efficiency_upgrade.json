@@ -1,0 +1,63 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"item": "minecraft:stone"
+		
+		},
+		
+	"input2": {
+	
+		"item": "minecraft:furnace"
+		
+		},
+		
+	"input3": {
+	
+		"item": "minecraft:stone"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "forge:storage_blocks/diamond"
+		
+		},
+		
+	"input5": {
+	
+		"item": "minecraft:stone"
+		
+		},
+		
+	"input6": {
+	
+		"item": "minecraft:furnace"
+		
+		},
+		
+	"input7": {
+	
+		"item": "minecraft:stone"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "forge:storage_blocks/diamond"
+		
+		},
+	
+	"input9": {
+	
+		"tag": "forge:gears/gold_infused_iron"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:efficiency_upgrade"
+	
+	}
+
+}

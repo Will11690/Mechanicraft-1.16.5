@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:smelting",
+	
+	"ingredient": {
+	
+		"item": "mechanicraft:tin_pure_chunks"
+		
+		},
+	
+	"result": { 
+	"item": "mechanicraft:tin_ingot",
+	"count": 4,
+    "experience": 0.7,
+    "cookingtime": 200
+	}
+}

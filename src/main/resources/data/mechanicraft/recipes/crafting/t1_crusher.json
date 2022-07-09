@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "III",
+        "PMP",
+        "ISI"      
+    ],
+    
+    "key":
+    {
+        "I":
+        {
+            "tag": "forge:ingots/gold_infused_iron"
+        },
+        "M":
+        {
+            "item": "mechanicraft:t1_gear_box"
+        },
+        "P":
+        {
+            "item": "minecraft:piston"
+        },
+        "S":
+        {
+            "item": "minecraft:stonecutter"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:t1_crusher",
+        "count": 1
+    }
+}

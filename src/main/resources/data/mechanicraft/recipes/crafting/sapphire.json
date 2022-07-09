@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "B"      
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "tag": "forge:storage_blocks/sapphire"
+        }
+    },
+    
+    "result":
+    {
+        "item": "mechanicraft:sapphire_gem",
+        "count": 9
+    }
+}

@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:smelting",
+	
+	"ingredient": {
+	
+		"tag": "forge:dusts/gold_infused_iron"
+		
+		},
+	
+	"result": "mechanicraft:gold_infused_iron_ingot",
+    "experience": 0.0,
+    "cookingtime": 200
+	
+	}
+
+}

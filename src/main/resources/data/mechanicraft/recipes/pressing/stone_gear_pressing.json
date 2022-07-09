@@ -1,0 +1,64 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"tag": "minecraft:planks"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:cobblestone"
+		
+		},
+		
+	"input3": {
+	
+		"tag": "minecraft:planks"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "forge:cobblestone"
+		
+		},
+		
+	"input5": {
+	
+		"tag": "minecraft:planks"
+		
+		},
+		
+	"input6": {
+	
+		"tag": "forge:cobblestone"
+		
+		},
+		
+	"input7": {
+	
+		"tag": "minecraft:planks"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "forge:cobblestone"
+		
+		},
+	
+	"input9": {
+	
+		"tag": "forge:press_dies/gear_die"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:stone_gear",
+		"count": 2
+	
+	}
+
+}

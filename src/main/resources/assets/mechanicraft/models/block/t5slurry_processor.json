@@ -1,0 +1,12 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "particle": "mechanicraft:blocks/tier5_machine",
+        "up": "mechanicraft:blocks/tier5_machine",
+        "down": "mechanicraft:blocks/tier5_machine",
+        "north": "mechanicraft:blocks/t5slurry_processor_front_off",
+        "east": "mechanicraft:blocks/tier5_machine_input1",
+        "south": "mechanicraft:blocks/tier5_machine_output",
+        "west": "mechanicraft:blocks/tier5_machine_input2"
+    }
+}

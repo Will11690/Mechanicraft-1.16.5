@@ -1,0 +1,63 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"tag": "forge:nuggets/emerald"
+		
+		},
+		
+	"input2": {
+	
+		"tag": "forge:nuggets/ruby"
+		
+		},
+		
+	"input3": {
+	
+		"tag": "forge:nuggets/emerald"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "forge:nuggets/ruby"
+		
+		},
+		
+	"input5": {
+	
+		"tag": "forge:nuggets/sapphire"
+		
+		},
+		
+	"input6": {
+	
+		"tag": "forge:nuggets/diamond"
+		
+		},
+		
+	"input7": {
+	
+		"tag": "forge:nuggets/sapphire"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "forge:nuggets/diamond"
+		
+		},
+	
+	"input9": {
+	
+		"item": "mechanicraft:diamond_mesh"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:reinforced_diamond_mesh"
+	
+	}
+
+}
