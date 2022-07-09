@@ -27,13 +27,11 @@ public class GArmorBase extends ArmorItem {
            player.getItemBySlot(EquipmentSlotType.LEGS).getItem() == ModItems.GLASS_LEGGINGS.get() &&
            player.getItemBySlot(EquipmentSlotType.FEET).getItem() == ModItems.GLASS_BOOTS.get()) {
         	
-        	player.addEffect(new EffectInstance(Effects.DIG_SPEED, 300, 0, false, false, false));
-        	player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 300, 1, false, false, false));
+        	player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 300, 0, false, false, false));
         }
         
         else {
         		
-        	player.removeEffect(Effects.DIG_SPEED);
         	player.removeEffect(Effects.MOVEMENT_SPEED);
         }
     }
