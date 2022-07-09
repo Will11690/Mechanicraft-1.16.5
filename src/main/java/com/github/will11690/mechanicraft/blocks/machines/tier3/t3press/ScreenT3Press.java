@@ -108,7 +108,6 @@ public class ScreenT3Press extends ContainerScreen<ContainerT3Press> {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
 	    	

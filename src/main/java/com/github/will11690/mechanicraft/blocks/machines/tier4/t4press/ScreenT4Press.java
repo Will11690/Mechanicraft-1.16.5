@@ -108,7 +108,6 @@ public class ScreenT4Press extends ContainerScreen<ContainerT4Press> {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
 	    	

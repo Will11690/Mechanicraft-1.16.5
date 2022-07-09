@@ -108,7 +108,6 @@ public class ScreenBasicFurnace extends ContainerScreen<ContainerBasicFurnace> {
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
     	

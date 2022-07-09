@@ -108,7 +108,6 @@ public class ScreenT4Crusher extends ContainerScreen<ContainerT4Crusher> {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
 	    	

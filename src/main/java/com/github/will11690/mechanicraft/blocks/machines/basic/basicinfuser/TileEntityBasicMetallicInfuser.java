@@ -327,7 +327,7 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
     	
 
     	
-    	if((inputSlotHandler1.getStackInSlot(0).isEmpty() || inputSlotHandler2.getStackInSlot(2).isEmpty()) && progress > 0) {
+    	if((inputSlotHandler1.getStackInSlot(0).isEmpty() || inputSlotHandler2.getStackInSlot(1).isEmpty()) && progress > 0) {
     		
     		progress = 0;
     		

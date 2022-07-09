@@ -269,7 +269,6 @@ public class ScreenT6SlurryProcessor extends ContainerScreen<ContainerT6SlurryPr
        }
    }
 
-   @SuppressWarnings("deprecation")
    @Override
    protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
    	

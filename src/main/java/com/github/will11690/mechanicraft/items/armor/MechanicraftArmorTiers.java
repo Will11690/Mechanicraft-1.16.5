@@ -35,7 +35,7 @@ public enum MechanicraftArmorTiers implements IArmorMaterial {
 	OBSIDIUM("obsidium", 30, new int[] { 3, 6, 8, 3 }, 12, SoundEvents.ARMOR_EQUIP_IRON, 3.0f, 0.8f, () -> {
         return Ingredient.of(ModItems.OBSIDIUM_INGOT.get());}),
 	
-	GLASS("glass", 4, new int[] { 2, 5, 6, 2 }, 5, SoundEvents.ARMOR_EQUIP_DIAMOND, 0.0f, 0.0f, () -> {
+	GLASS("glass", 2, new int[] { 1, 6, 4, 1 }, 5, SoundEvents.ARMOR_EQUIP_DIAMOND, 0.0f, 0.0f, () -> {
         return Ingredient.of(Items.GLASS);});
 
     private static final int[] MAX_DAMAGE_ARRAY = new int[]{13, 15, 16, 11};

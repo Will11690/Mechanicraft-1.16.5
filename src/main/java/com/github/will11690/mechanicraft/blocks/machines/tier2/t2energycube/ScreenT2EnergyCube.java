@@ -77,7 +77,6 @@ public class ScreenT2EnergyCube extends ContainerScreen<ContainerT2EnergyCube> {
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
     	

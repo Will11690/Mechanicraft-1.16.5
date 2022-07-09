@@ -108,7 +108,6 @@ public class ScreenT2PoweredSieve extends ContainerScreen<ContainerT2PoweredSiev
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
     	

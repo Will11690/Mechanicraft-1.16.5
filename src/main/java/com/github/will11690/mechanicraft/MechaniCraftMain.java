@@ -27,7 +27,7 @@ public class MechaniCraftMain {
 	
     public static final Logger MECHANICRAFT_LOGGER = LogManager.getLogger();
   	
-  	//TODO FEATURES FOR VERSION 1.0.1
+  	//TODO FEATURES FOR VERSION 1.0.2
     
     //TODO IN PROGRESS(Make energy cubes keep energy and display them in tool tips)
     //Look at TankItem for tool tips and loot_table tank for drops

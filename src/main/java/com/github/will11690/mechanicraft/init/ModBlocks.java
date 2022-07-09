@@ -80,27 +80,27 @@ public class ModBlocks {
 	//ORES
     public static final RegistryObject<Block> COPPER_ORE = register("copper_ore", () ->
 		new Block(AbstractBlock.Properties.of(Material.STONE)
-		.strength(3, 3.0F).harvestLevel(2).harvestTool(ToolType.PICKAXE)
+		.strength(2, 3.0F).harvestLevel(1).harvestTool(ToolType.PICKAXE)
 		.requiresCorrectToolForDrops().sound(SoundType.STONE)));
     
     public static final RegistryObject<Block> ENDER_ORE = register("ender_ore", () ->
 		new Block(AbstractBlock.Properties.of(Material.STONE)
-		.strength(3, 3.0F).harvestLevel(3).harvestTool(ToolType.PICKAXE)
+		.strength(3, 3.0F).harvestLevel(2).harvestTool(ToolType.PICKAXE)
 		.requiresCorrectToolForDrops().sound(SoundType.STONE)));
     
     public static final RegistryObject<Block> LEAD_ORE = register("lead_ore", () ->
 		new Block(AbstractBlock.Properties.of(Material.STONE)
-		.strength(3, 3.0F).harvestLevel(2).harvestTool(ToolType.PICKAXE)
+		.strength(1, 3.0F).harvestLevel(1).harvestTool(ToolType.PICKAXE)
 		.requiresCorrectToolForDrops().sound(SoundType.STONE)));
     
     public static final RegistryObject<Block> SILVER_ORE = register("silver_ore", () ->
 		new Block(AbstractBlock.Properties.of(Material.STONE)
-		.strength(3, 3.0F).harvestLevel(2).harvestTool(ToolType.PICKAXE)
+		.strength(2, 3.0F).harvestLevel(1).harvestTool(ToolType.PICKAXE)
 		.requiresCorrectToolForDrops().sound(SoundType.STONE)));
     
     public static final RegistryObject<Block> TIN_ORE = register("tin_ore", () ->
 		new Block(AbstractBlock.Properties.of(Material.STONE)
-		.strength(3, 3.0F).harvestLevel(2).harvestTool(ToolType.PICKAXE)
+		.strength(2, 3.0F).harvestLevel(1).harvestTool(ToolType.PICKAXE)
 		.requiresCorrectToolForDrops().sound(SoundType.STONE)));
     
     public static final RegistryObject<Block> RUBY_ORE = register("ruby_ore", () ->
@@ -114,7 +114,7 @@ public class ModBlocks {
 		.requiresCorrectToolForDrops().sound(SoundType.STONE)));
 
     //BLOCKS
-    public static final RegistryObject<Block> ENDER_BLOCK = register("ender_block", () ->//TODO START HERE IN JSONS FOR LOOT TABLES
+    public static final RegistryObject<Block> ENDER_BLOCK = register("ender_block", () ->
     	new Block(AbstractBlock.Properties.of(Material.METAL).strength(2, 10).sound(SoundType.METAL).harvestLevel(1).harvestTool(ToolType.PICKAXE)));
     
     public static final RegistryObject<Block> STEEL_BLOCK = register("steel_block", () ->

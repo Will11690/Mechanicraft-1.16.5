@@ -219,7 +219,6 @@ public class ScreenT5OreWasher extends ContainerScreen<ContainerT5OreWasher> {
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
     	

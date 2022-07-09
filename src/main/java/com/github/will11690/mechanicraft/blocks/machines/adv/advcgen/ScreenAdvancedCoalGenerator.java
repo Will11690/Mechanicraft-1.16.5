@@ -1,6 +1,5 @@
 package com.github.will11690.mechanicraft.blocks.machines.adv.advcgen;
 
-
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -111,7 +110,6 @@ public class ScreenAdvancedCoalGenerator extends ContainerScreen<ContainerAdvanc
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
     	

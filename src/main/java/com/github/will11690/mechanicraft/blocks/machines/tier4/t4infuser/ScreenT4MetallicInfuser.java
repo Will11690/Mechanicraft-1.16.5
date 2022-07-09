@@ -108,7 +108,6 @@ public class ScreenT4MetallicInfuser extends ContainerScreen<ContainerT4Metallic
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
     	
