@@ -62,13 +62,16 @@ public class TileEntityT1MetallicInfuser extends TileEntity implements ITickable
 	
 	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotWrapperHandler1, inputSlotWrapperHandler2, outputSlotHandler));
 	
+	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotHandler1, inputSlotHandler2, outputSlotHandler));
+	boolean breakBlock = false;
+	
 	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 
 	private int infusingEnergy = 100/*PER TICK*/;
 	private static int WORK_TIME = 10 * 20;
 		
-	private static final int capacity = ModConfigs.t1InfuserCapacityInt;
-	private static final int receive = ModConfigs.t1CrusherReceiveInt;
+	private static int capacity = ModConfigs.t1InfuserCapacityInt;
+	private static int receive = ModConfigs.t1CrusherReceiveInt;
 		
 	private int progress = 0;
 
@@ -332,7 +335,7 @@ public class TileEntityT1MetallicInfuser extends TileEntity implements ITickable
     		startCrafting();
     	}
     	
-    	if((inputSlotHandler1.getStackInSlot(0).isEmpty() || inputSlotHandler2.getStackInSlot(1).isEmpty()) && progress > 0) {
+    	if((inputSlotHandler1.getStackInSlot(0).isEmpty() || inputSlotHandler2.getStackInSlot(0).isEmpty()) && progress > 0) {
 
 			progress = 0;
 
@@ -618,6 +621,11 @@ public class TileEntityT1MetallicInfuser extends TileEntity implements ITickable
         
     }
 
+	boolean blockBeingBroken(boolean onRemoved) {
+		
+		return breakBlock = onRemoved;
+	}
+
     @Nullable
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
@@ -626,7 +634,13 @@ public class TileEntityT1MetallicInfuser extends TileEntity implements ITickable
         	
         	return allSlots.cast();
             
-        }
+        } else if(breakBlock == true && side == null) {
+
+			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+				
+				return dropSlots.cast();
+			}
+		}
         	
         return super.getCapability(cap, side);
     }
@@ -640,6 +654,7 @@ public class TileEntityT1MetallicInfuser extends TileEntity implements ITickable
 		outputSlot.invalidate();
 		chargeSlot.invalidate();
 		allSlots.invalidate();
+		dropSlots.invalidate();
         super.setRemoved();
 
     }

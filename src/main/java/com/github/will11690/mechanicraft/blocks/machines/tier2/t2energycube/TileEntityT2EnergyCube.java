@@ -48,9 +48,12 @@ public class TileEntityT2EnergyCube extends TileEntity implements ITickableTileE
     private LazyOptional<IItemHandler> upgradeSlotWrapper  = LazyOptional.of(() -> upgradeSlotHandlerWrapper);
     
     private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotsHandler, upgradeSlotHandlerWrapper));
+	
+	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotsHandler));
+	boolean breakBlock = false;
     
-    private static final int capacity = ModConfigs.t2EnergyCubeCapacityInt;
-    private static final int transfer = ModConfigs.t2EnergyCubeTransferInt;
+    private static int capacity = ModConfigs.t2EnergyCubeCapacityInt;
+    private static int transfer = ModConfigs.t2EnergyCubeTransferInt;
 
     private final IIntArray fields = new IIntArray() {
     	
@@ -555,34 +558,52 @@ public class TileEntityT2EnergyCube extends TileEntity implements ITickableTileE
     
     @Override
     public CompoundNBT getUpdateTag() {
+    	
         return save(new CompoundNBT());
     }
 
     @Override
     public void handleUpdateTag(BlockState stateIn, CompoundNBT tag) {
+    	
         load(stateIn, tag);
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+    	
         load(this.getBlockState(), pkt.getTag());
     }
+
+	boolean blockBeingBroken(boolean onRemoved) {
+		
+		return breakBlock = onRemoved;
+	}
 
     @Nullable
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
     	
-    	if (cap == CapabilityEnergy.ENERGY) {
-    		
-            return energy.cast();
-            
-        }
+    	if(!this.remove && side != null) {
     	
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-        	
-            return allSlots.cast();
+    		if (cap == CapabilityEnergy.ENERGY) {
+    		
+            	return energy.cast();
             
-        }
+        	}
+    	
+    		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        	
+        		return allSlots.cast();
+            
+        	}
+    		
+    	} else if(breakBlock == true && side == null) {
+
+ 			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+ 				
+ 				return dropSlots.cast();
+ 			}
+ 		}
         
 		return super.getCapability(cap, side);
     }
@@ -594,6 +615,7 @@ public class TileEntityT2EnergyCube extends TileEntity implements ITickableTileE
 		chargeSlots.invalidate();
 		upgradeSlotWrapper.invalidate();
 		allSlots.invalidate();
+		dropSlots.invalidate();
         super.setRemoved();
         
     }

@@ -64,6 +64,9 @@ public class TileEntityT6Crusher extends TileEntity implements ITickableTileEnti
 	private final LazyOptional<IItemHandler> chargeSlot  = LazyOptional.of(() -> chargeSlotHandler);
 	
 	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotWrapperHandler, upgradeSlotHandlerWrapper, outputSlotHandler));
+	
+	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotHandler, outputSlotHandler));
+	boolean breakBlock = false;
 
 	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 	private LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
@@ -71,8 +74,8 @@ public class TileEntityT6Crusher extends TileEntity implements ITickableTileEnti
 	private int crushingEnergy = 200/*PER TICK*/;
 	private int WORK_TIME = 10 * 10;
 		
-	private static final int capacity = ModConfigs.t6CrusherCapacityInt;
-	private static final int receive = ModConfigs.t6CrusherReceiveInt;
+	private static int capacity = ModConfigs.t6CrusherCapacityInt;
+	private static int receive = ModConfigs.t6CrusherReceiveInt;
 		
 	private int progress = 0;
 	private int upgradableCrushingEnergy = 0;
@@ -909,6 +912,11 @@ public class TileEntityT6Crusher extends TileEntity implements ITickableTileEnti
 
 	}
 
+	boolean blockBeingBroken(boolean onRemoved) {
+		
+		return breakBlock = onRemoved;
+	}
+
 	@Nullable
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
@@ -926,6 +934,12 @@ public class TileEntityT6Crusher extends TileEntity implements ITickableTileEnti
 				return allSlots.cast();
 
 			}
+		} else if(breakBlock == true && side == null) {
+
+			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+				
+				return dropSlots.cast();
+			}
 		}
 
 		return super.getCapability(cap, side);
@@ -942,6 +956,7 @@ public class TileEntityT6Crusher extends TileEntity implements ITickableTileEnti
 		outputSlot.invalidate();
 		chargeSlot.invalidate();
 		allSlots.invalidate();
+		dropSlots.invalidate();
 		super.setRemoved();
 
 	}

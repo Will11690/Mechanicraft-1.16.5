@@ -68,7 +68,10 @@ public class TileEntityT6MetallicInfuser extends TileEntity implements ITickable
 	private final LazyOptional<IItemHandler> outputSlot  = LazyOptional.of(() -> outputSlotHandler);
 	private final LazyOptional<IItemHandler> chargeSlot  = LazyOptional.of(() -> chargeSlotHandler);
 	
-	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(upgradeSlotHandlerWrapper, chargeSlotHandler,inputSlotWrapperHandler1, inputSlotWrapperHandler2, outputSlotHandler));
+	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(upgradeSlotHandlerWrapper, chargeSlotHandler, inputSlotWrapperHandler1, inputSlotWrapperHandler2, outputSlotHandler));
+	
+	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotHandler1, inputSlotHandler2, outputSlotHandler));
+	boolean breakBlock = false;
 	
 	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 	private LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
@@ -76,8 +79,8 @@ public class TileEntityT6MetallicInfuser extends TileEntity implements ITickable
 	private int infusingEnergy = 200/*PER TICK*/;
 	private int WORK_TIME = 10 * 10;
 		
-	private static final int capacity = ModConfigs.t6InfuserCapacityInt;
-	private static final int receive = ModConfigs.t6InfuserReceiveInt;
+	private static int capacity = ModConfigs.t6InfuserCapacityInt;
+	private static int receive = ModConfigs.t6InfuserReceiveInt;
 		
 	private int progress = 0;
 	private int upgradableInfusingEnergy = 0;
@@ -497,7 +500,7 @@ public class TileEntityT6MetallicInfuser extends TileEntity implements ITickable
     		startCrafting();
     	}
     	
-    	if((inputSlotHandler1.getStackInSlot(0).isEmpty() || inputSlotHandler2.getStackInSlot(1).isEmpty()) && progress > 0) {
+    	if((inputSlotHandler1.getStackInSlot(0).isEmpty() || inputSlotHandler2.getStackInSlot(0).isEmpty()) && progress > 0) {
 
 			progress = 0;
 
@@ -934,15 +937,34 @@ public class TileEntityT6MetallicInfuser extends TileEntity implements ITickable
         
     }
 
+	boolean blockBeingBroken(boolean onRemoved) {
+		
+		return breakBlock = onRemoved;
+	}
+
     @Nullable
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
     	
-        if (!this.remove && side != null && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (!this.remove && side != null) {
+        	
+        	if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
         	
         	return allSlots.cast();
-            
-        }
+        	}
+        	
+        	if(cap == CapabilityEnergy.ENERGY) {
+        		
+        		return energy.cast();
+        	}
+        	
+        } else if(breakBlock == true && side == null) {
+
+ 			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+ 				
+ 				return dropSlots.cast();
+ 			}
+ 		}
         	
         return super.getCapability(cap, side);
     }
@@ -958,6 +980,7 @@ public class TileEntityT6MetallicInfuser extends TileEntity implements ITickable
 		outputSlot.invalidate();
 		chargeSlot.invalidate();
 		allSlots.invalidate();
+		dropSlots.invalidate();
         super.setRemoved();
 
     }

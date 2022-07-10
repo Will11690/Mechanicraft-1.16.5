@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -61,30 +62,35 @@ public class T5EnergyCube extends Block {
         return ActionResultType.SUCCESS;
         
     }
+    
+    public static void dropItemHandlerContents(final World world, final BlockPos pos, final IItemHandler itemHandler) {
+		for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
+			ItemStack stack = itemHandler.extractItem(slot, itemHandler.getStackInSlot(slot).getCount(), false);
+			InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+		}
+	}
 
     @SuppressWarnings("deprecation")
     @Override
     public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
     	
-    	 if (newState.getBlock() != this) {
+    	 if(!state.is(newState.getBlock())) {
     		 
              TileEntity tileEntity = world.getBlockEntity(pos);
              
              if (tileEntity != null) {
-            	 
+            	 ((TileEntityT5EnergyCube) tileEntity).blockBeingBroken(true);
                  LazyOptional<IItemHandler> cap = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
                  
                  cap.ifPresent(handler -> {
                 	 
-                     for( int i = 0; i < handler.getSlots(); i ++ )
-                         InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
+                	dropItemHandlerContents(world, pos, handler);
+                	((TileEntityT5EnergyCube) tileEntity).blockBeingBroken(false);
                      
                  });
-                 
              }
              
              super.onRemove(state, world, pos, newState, isMoving);
-             
          }
     }
 }

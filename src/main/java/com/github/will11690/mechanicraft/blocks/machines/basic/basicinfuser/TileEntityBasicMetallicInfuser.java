@@ -52,9 +52,12 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
 	private final LazyOptional<IItemHandler> inputSlotWrapper1  = LazyOptional.of(() -> inputSlotWrapperHandler1);
 	private final LazyOptional<IItemHandler> inputSlotWrapper2  = LazyOptional.of(() -> inputSlotWrapperHandler2);
 	private final LazyOptional<IItemHandler> outputSlot  = LazyOptional.of(() -> outputSlotHandler);
-	private final LazyOptional<IItemHandler> fuelSlotWrapper  = LazyOptional.of(() -> fuelSlotHandler);
+	private final LazyOptional<IItemHandler> fuelSlotWrapper  = LazyOptional.of(() -> fuelSlotWrapperHandler);
 	
-	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(inputSlotWrapperHandler1, inputSlotWrapperHandler2, fuelSlotWrapperHandler, outputSlotHandler));
+	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(inputSlotWrapperHandler1, inputSlotWrapperHandler2, outputSlotHandler));
+	
+	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(inputSlotHandler1, inputSlotHandler2, fuelSlotHandler, outputSlotHandler));
+	boolean breakBlock = false;
 	
     private int burnTime = 0;
     public int totalBurnTime = 0;
@@ -585,17 +588,65 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
         
     }
 
+	boolean blockBeingBroken(boolean onRemoved) {
+		
+		return breakBlock = onRemoved;
+	}
+
     @Nullable
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
     	
-        if (!this.remove && side != null && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (!this.remove && side != null) {
         	
-        	if(this.level.getBlockState(this.worldPosition).getValue(BasicMetallicInfuser.FACING) == Direction.NORTH) {
+        	if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        		
+        		if(this.level.getBlockState(this.worldPosition).getValue(BasicMetallicInfuser.FACING) == Direction.NORTH) {
+            	
+            		if(side == Direction.SOUTH) {
+            		
+            			return fuelSlotWrapper.cast();
+            		
+            		}
+            	}
+            	
+            	if(this.level.getBlockState(this.worldPosition).getValue(BasicMetallicInfuser.FACING) == Direction.SOUTH) {
+            	
+            		if(side == Direction.NORTH) {
+            		
+            			return fuelSlotWrapper.cast();
+            		
+            		}
+        		}
+            	
+            	if(this.level.getBlockState(this.worldPosition).getValue(BasicMetallicInfuser.FACING) == Direction.EAST) {
+            	
+            		if(side == Direction.WEST) {
+            		
+            			return fuelSlotWrapper.cast();
+            		
+            		}
+        		}
+            	
+            	if(this.level.getBlockState(this.worldPosition).getValue(BasicMetallicInfuser.FACING) == Direction.WEST) {
+            	
+            		if(side == Direction.EAST) {
+            		
+            			return fuelSlotWrapper.cast();
+            		
+            		}
+        		}
         	
         		return allSlots.cast();
         	}
-        }
+        	
+        } else if(breakBlock == true && side == null) {
+
+			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+				
+				return dropSlots.cast();
+			}
+		}
         
         return super.getCapability(cap, side);
     }
@@ -608,6 +659,7 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
 		outputSlot.invalidate();
 		fuelSlotWrapper.invalidate();
 		allSlots.invalidate();
+		dropSlots.invalidate();
         super.setRemoved();
 
     }

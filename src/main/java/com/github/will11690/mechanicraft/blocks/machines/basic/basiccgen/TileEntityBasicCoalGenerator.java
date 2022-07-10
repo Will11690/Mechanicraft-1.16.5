@@ -52,6 +52,9 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
     public LazyOptional<IItemHandler> chargeSlot  = LazyOptional.of(() -> chargeSlotHandler);
     
     private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, fuelSlotHandlerWrapper));
+	
+	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, fuelSlotHandlerWrapper));
+	boolean breakBlock = false;
 
     //TODO Create config for powergen
     
@@ -472,35 +475,52 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
     
     @Override
     public CompoundNBT getUpdateTag() {
+    	
         return save(new CompoundNBT());
     }
 
     @Override
     public void handleUpdateTag(BlockState stateIn, CompoundNBT tag) {
+    	
         load(stateIn, tag);
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+    	
         load(this.getBlockState(), pkt.getTag());
     }
+
+	boolean blockBeingBroken(boolean onRemoved) {
+		
+		return breakBlock = onRemoved;
+	}
 
     @Nullable
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
     	
-    	if (cap == CapabilityEnergy.ENERGY) {
+    	if(!this.remove && side != null) {
     		
-            return energy.cast();
+    		if (cap == CapabilityEnergy.ENERGY) {
+    		
+    			return energy.cast();
             
-        }
+    		}
     	
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        	if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
         	
-            return allSlots.cast();
+        		return allSlots.cast();
             
-        }
+        	}
         
+    	} else if(breakBlock == true && side == null) {
+
+			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+				
+				return dropSlots.cast();
+			}
+		}
 		return super.getCapability(cap, side);
     }
 
@@ -512,6 +532,7 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
 		fuelSlot.invalidate();
 		chargeSlot.invalidate();
 		allSlots.invalidate();
+		dropSlots.invalidate();
         super.setRemoved();
         
     }

@@ -47,6 +47,8 @@ public class TileEntityLineMiner extends TileEntity implements ITickableTileEnti
 	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 	private final LazyOptional<IItemHandler> itemHandler  = LazyOptional.of(() -> items);
 	
+	boolean breakBlock = false;
+	
 	private int powerConsume;
 	private int powerConsumePerBlock = 100;
 	private boolean mining;
@@ -348,6 +350,11 @@ public class TileEntityLineMiner extends TileEntity implements ITickableTileEnti
         }
     }
 
+	boolean blockBeingBroken(boolean onRemoved) {
+		
+		return breakBlock = onRemoved;
+	}
+
 	@Nullable
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
@@ -362,6 +369,13 @@ public class TileEntityLineMiner extends TileEntity implements ITickableTileEnti
 			if (cap == CapabilityEnergy.ENERGY) {
 				
 				return energy.cast();
+			}
+			
+		} else if(breakBlock == true && side == null) {
+
+			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+				
+				return itemHandler.cast();
 			}
 		}
 

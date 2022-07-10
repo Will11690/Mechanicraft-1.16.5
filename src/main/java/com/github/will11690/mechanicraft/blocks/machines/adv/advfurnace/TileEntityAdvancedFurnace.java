@@ -74,6 +74,9 @@ public class TileEntityAdvancedFurnace extends TileEntity implements ITickableTi
 	private LazyOptional<IItemHandler> chargeSlot  = LazyOptional.of(() -> chargeSlotHandler);
 	
 	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, upgradeSlotHandlerWrapper, inputSlotWrapperHandler1, inputSlotWrapperHandler2, outputSlotHandler1, outputSlotHandler2));
+	
+	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotHandler1, inputSlotHandler2, outputSlotHandler1, outputSlotHandler2));
+	boolean breakBlock = false;
 
 	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 	private LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
@@ -1019,6 +1022,11 @@ public class TileEntityAdvancedFurnace extends TileEntity implements ITickableTi
 
 	}
 
+	boolean blockBeingBroken(boolean onRemoved) {
+		
+		return breakBlock = onRemoved;
+	}
+
 	@Nullable
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
@@ -1035,6 +1043,13 @@ public class TileEntityAdvancedFurnace extends TileEntity implements ITickableTi
 				
 				return allSlots.cast();
 
+			}
+			
+		} else if(breakBlock == true && side == null) {
+
+			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+				
+				return dropSlots.cast();
 			}
 		}
 
@@ -1054,6 +1069,7 @@ public class TileEntityAdvancedFurnace extends TileEntity implements ITickableTi
 		outputSlot2.invalidate();
 		chargeSlot.invalidate();
 		allSlots.invalidate();
+		dropSlots.invalidate();
 		super.setRemoved();
 
 	}

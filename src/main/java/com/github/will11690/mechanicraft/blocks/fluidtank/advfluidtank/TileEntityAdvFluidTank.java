@@ -116,7 +116,7 @@ public class TileEntityAdvFluidTank extends TileEntity implements ITickableTileE
         super.save(tags);
         CompoundNBT fluidTankTag = new CompoundNBT();
         this.fluidTank.writeToNBT(fluidTankTag);
-        tags.put("fluidTank", fluidTankTag);
+        tags.put("advancedFluidTank", fluidTankTag);
         
         tags.putBoolean("autoOutput", this.autoOutDown);
         

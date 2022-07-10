@@ -35,7 +35,7 @@ public class TankItem extends BlockItem {
 	private int CAPACITY;
 	
 	public TankItem(Block block, Properties properties) {
-		super(block, properties.stacksTo(1));
+		super(block, properties);
 		
 		if(block instanceof BasicFluidTank) {
 			
@@ -100,17 +100,17 @@ public class TankItem extends BlockItem {
 					
 					if(Screen.hasShiftDown()) {
 				
-						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.fluid_tank_storage_full", fluidStored, capacity));
+						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.fluid_tank_storage_full", fluidStored, capacity));
 				
 					} else {
 
 						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.gui_details"));
-						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.fluid_tank_storage", fluidStored / 1000, capacity / 1000));
+						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.fluid_tank_storage", fluidStored / 1000, capacity / 1000));
 					}
 					
 				} else {
 					
-					textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.empty_tank").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.AQUA));
+					textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.empty_tank").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.RED));
 				}
 			}
 			
@@ -131,17 +131,17 @@ public class TankItem extends BlockItem {
 					
 					if(Screen.hasShiftDown()) {
 				
-						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.fluid_tank_storage_full", fluidStored, capacity));
+						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.fluid_tank_storage_full", fluidStored, capacity));
 				
 					} else {
 
 						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.gui_details"));
-						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.fluid_tank_storage", fluidStored / 1000, capacity / 1000));
+						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.fluid_tank_storage", fluidStored / 1000, capacity / 1000));
 					}
 					
 				} else {
 					
-					textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.empty_tank").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.AQUA));
+					textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.empty_tank").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.RED));
 				}
 			}
 			
@@ -162,17 +162,17 @@ public class TankItem extends BlockItem {
 					
 					if(Screen.hasShiftDown()) {
 				
-						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.fluid_tank_storage_full", fluidStored, capacity));
+						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.fluid_tank_storage_full", fluidStored, capacity));
 				
 					} else {
 
 						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.gui_details"));
-						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.fluid_tank_storage", fluidStored / 1000, capacity / 1000));
+						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.fluid_tank_storage", fluidStored / 1000, capacity / 1000));
 					}
 					
 				} else {
 					
-					textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.empty_tank").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.AQUA));
+					textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.empty_tank").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.RED));
 				}
 			}
 			
@@ -193,17 +193,17 @@ public class TankItem extends BlockItem {
 					
 					if(Screen.hasShiftDown()) {
 				
-						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.fluid_tank_storage_full", fluidStored, capacity));
+						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.fluid_tank_storage_full", fluidStored, capacity));
 				
 					} else {
 
 						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.gui_details"));
-						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.fluid_tank_storage", fluidStored / 1000, capacity / 1000));
+						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.fluid_tank_storage", fluidStored / 1000, capacity / 1000));
 					}
 					
 				} else {
 					
-					textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.empty_tank").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.AQUA));
+					textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.empty_tank").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.RED));
 				}
 			}
 			
@@ -224,17 +224,17 @@ public class TankItem extends BlockItem {
 					
 					if(Screen.hasShiftDown()) {
 				
-						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.fluid_tank_storage_full", fluidStored, capacity));
+						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.fluid_tank_storage_full", fluidStored, capacity));
 				
 					} else {
 
 						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.gui_details"));
-						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.fluid_tank_storage", fluidStored / 1000, capacity / 1000));
+						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.fluid_tank_storage", fluidStored / 1000, capacity / 1000));
 					}
 					
 				} else {
 					
-					textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.empty_tank").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.AQUA));
+					textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.empty_tank").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.RED));
 				}
 			}
 			
@@ -255,22 +255,19 @@ public class TankItem extends BlockItem {
 					
 					if(Screen.hasShiftDown()) {
 				
-						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.fluid_tank_storage_full", fluidStored, capacity));
+						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.fluid_tank_storage_full", fluidStored, capacity));
 				
 					} else {
 
 						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.gui_details"));
-						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.fluid_tank_storage", fluidStored / 1000, capacity / 1000));
+						textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.fluid_tank_storage", fluidStored / 1000, capacity / 1000));
 					}
 					
 				} else {
 					
-					textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.empty_tank").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.AQUA));
+					textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.screen.empty_tank").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.RED));
 				}
 			}
-		} else {
-			
-			textComp.add(new TranslationTextComponent("com.github.will11690.mechanicraft.empty_tank").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.AQUA));
 		}
 	}
 }

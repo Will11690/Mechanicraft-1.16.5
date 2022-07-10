@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -36,23 +37,30 @@ public class LineMiner extends Block {
         return TileEntityHandler.TILE_ENTITY_LINE_MINER.get().create();
         
     }
+    
+    public static void dropItemHandlerContents(final World world, final BlockPos pos, final IItemHandler itemHandler) {
+		for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
+			ItemStack stack = itemHandler.extractItem(slot, itemHandler.getStackInSlot(slot).getCount(), false);
+			InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+		}
+	}
 
     @SuppressWarnings("deprecation")
     @Override
     public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
     	
-    	 if( newState.getBlock() != this ) {
+    	 if(!state.is(newState.getBlock())) {
     		 
              TileEntity tileEntity = world.getBlockEntity(pos);
              
              if (tileEntity != null) {
-            	 
+            	 ((TileEntityLineMiner) tileEntity).blockBeingBroken(true);
                  LazyOptional<IItemHandler> cap = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
                  
                  cap.ifPresent(handler -> {
                 	 
-                     for( int i = 0; i < handler.getSlots(); i ++ )
-                         InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
+                	dropItemHandlerContents(world, pos, handler);
+                	((TileEntityLineMiner) tileEntity).blockBeingBroken(false);
                      
                  });
              }

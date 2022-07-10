@@ -26,21 +26,19 @@ public class MechaniCraftMain {
 	//TODO CLEAN ALL FORMATTING(Chutes done)
 	
     public static final Logger MECHANICRAFT_LOGGER = LogManager.getLogger();
-  	
-  	//TODO FEATURES FOR VERSION 1.0.2
     
-    //TODO IN PROGRESS(Make energy cubes keep energy and display them in tool tips)
-    //Look at TankItem for tool tips and loot_table tank for drops
+    //TODO Bug discovered where upon replacing machine after breaking with upgrade in it energy is reset(most likely applies to fluids too)
+    //only seems to apply when block is placed down next to another block doing updates, very weird
     
-    //TODO Create Fluid Handler for itemstacks of tanks(Capacitys and init capabilities already added to TankItem)
+  	//TODO FEATURES FOR VERSION 1.1.0
     
+    //TODO Side config and auto eject for machines
+    //TODO Create Fluid Handler for itemstacks of tanks(Capacities and init capabilities already added to TankItem)
+    //TODO Create Energy Handler for itemstacks of energy cubes
     //TODO add power consumption and work times to configs for machines
-    
-    //TODO un-hardcode the requirement for all slots in press to be filled for more versatility
-    //TODO Make machines keep energy when broken
+    //TODO un-hardcode the requirement for all slots in press to be filled for more versatility(most likely add a boolean check with recipes for slots used)
     //TODO localized text for configs
     //TODO Finish all marked todos in ModConfigs
-  	//TODO Make Machines Keep Inventory
   	//TODO Rework basic infuser front texture
     //TODO Creative Upgrade(implement it, item already in)
   	//TODO Fluid Pipes(Add Functionality)
@@ -48,6 +46,7 @@ public class MechaniCraftMain {
   	//TODO Energy Pipes(Add Functionality)
     //TODO Make Mob proof blocks(.strength(hardness, resistance) set resistance to Float.MAX_VALUE to make them explosion proof)
     //TODO Wither Killer
+    //TODO Wither Builder(7 slots, stack size 1: for easy automation)
     //TODO Void Ore Miner
     //TODO Finish tier basic - 6 machines(new machines, all have empty packages)
   	//TODO Steam Generator and Producer

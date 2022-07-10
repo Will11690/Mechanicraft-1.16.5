@@ -61,6 +61,7 @@ import com.github.will11690.mechanicraft.blocks.machines.tier6.t6orewasher.T6Ore
 import com.github.will11690.mechanicraft.blocks.machines.tier6.t6poweredsieve.T6PoweredSieve;
 import com.github.will11690.mechanicraft.blocks.machines.tier6.t6press.T6Press;
 import com.github.will11690.mechanicraft.blocks.machines.tier6.t6slurryprocessor.T6SlurryProcessor;
+import com.github.will11690.mechanicraft.items.machines.MachineItem;
 import com.github.will11690.mechanicraft.items.tanks.TankItem;
 import com.github.will11690.mechanicraft.tabs.TabGroups;
 import com.github.will11690.mechanicraft.util.Reference;
@@ -394,7 +395,7 @@ public class ModBlocks {
     private static <T extends Block> RegistryObject<T> registerMachines(String name, Supplier<T> block) {
         RegistryObject<T> ret = registerNoItemMachines(name, block);
         MechaniCraftMain.MECHANICRAFT_LOGGER.info(Reference.MOD_ID + "-" + Reference.VERSION + ": " + "Setting up Deferred Registry Tiles-1!");
-        RegistryHandler.ITEMS.register(name, () -> new BlockItem(ret.get(), new Item.Properties().tab(TabGroups.MOD_MACHINES_GROUP)));
+        RegistryHandler.ITEMS.register(name, () -> new MachineItem(ret.get(), new Item.Properties().tab(TabGroups.MOD_MACHINES_GROUP)));
         return ret;
     }
 

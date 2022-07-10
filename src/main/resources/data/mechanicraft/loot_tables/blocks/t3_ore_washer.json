@@ -2,10 +2,44 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "name": "main",
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "id",
+                  "target": "BlockEntityTag.id",
+                  "op": "replace"
+                },
+                {
+                  "source": "energy",
+                  "target": "BlockEntityTag.energy",
+                  "op": "replace"
+                },
+                {
+                  "source": "upgradeSlot",
+                  "target": "BlockEntityTag.upgradeSlot",
+                  "op": "replace"
+                },
+                {
+                  "source": "inputTank",
+                  "target": "BlockEntityTag.inputTank",
+                  "op": "replace"
+                },
+                {
+                  "source": "outputTank",
+                  "target": "BlockEntityTag.outputTank",
+                  "op": "replace"
+                }
+              ]
+            }
+          ],
           "name": "mechanicraft:t3_ore_washer"
         }
       ],

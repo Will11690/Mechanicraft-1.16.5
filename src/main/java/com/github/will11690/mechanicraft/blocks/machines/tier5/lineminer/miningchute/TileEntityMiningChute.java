@@ -34,6 +34,8 @@ public class TileEntityMiningChute extends TileEntity implements ITickableTileEn
 	
 	private final LazyOptional<IItemHandler> itemHandler  = LazyOptional.of(() -> items);
 	
+	boolean breakBlock = false;
+	
 	public TileEntityMiningChute() {
 		
 		super(TileEntityHandler.TILE_ENTITY_MINING_CHUTE.get());
@@ -218,11 +220,23 @@ public class TileEntityMiningChute extends TileEntity implements ITickableTileEn
 		}
 	}
 
+	boolean blockBeingBroken(boolean onRemoved) {
+		
+		return breakBlock = onRemoved;
+	}
+
 	@Nullable
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
 
 		if (!this.remove && side != null) {
+
+			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+				
+				return itemHandler.cast();
+			}
+			
+		} else if(breakBlock == true && side == null) {
 
 			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 				

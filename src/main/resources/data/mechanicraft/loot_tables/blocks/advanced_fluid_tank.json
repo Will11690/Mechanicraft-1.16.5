@@ -13,8 +13,13 @@
               "source": "block_entity",
               "ops": [
                 {
-                  "source": "{}",
-                  "target": "BlockEntityTag",
+                  "source": "id",
+                  "target": "BlockEntityTag.id",
+                  "op": "replace"
+                },
+                {
+                  "source": "advancedFluidTank",
+                  "target": "BlockEntityTag.advancedFluidTank",
                   "op": "replace"
                 }
               ]

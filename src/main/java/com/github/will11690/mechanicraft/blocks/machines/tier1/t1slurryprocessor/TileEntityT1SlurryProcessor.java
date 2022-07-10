@@ -64,14 +64,17 @@ public class TileEntityT1SlurryProcessor extends TileEntity implements ITickable
 	
 	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, outputSlotHandler));
 	
+	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, outputSlotHandler));
+	boolean breakBlock = false;
+	
 	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 
 	private int processingEnergy = 100/*PER TICK*/;
 	private static int WORK_TIME = 10 * 20;
 		
-	private static final int capacity = ModConfigs.t1SlurryProcessorEnergyCapacityInt;
-	private static final int receive = ModConfigs.t1SlurryProcessorReceiveInt;
-	private static final int fluid_capacity = ModConfigs.t1SlurryProcessorTankCapacityInt;
+	private static int capacity = ModConfigs.t1SlurryProcessorEnergyCapacityInt;
+	private static int receive = ModConfigs.t1SlurryProcessorReceiveInt;
+	private static int fluid_capacity = ModConfigs.t1SlurryProcessorTankCapacityInt;
 		
 	private int progress = 0;
 
@@ -774,6 +777,10 @@ public class TileEntityT1SlurryProcessor extends TileEntity implements ITickable
         super.onDataPacket(net, packet);
     }
 
+	boolean blockBeingBroken(boolean onRemoved) {
+		
+		return breakBlock = onRemoved;
+	}
 
     @Nullable
     @Override
@@ -852,7 +859,13 @@ public class TileEntityT1SlurryProcessor extends TileEntity implements ITickable
 
 			}
             
-        }
+        } else if(breakBlock == true && side == null) {
+
+			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+				
+				return dropSlots.cast();
+			}
+		}
         
         return super.getCapability(cap, side);
     }
@@ -864,6 +877,7 @@ public class TileEntityT1SlurryProcessor extends TileEntity implements ITickable
     	outputSlot.invalidate();
 		chargeSlot.invalidate();
 		allSlots.invalidate();
+		dropSlots.invalidate();
         super.setRemoved();
 
     }

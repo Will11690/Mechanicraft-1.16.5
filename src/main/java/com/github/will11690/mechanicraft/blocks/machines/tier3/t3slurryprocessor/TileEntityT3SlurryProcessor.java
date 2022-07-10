@@ -74,15 +74,18 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
 	
 	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(upgradeSlotHandlerWrapper, chargeSlotHandler, outputSlotHandler));
 	
+	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, outputSlotHandler));
+	boolean breakBlock = false;
+	
 	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 	private LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
 
 	private int processingEnergy = 140/*PER TICK*/;
 	private int WORK_TIME = 10 * 16;
 		
-	private static final int capacity = ModConfigs.t3SlurryProcessorEnergyCapacityInt;
-	private static final int receive = ModConfigs.t3SlurryProcessorReceiveInt;
-	private static final int fluid_capacity = ModConfigs.t3SlurryProcessorTankCapacityInt;
+	private static int capacity = ModConfigs.t3SlurryProcessorEnergyCapacityInt;
+	private static int receive = ModConfigs.t3SlurryProcessorReceiveInt;
+	private static int fluid_capacity = ModConfigs.t3SlurryProcessorTankCapacityInt;
 		
 	private int progress = 0;
 	private int upgradableProcessingEnergy = 0;
@@ -992,6 +995,10 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
         super.onDataPacket(net, packet);
     }
 
+	boolean blockBeingBroken(boolean onRemoved) {
+		
+		return breakBlock = onRemoved;
+	}
 
     @Nullable
     @Override
@@ -1070,7 +1077,13 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
 
 			}
             
-        }
+        } else if(breakBlock == true && side == null) {
+
+			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+				
+				return dropSlots.cast();
+			}
+		}
         
         return super.getCapability(cap, side);
     }
@@ -1084,6 +1097,7 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
     	outputSlot.invalidate();
 		chargeSlot.invalidate();
 		allSlots.invalidate();
+		dropSlots.invalidate();
         super.setRemoved();
 
     }

@@ -280,9 +280,21 @@
 	"item.mechanicraft.creative_upgrade": "Creative Upgrade",
 	"com.github.will11690.mechanicraft.creative_upgrade.modifier": "Unlimited Powah! -Palpatine",
 	
-	"com.github.will11690.mechanicraft.fluid_tank_storage": "Amount In Tank: %s/%s B",
-	"com.github.will11690.mechanicraft.fluid_tank_storage_full": "Amount In Tank: %s/%s mb",
-	"com.github.will11690.mechanicraft.empty_tank": "Empty Tank",
+	"com.github.will11690.mechanicraft.screen.fluid_tank_storage": "Amount In Tank: %s/%s B",
+	"com.github.will11690.mechanicraft.screen.fluid_tank_storage_full": "Amount In Tank: %s/%s mb",
+	"com.github.will11690.mechanicraft.screen.empty_tank": "Empty Tank",
+	
+	"com.github.will11690.mechanicraft.screen.energy_full": "Energy: %s FE",
+	"com.github.will11690.mechanicraft.screen.energy_thousand": "Energy: %sk FE",
+	"com.github.will11690.mechanicraft.screen.energy_million": "Energy: %sM FE",
+	
+	"com.github.will11690.mechanicraft.screen.fluid_tank_machine": "Fluid: %s/Amount: %s B",
+	"com.github.will11690.mechanicraft.screen.fluid_tank_machine_full": "Fluid: %s/Amount: %s mb",
+	
+	"com.github.will11690.mechanicraft.screen.machine_energy": "Contains Energy",
+	"com.github.will11690.mechanicraft.screen.machine_energy_empty": "Energy Empty",
+	
+	"com.github.will11690.mechanicraft.screen.upgrade": "Contains Upgrades",
 	
 	"itemGroup.mechanicraft_blocks_tab": "MechaniCraft Blocks",
 	"itemGroup.mechanicraft_machines_tab": "MechaniCraft Machines",

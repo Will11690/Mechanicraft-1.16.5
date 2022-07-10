@@ -73,15 +73,18 @@ public class TileEntityT5OreWasher extends TileEntity implements ITickableTileEn
 	
 	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(upgradeSlotHandlerWrapper, chargeSlotHandler, inputSlotWrapperHandler));
 	
+	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotHandler));
+	boolean breakBlock = false;
+	
 	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 	private LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
 
 	private int washingEnergy = 180/*PER TICK*/;
 	private int WORK_TIME = 10 * 12;
 		
-	private static final int capacity = ModConfigs.t5OreWasherEnergyCapacityInt;
-	private static final int receive = ModConfigs.t5OreWasherReceiveInt;
-	private static final int fluid_capacity = ModConfigs.t5OreWasherTankCapacityInt;
+	private static int capacity = ModConfigs.t5OreWasherEnergyCapacityInt;
+	private static int receive = ModConfigs.t5OreWasherReceiveInt;
+	private static int fluid_capacity = ModConfigs.t5OreWasherTankCapacityInt;
 		
 	private int progress = 0;
 	private int upgradableWashingEnergy = 0;
@@ -648,20 +651,21 @@ public class TileEntityT5OreWasher extends TileEntity implements ITickableTileEn
     		
     		if(recipe != null)
     			output = recipe.assembleFluid(inputFluidTank, inputSlotHandler).copy();
-    	}
     	
-    	FluidStack outputHandler = outputFluidTank.getFluidInTank(0);
     	
-    	if(!(outputHandler.equals(FluidStack.EMPTY))) {
+    		FluidStack outputHandler = outputFluidTank.getFluidInTank(0);
+    	
+    		if(!(outputHandler.equals(FluidStack.EMPTY))) {
     		
-    		outputHandlerCount = outputHandler.getAmount();
-    	}
+    			outputHandlerCount = outputHandler.getAmount();
+    		}
     	
-    	if(energyStorage.getEnergyStored() >= upgradableWashingEnergy) {
+    		if(energyStorage.getEnergyStored() >= upgradableWashingEnergy) {
     	
-    		if(recipe != null && (output.getFluid().equals(outputHandler.getFluid()) || outputHandler.equals(FluidStack.EMPTY)) && (output.getAmount() + outputHandlerCount <= outputFluidTank.getCapacity())) {
+    			if(recipe != null && (output.getFluid().equals(outputHandler.getFluid()) || outputHandler.equals(FluidStack.EMPTY)) && (output.getAmount() + outputHandlerCount <= outputFluidTank.getCapacity())) {
     		
-    			return true;
+    				return true;
+    			}
     		}
     	}
     	return false;
@@ -975,7 +979,11 @@ public class TileEntityT5OreWasher extends TileEntity implements ITickableTileEn
         super.onDataPacket(net, packet);
     }
 
-
+	boolean blockBeingBroken(boolean onRemoved) {
+		
+		return breakBlock = onRemoved;
+	}
+	
     @Nullable
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
@@ -1034,7 +1042,13 @@ public class TileEntityT5OreWasher extends TileEntity implements ITickableTileEn
 
 			}
             
-        }
+        } else if(breakBlock == true && side == null) {
+
+			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+				
+				return dropSlots.cast();
+			}
+		}
         
         return super.getCapability(cap, side);
     }
@@ -1048,6 +1062,7 @@ public class TileEntityT5OreWasher extends TileEntity implements ITickableTileEn
     	inputSlotWrapper.invalidate();
 		chargeSlot.invalidate();
 		allSlots.invalidate();
+		dropSlots.invalidate();
         super.setRemoved();
 
     }

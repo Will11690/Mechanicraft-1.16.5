@@ -68,7 +68,10 @@ public class TileEntityT3PoweredSieve extends TileEntity implements ITickableTil
 	private final LazyOptional<IItemHandler> outputSlot  = LazyOptional.of(() -> outputSlotHandler);
 	private final LazyOptional<IItemHandler> chargeSlot  = LazyOptional.of(() -> chargeSlotHandler);
 	
-	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(upgradeSlotHandlerWrapper, chargeSlotHandler,inputSlotWrapperHandler1, inputSlotWrapperHandler2, outputSlotHandler));
+	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(upgradeSlotHandlerWrapper, chargeSlotHandler, inputSlotWrapperHandler1, inputSlotWrapperHandler2, outputSlotHandler));
+	
+	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotHandler1, inputSlotHandler2, outputSlotHandler));
+	boolean breakBlock = false;
 	
 	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 	private LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
@@ -76,8 +79,8 @@ public class TileEntityT3PoweredSieve extends TileEntity implements ITickableTil
 	private int sievingEnergy = 140/*PER TICK*/;
 	private int WORK_TIME = 10 * 16;
 		
-	private static final int capacity = ModConfigs.t3PoweredSieveCapacityInt;
-	private static final int receive = ModConfigs.t3PoweredSieveReceiveInt;
+	private static int capacity = ModConfigs.t3PoweredSieveCapacityInt;
+	private static int receive = ModConfigs.t3PoweredSieveReceiveInt;
 		
 	private int progress = 0;
 	private int upgradableSievingEnergy = 0;
@@ -493,7 +496,7 @@ public class TileEntityT3PoweredSieve extends TileEntity implements ITickableTil
     		startCrafting();
     	}
     	
-    	if((inputSlotHandler1.getStackInSlot(0).isEmpty() || inputSlotHandler1.getStackInSlot(1).isEmpty()) && progress > 0) {
+    	if((inputSlotHandler1.getStackInSlot(0).isEmpty() || inputSlotHandler2.getStackInSlot(0).isEmpty()) && progress > 0) {
 
 			progress = 2;
 
@@ -911,103 +914,38 @@ public class TileEntityT3PoweredSieve extends TileEntity implements ITickableTil
         
     }
 
+	boolean blockBeingBroken(boolean onRemoved) {
+		
+		return breakBlock = onRemoved;
+	}
+
     @Nullable
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
     	
-        if (!this.remove && side != null && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (!this.remove && side != null) {
         	
-        	if(this.level.getBlockState(this.worldPosition).getValue(T3PoweredSieve.FACING) == Direction.NORTH) {
+        	if(cap == CapabilityEnergy.ENERGY) {
         		
-        		if(side == Direction.EAST) {
-            		
-            		return inputSlotWrapper1.cast();
-            		
-            	}
-            	
-            	if(side == Direction.WEST) {
-            		
-            		return inputSlotWrapper2.cast();
-            		
-            	}
-            	
-            	if(side == Direction.SOUTH) {
-            		
-            		return chargeSlot.cast();
-            		
-            	}
+        		return energy.cast();
+        		
         	}
         	
-        	if(this.level.getBlockState(this.worldPosition).getValue(T3PoweredSieve.FACING) == Direction.SOUTH) {
-        		
-        		if(side == Direction.WEST) {
-            		
-            		return inputSlotWrapper1.cast();
-            		
-            	}
-            	
-            	if(side == Direction.EAST) {
-            		
-            		return inputSlotWrapper2.cast();
-            		
-            	}
-            	
-            	if(side == Direction.NORTH) {
-            		
-            		return chargeSlot.cast();
-            		
-            	}
+        	if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        	
+				return allSlots.cast();
         	}
+        
+        } else if(breakBlock == true && side == null) {
+
+			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+				
+				return dropSlots.cast();
+			}
+			
+		}
         	
-        	if(this.level.getBlockState(this.worldPosition).getValue(T3PoweredSieve.FACING) == Direction.EAST) {
-        		
-        		if(side == Direction.SOUTH) {
-            		
-            		return inputSlotWrapper1.cast();
-            		
-            	}
-            	
-            	if(side == Direction.NORTH) {
-            		
-            		return inputSlotWrapper2.cast();
-            		
-            	}
-            	
-            	if(side == Direction.WEST) {
-            		
-            		return chargeSlot.cast();
-            		
-            	}
-        	}
-        	
-        	if(this.level.getBlockState(this.worldPosition).getValue(T3PoweredSieve.FACING) == Direction.WEST) {
-        		
-        		if(side == Direction.NORTH) {
-            		
-            		return inputSlotWrapper1.cast();
-            		
-            	}
-            	
-            	if(side == Direction.SOUTH) {
-            		
-            		return inputSlotWrapper2.cast();
-            		
-            	}
-            	
-            	if(side == Direction.EAST) {
-            		
-            		return chargeSlot.cast();
-            		
-            	}
-        	}
-        	
-			return allSlots.cast();
-            
-        } else {
-        	
-            return super.getCapability(cap, side);
-            
-        }
+        return super.getCapability(cap, side);
     }
 
     @Override
@@ -1021,6 +959,7 @@ public class TileEntityT3PoweredSieve extends TileEntity implements ITickableTil
 		outputSlot.invalidate();
 		chargeSlot.invalidate();
 		allSlots.invalidate();
+		dropSlots.invalidate();
         super.setRemoved();
 
     }
