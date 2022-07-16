@@ -36,6 +36,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -56,7 +57,7 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
 	private ItemStackHandler inputSlotHandler2 = createInput2();
 	private ItemStackHandler inputSlotWrapperHandler2 = createInputWrapper2(inputSlotHandler2);
 	
-	public ItemStackHandler upgradeSlotHandler = createUpgrade();
+	ItemStackHandler upgradeSlotHandler = createUpgrade();
     private ItemStackHandler upgradeSlotHandlerWrapper = createUpgradeWrapper(upgradeSlotHandler);
     
 	private ItemStackHandler chargeSlotHandler = createCharge();
@@ -64,7 +65,7 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
 	
 	private final LazyOptional<IItemHandler> inputSlotWrapper1  = LazyOptional.of(() -> inputSlotWrapperHandler1);
 	private final LazyOptional<IItemHandler> inputSlotWrapper2  = LazyOptional.of(() -> inputSlotWrapperHandler2);
-	private LazyOptional<IItemHandler> upgradeSlotWrapper  = LazyOptional.of(() -> upgradeSlotHandlerWrapper);
+	private final LazyOptional<IItemHandler> upgradeSlotWrapper  = LazyOptional.of(() -> upgradeSlotHandlerWrapper);
 	private final LazyOptional<IItemHandler> outputSlot  = LazyOptional.of(() -> outputSlotHandler);
 	private final LazyOptional<IItemHandler> chargeSlot  = LazyOptional.of(() -> chargeSlotHandler);
 	
@@ -73,11 +74,11 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
 	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotHandler1, inputSlotHandler2, outputSlotHandler));
 	boolean breakBlock = false;
 	
-	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
-	private LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
+	private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
+	private final LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
 
-	private int infusingEnergy = 120/*PER TICK*/;
-	private int WORK_TIME = 10 * 18;
+	private int infusingEnergy = ModConfigs.t2InfuserEnergyPerTickInt/*PER TICK*/;
+	private int WORK_TIME = ModConfigs.t2InfuserWorkTimeInt;
 		
 	private static int capacity = ModConfigs.t2InfuserCapacityInt;
 	private static int receive = ModConfigs.t2InfuserReceiveInt;
@@ -101,8 +102,6 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
                 	return Math.max(energyStorage.getBaseCapacity(), energyStorage.getUpgradedCapacity());
     			case 3:
     				return upgradableWorkTime;
-    			case 4:
-    				energyStorage.getBaseCapacity();
                 default:
                     return 0;
                     
@@ -126,9 +125,6 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
             	case 3:
             		upgradableWorkTime = value;
             		break;
-            	case 4:
-            		energyStorage.setBaseCapacity(value);
-            		break;
             	default:
             		break;
                     
@@ -138,7 +134,7 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
         @Override
         public int getCount() {
         	
-            return 5;
+            return 4;
             
         }
     };
@@ -155,10 +151,11 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -182,10 +179,11 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -209,10 +207,11 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -236,10 +235,11 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -263,10 +263,11 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -290,10 +291,11 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -311,10 +313,11 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -336,19 +339,23 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
     		@Nonnull
     		public ItemStack extractItem(int slot, int amount, boolean simulate) {
     			 
-    			if(!(upgradeHandler.canExtractFromSlot(progress))) {
+    			if(stacks.get(slot).getItem().equals(ModItems.SPEED_UPGRADE.get()) || stacks.get(slot).getItem().equals(ModItems.EFFICIENCY_UPGRADE.get())) {
+        			
+    				if(upgradeHandler.canExtractFromSlot(progress) != true) {
     				 
-    				return ItemStack.EMPTY;
-    				 
+    					return ItemStack.EMPTY;
+    				}
     			}
     			
-    			if(energyStorage.getEnergyStored() > energyStorage.getBaseCapacity()) {
+    			if(stacks.get(slot).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     				
-    				return ItemStack.EMPTY;
+    				if(energyStorage.canExtractFromSlot(energyStorage.getEnergyStored()) != true) {
     				
-    			} else
+    					return ItemStack.EMPTY;
+    				}
+    			}
     			 	
-    				return super.extractItem(slot, amount, simulate);
+    			return super.extractItem(slot, amount, simulate);
     		 }
 		};
 		
@@ -360,10 +367,11 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -385,19 +393,23 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
     		@Nonnull
     		public ItemStack extractItem(int slot, int amount, boolean simulate) {
     			 
-    			if(!(upgradeHandler.canExtractFromSlot(progress))) {
+    			if(stacks.get(slot).getItem().equals(ModItems.SPEED_UPGRADE.get()) || stacks.get(slot).getItem().equals(ModItems.EFFICIENCY_UPGRADE.get())) {
+        			
+    				if(upgradeHandler.canExtractFromSlot(progress) != true) {
     				 
-    				return ItemStack.EMPTY;
-    				 
+    					return ItemStack.EMPTY;
+    				}
     			}
     			
-    			if(energyStorage.getEnergyStored() > energyStorage.getBaseCapacity()) {
+    			if(stacks.get(slot).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     				
-    				return ItemStack.EMPTY;
+    				if(energyStorage.canExtractFromSlot(energyStorage.getEnergyStored()) != true) {
     				
-    			} else
+    					return ItemStack.EMPTY;
+    				}
+    			}
     			 	
-    				return super.extractItem(slot, amount, simulate);
+    			return super.extractItem(slot, amount, simulate);
     		 }
 		};
     }
@@ -408,9 +420,11 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
 
 			@Override
 			protected void onEnergyChanged() {
-
-				setChanged();
-
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
 			}
 		};
 	}
@@ -421,11 +435,11 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
         	
             @Override
 			public void onUpgradeChanged() {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
-                
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
         };
     }
@@ -438,38 +452,8 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
             return;
             
         }
-		
-		ItemStack upgradeStack = upgradeSlotHandler.getStackInSlot(0);
-    	
-        if(hasCapUpgrades() && energyStorage.getCapacity() != energyStorage.getUpgradedCapacity()) {
-        	
-        	if(upgradeStack.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-        		
-        		applyCapUpgrades(upgradeStack);
-        		
-        	}
-        }
         
-        if(hasTransUpgrades() && energyStorage.getMaxReceive() != energyStorage.getUpgradedReceive()) {
-        	
-        	if(upgradeStack.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-        		
-        		applyTransUpgrades(upgradeStack);
-        		
-        	}
-        }
-        
-       if(!hasCapUpgrades() && energyStorage.getCapacity() != energyStorage.getBaseCapacity()) {
-        	
-        	energyStorage.setCapacity(energyStorage.getBaseCapacity());
-        	
-        }
-        
-        if(!hasTransUpgrades() && energyStorage.getMaxReceive() != energyStorage.getBaseReceive()) {
-        	
-        	energyStorage.setMaxReceive(energyStorage.getBaseReceive());
-        	
-        }
+        this.setUpgradeModifiers();
 
 		if(energyStorage.getMaxEnergyStored() > energyStorage.getEnergyStored()) {
 
@@ -484,12 +468,6 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
 				receivePower();
 
 		}
-		
-		if(progress == 0) {
-        	
-        	this.setUpgradeModifiers();
-        	
-        }
 		
     	if(canCraft()) {
     			
@@ -521,60 +499,38 @@ public class TileEntityT2MetallicInfuser extends TileEntity implements ITickable
         }
     }
     
-    private boolean hasTransUpgrades() {
-    	
-    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-    		
-    		return true;
-    		
-    	}
-    	
-    	return false;
-    	
-    }
-    
-    public boolean hasCapUpgrades() {
-    	
-    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-    		
-    		return true;
-    		
-    	}
-    	
-    	return false;
-    	
-    }
-
-	private void applyCapUpgrades(ItemStack stack) {
-    		
-    	if(stack.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-    		
-    		energyStorage.applyCapacityUpgrades(stack.getCount());
-    		
-    	}
-    }
-    
-    private void applyTransUpgrades(ItemStack stack) {
-    		
-    	if(stack.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-    		
-    		energyStorage.applyTransferUpgrades(stack.getCount());
-    		
-    	}
-    }
-    
     private void setUpgradeModifiers() {
     	
     	if(upgrade.isPresent()) {
+    	
+    		if(progress == 0) {
     		
-    		upgradeHandler.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+    			upgradeHandler.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+        		
+        		upgradeHandler.oneUpgradeModifier(WORK_TIME, infusingEnergy, upgradeSlotHandler.getStackInSlot(0));
+        			
+        		upgradableWorkTime = upgradeHandler.getTotalProcessingTime();
+        		upgradableInfusingEnergy = upgradeHandler.getTotalEnergyUsed();
+    		}
+    	}
+    	
+    	if(energy.isPresent()) {
     		
-    		upgradeHandler.oneUpgradeModifier(WORK_TIME, infusingEnergy, upgradeSlotHandler.getStackInSlot(0));
-    			
-    		upgradableWorkTime = upgradeHandler.getTotalProcessingTime();
-    		upgradableInfusingEnergy = upgradeHandler.getTotalEnergyUsed();
+    		energyStorage.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+    		energyStorage.oneUpgradeModifier(capacity, receive, upgradeSlotHandler.getStackInSlot(0));
+    		
     	}
     }
+
+	public boolean canExtractCapacity() {
+		
+		if(energy.isPresent()) {
+			
+			return energyStorage.canExtractFromSlot(energyStorage.getEnergyStored());
+			
+		} else 
+			return false;
+	}
     
     private boolean canCraft() {
     	

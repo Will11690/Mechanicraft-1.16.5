@@ -31,7 +31,7 @@ public class ContainerT5OreWasher extends Container {
 
     public ContainerT5OreWasher(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-    	this((TileEntityT5OreWasher) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(9), id, playerInventory, new ItemStackHandler(5));
+    	this((TileEntityT5OreWasher) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(8), id, playerInventory, new ItemStackHandler(5));
     	
     }
     
@@ -50,7 +50,7 @@ public class ContainerT5OreWasher extends Container {
     	@Override
         public boolean mayPickup(PlayerEntity playerIn) {
     		
-    		if(tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+    		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     			
     			return false;
     			
@@ -72,7 +72,7 @@ public class ContainerT5OreWasher extends Container {
     	@Override
         public boolean mayPickup(PlayerEntity playerIn) {
     		
-    		if(tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+    		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     			
     			return false;
     			
@@ -94,7 +94,7 @@ public class ContainerT5OreWasher extends Container {
     	@Override
         public boolean mayPickup(PlayerEntity playerIn) {
     		
-    		if(tile.upgradeSlotHandler.getStackInSlot(2).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+    		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(2).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     			
     			return false;
     			
@@ -170,26 +170,7 @@ public class ContainerT5OreWasher extends Container {
     
     private boolean canExtractSpeedorEfficiency() {
     	
-    	if(tile.upgradeHandler.canExtractFromSlot(this.fields.get(1)) == true) {
-    		
-    		return true;
-    		
-    	}
-    	
-    	return false;
-    	
-    }
-    
-    private boolean canExtractCapacity() {
-    	
-    	if(this.fields.get(0) > this.fields.get(4)) {
-    		
-    		return false;
-    		
-    	} else
-    		
-    		return true;
-    	
+    	return tile.upgradeHandler.canExtractFromSlot(this.fields.get(1));
     }
 
 	public TileEntityT5OreWasher getTileEntity() {
@@ -231,22 +212,22 @@ public class ContainerT5OreWasher extends Container {
 	
 	public int getInputTankCapacity() {
 		
-		return this.fields.get(5);
+		return this.fields.get(4);
 	}
 	
 	public int getOutputTankCapacity() {
 		
-		return this.fields.get(7);
+		return this.fields.get(6);
 	}
 	
 	public int getInputTankStored() {
 		
-		return this.fields.get(6);
+		return this.fields.get(5);
 	}
 	
 	public int getOutputTankStored() {
 		
-		return this.fields.get(8);
+		return this.fields.get(7);
 	}
 
     @Override

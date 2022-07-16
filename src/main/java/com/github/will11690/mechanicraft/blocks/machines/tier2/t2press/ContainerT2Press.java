@@ -31,7 +31,7 @@ public class ContainerT2Press extends Container {
 
     public ContainerT2Press(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-        this((TileEntityT2Press) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(5), id, playerInventory, new ItemStackHandler(12));
+        this((TileEntityT2Press) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(4), id, playerInventory, new ItemStackHandler(12));
         
     }
 

@@ -31,7 +31,7 @@ public class ContainerT6EnergyCube extends Container {
 
     public ContainerT6EnergyCube(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-        this((TileEntityT6EnergyCube) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(3), id, playerInventory, new ItemStackHandler(15));
+        this((TileEntityT6EnergyCube) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(2), id, playerInventory, new ItemStackHandler(15));
         
     }
 
@@ -73,7 +73,7 @@ public class ContainerT6EnergyCube extends Container {
         	@Override
             public boolean mayPickup(PlayerEntity playerIn) {
         		
-        		if(tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+        		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
         			
         			return false;
         			
@@ -88,7 +88,7 @@ public class ContainerT6EnergyCube extends Container {
         	@Override
             public boolean mayPickup(PlayerEntity playerIn) {
         		
-        		if(tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+        		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
         			
         			return false;
         			
@@ -103,7 +103,7 @@ public class ContainerT6EnergyCube extends Container {
         	@Override
             public boolean mayPickup(PlayerEntity playerIn) {
         		
-        		if(tile.upgradeSlotHandler.getStackInSlot(2).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+        		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(2).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
         			
         			return false;
         			
@@ -164,18 +164,6 @@ public class ContainerT6EnergyCube extends Container {
 		return this.fields.get(1);
 		
 	}
-    
-    private boolean canExtractCapacity() {
-    	
-    	if(this.fields.get(1) > this.fields.get(2)) {
-    		
-    		return false;
-    		
-    	} else
-    		
-    		return true;
-    	
-    }
 
 	@Override
 	public boolean stillValid(PlayerEntity player) {

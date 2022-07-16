@@ -6,8 +6,6 @@ import com.github.will11690.mechanicraft.util.capabilities.interfaces.IUpgradeGe
 import net.minecraft.item.ItemStack;
 
 public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler {
-
-	//TODO Add cap to 3 and 4 upgrade versions
 	
 	protected int totalBurnTime = 0;
 	protected int totalEnergyGen = 0;
@@ -151,14 +149,14 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 			totalSpeed = speedCount1 + speedCount2;
 			totalEfficiency = efficiencyCount1 + efficiencyCount2;
 			
-			if(totalSpeed > 19) {
+			if(totalSpeed > 16) {
 				
-				totalSpeed = 19;
+				totalSpeed = 16;
 			}
 			
-			if(totalEfficiency > 19) {
+			if(totalEfficiency > 16) {
 				
-				totalEfficiency = 19;
+				totalEfficiency = 16;
 			}
 			
 		}
@@ -285,14 +283,14 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 			totalSpeed = speedCount1 + speedCount2 + speedCount3;
 			totalEfficiency = efficiencyCount1 + efficiencyCount2 + efficiencyCount3;
 			
-			if(totalSpeed > 19) {
+			if(totalSpeed > 16) {
 				
-				totalSpeed = 19;
+				totalSpeed = 16;
 			}
 			
-			if(totalEfficiency > 19) {
+			if(totalEfficiency > 16) {
 				
-				totalEfficiency = 19;
+				totalEfficiency = 16;
 			}
 		}
 			
@@ -372,6 +370,11 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 			this.upgrade3Count = upgrade3Count(upgrade3);
 		}
 		
+		if(!(upgrade4Stack.equals(ItemStack.EMPTY))) {
+			
+			this.upgrade4Count = upgrade4Count(upgrade4);
+		}
+		
 		int totalSpeed = 0;
 		int totalEfficiency = 0;
 		
@@ -431,14 +434,14 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 			totalSpeed = speedCount1 + speedCount2 + speedCount3 + speedCount4;
 			totalEfficiency = efficiencyCount1 + efficiencyCount2 + efficiencyCount3 + efficiencyCount4;
 			
-			if(totalSpeed > 19) {
+			if(totalSpeed > 16) {
 				
-				totalSpeed = 19;
+				totalSpeed = 16;
 			}
 			
-			if(totalEfficiency > 19) {
+			if(totalEfficiency > 16) {
 				
-				totalEfficiency = 19;
+				totalEfficiency = 16;
 			}
 		}
 			

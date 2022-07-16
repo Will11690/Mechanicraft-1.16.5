@@ -1,0 +1,1 @@
+(.strength(hardness, resistance) set resistance to Float.MAX_VALUE to make them explosion proof)

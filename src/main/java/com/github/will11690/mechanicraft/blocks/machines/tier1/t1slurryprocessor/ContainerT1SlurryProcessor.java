@@ -29,7 +29,7 @@ public class ContainerT1SlurryProcessor extends Container {
 
     public ContainerT1SlurryProcessor(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-    	this((TileEntityT1SlurryProcessor) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(11), id, playerInventory, new ItemStackHandler(2));
+    	this((TileEntityT1SlurryProcessor) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(10), id, playerInventory, new ItemStackHandler(2));
     	
     }
     
@@ -133,32 +133,32 @@ public class ContainerT1SlurryProcessor extends Container {
 	
 	public int getInputTank1Capacity() {
 		
-		return this.fields.get(5);
+		return this.fields.get(4);
 	}
 	
 	public int getInputTank2Capacity() {
 		
-		return this.fields.get(7);
+		return this.fields.get(6);
 	}
 	
 	public int getOutputTankCapacity() {
 		
-		return this.fields.get(9);
+		return this.fields.get(8);
 	}
 	
 	public int getInputTank1Stored() {
 		
-		return this.fields.get(6);
+		return this.fields.get(5);
 	}
 	
 	public int getInputTank2Stored() {
 		
-		return this.fields.get(8);
+		return this.fields.get(7);
 	}
 	
 	public int getOutputTankStored() {
 		
-		return this.fields.get(10);
+		return this.fields.get(9);
 	}
 
     @Override

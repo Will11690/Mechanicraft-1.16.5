@@ -36,6 +36,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -53,13 +54,13 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
 	
 	private ItemStackHandler inputSlotHandler = createInput();
 	private ItemStackHandler inputSlotWrapperHandler = createInputWrapper(inputSlotHandler);
-	public ItemStackHandler upgradeSlotHandler = createUpgrade();
+	ItemStackHandler upgradeSlotHandler = createUpgrade();
     private ItemStackHandler upgradeSlotHandlerWrapper = createUpgradeWrapper(upgradeSlotHandler);
 	private ItemStackHandler outputSlotHandler = createOutput();
 	private ItemStackHandler chargeSlotHandler = createCharge();
 	
 	private final LazyOptional<IItemHandler> inputSlotWrapper  = LazyOptional.of(() -> inputSlotWrapperHandler);
-	private LazyOptional<IItemHandler> upgradeSlotWrapper  = LazyOptional.of(() -> upgradeSlotHandlerWrapper);
+	private final LazyOptional<IItemHandler> upgradeSlotWrapper  = LazyOptional.of(() -> upgradeSlotHandlerWrapper);
 	private final LazyOptional<IItemHandler> outputSlot  = LazyOptional.of(() -> outputSlotHandler);
 	private final LazyOptional<IItemHandler> chargeSlot  = LazyOptional.of(() -> chargeSlotHandler);
 	
@@ -68,11 +69,11 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
 	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotHandler, outputSlotHandler));
 	boolean breakBlock = false;
 
-	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
-	private LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
+	private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
+	private final LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
 
-	private int crushingEnergy = 120/*PER TICK*/;
-	private int WORK_TIME = 10 * 18;
+	private int crushingEnergy = ModConfigs.t2CrusherEnergyPerTickInt/*PER TICK*/;
+	private int WORK_TIME = ModConfigs.t2CrusherWorkTimeInt;
 		
 	private static int capacity = ModConfigs.t2CrusherCapacityInt;
 	private static int receive = ModConfigs.t2CrusherReceiveInt;
@@ -93,11 +94,9 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
 			case 1:
 				return progress;
 			case 2:
-				return Math.max(energyStorage.getBaseCapacity(), energyStorage.getUpgradedCapacity());
+				return energyStorage.getCapacity();
 			case 3:
 				return upgradableWorkTime;
-			case 4:
-				energyStorage.getBaseCapacity();
 			default:
 				return 0;
 			}
@@ -120,9 +119,6 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
 			case 3:
 				upgradableWorkTime = value;
 				break;
-			case 4:
-				energyStorage.setBaseCapacity(value);
-				break;
 			default:
 				break;
 			}
@@ -131,7 +127,7 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
 		@Override
 		public int getCount() {
         	
-			return 5;
+			return 4;
 		}
 	};
 
@@ -146,10 +142,11 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -171,10 +168,11 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -198,10 +196,11 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -225,10 +224,11 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -248,18 +248,23 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
     		@Nonnull
     		public ItemStack extractItem(int slot, int amount, boolean simulate) {
     			 
-    			if(!(upgradeHandler.canExtractFromSlot(progress))) {
+    			if(stacks.get(slot).getItem().equals(ModItems.SPEED_UPGRADE.get()) || stacks.get(slot).getItem().equals(ModItems.EFFICIENCY_UPGRADE.get())) {
+        			
+    				if(upgradeHandler.canExtractFromSlot(progress) != true) {
     				 
-    				return ItemStack.EMPTY;
+    					return ItemStack.EMPTY;
+    				}
     			}
     			
-    			if(energyStorage.getEnergyStored() > energyStorage.getBaseCapacity()) {
+    			if(stacks.get(slot).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     				
-    				return ItemStack.EMPTY;
+    				if(energyStorage.canExtractFromSlot(energyStorage.getEnergyStored()) != true) {
     				
-    			} else
+    					return ItemStack.EMPTY;
+    				}
+    			}
     			 	
-    				return super.extractItem(slot, amount, simulate);
+    			return super.extractItem(slot, amount, simulate);
     		 }
 		};
     }
@@ -270,10 +275,11 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -293,18 +299,23 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
     		@Nonnull
     		public ItemStack extractItem(int slot, int amount, boolean simulate) {
     			 
-    			if(!(upgradeHandler.canExtractFromSlot(progress))) {
+    			if(stacks.get(slot).getItem().equals(ModItems.SPEED_UPGRADE.get()) || stacks.get(slot).getItem().equals(ModItems.EFFICIENCY_UPGRADE.get())) {
+        			
+    				if(upgradeHandler.canExtractFromSlot(progress) != true) {
     				 
-    				return ItemStack.EMPTY;
+    					return ItemStack.EMPTY;
+    				}
     			}
     			
-    			if(energyStorage.getEnergyStored() > energyStorage.getBaseCapacity()) {
+    			if(stacks.get(slot).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     				
-    				return ItemStack.EMPTY;
+    				if(energyStorage.canExtractFromSlot(energyStorage.getEnergyStored()) != true) {
     				
-    			} else
+    					return ItemStack.EMPTY;
+    				}
+    			}
     			 	
-    				return super.extractItem(slot, amount, simulate);
+    			return super.extractItem(slot, amount, simulate);
     		 }
 		};
     }
@@ -315,10 +326,11 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -335,8 +347,11 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
 
 			@Override
 			protected void onEnergyChanged() {
-
-				setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
 			}
 		};
 	}
@@ -347,10 +362,11 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
         	
             @Override
 			public void onUpgradeChanged() {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
         };
     }
@@ -363,33 +379,7 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
 			return;
 		}
 		
-		ItemStack upgradeStack = upgradeSlotHandler.getStackInSlot(0);
-    	
-        if(hasCapUpgrades() && energyStorage.getCapacity() != energyStorage.getUpgradedCapacity()) {
-        	
-        	if(upgradeStack.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-        		
-        		applyCapUpgrades(upgradeStack);
-        	}
-        }
-        
-        if(hasTransUpgrades() && energyStorage.getMaxReceive() != energyStorage.getUpgradedReceive()) {
-        	
-        	if(upgradeStack.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-        		
-        		applyTransUpgrades(upgradeStack);
-        	}
-        }
-        
-       if(!hasCapUpgrades() && energyStorage.getCapacity() != energyStorage.getBaseCapacity()) {
-        	
-        	energyStorage.setCapacity(energyStorage.getBaseCapacity());
-        }
-        
-        if(!hasTransUpgrades() && energyStorage.getMaxReceive() != energyStorage.getBaseReceive()) {
-        	
-        	energyStorage.setMaxReceive(energyStorage.getBaseReceive());
-        }
+		this.setUpgradeModifiers();
 
 		if(energyStorage.getMaxEnergyStored() > energyStorage.getEnergyStored()) {
 
@@ -402,11 +392,6 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
 
 				receivePower();
 		}
-		
-		if(progress == 0) {
-        	
-        	this.setUpgradeModifiers();
-        }
 
 		if(canCrush()) {
 
@@ -438,54 +423,38 @@ public class TileEntityT2Crusher extends TileEntity implements ITickableTileEnti
 		}
 	}
     
-    private boolean hasTransUpgrades() {
-    	
-    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-    		
-    		return true;
-    	}
-    	
-    	return false;
-    }
-    
-    public boolean hasCapUpgrades() {
-    	
-    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-    		
-    		return true;
-    	}
-    	
-    	return false;
-    }
-
-	private void applyCapUpgrades(ItemStack stack) {
-    		
-    	if(stack.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-    		
-    		energyStorage.applyCapacityUpgrades(stack.getCount());
-    	}
-    }
-    
-    private void applyTransUpgrades(ItemStack stack) {
-    		
-    	if(stack.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-    		
-    		energyStorage.applyTransferUpgrades(stack.getCount());
-    	}
-    }
-    
     private void setUpgradeModifiers() {
     	
     	if(upgrade.isPresent()) {
+    	
+    		if(progress == 0) {
     		
-    		upgradeHandler.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+    			upgradeHandler.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+        		
+        		upgradeHandler.oneUpgradeModifier(WORK_TIME, crushingEnergy, upgradeSlotHandler.getStackInSlot(0));
+        			
+        		upgradableWorkTime = upgradeHandler.getTotalProcessingTime();
+        		upgradableCrushingEnergy = upgradeHandler.getTotalEnergyUsed();
+    		}
+    	}
+    	
+    	if(energy.isPresent()) {
     		
-    		upgradeHandler.oneUpgradeModifier(WORK_TIME, crushingEnergy, upgradeSlotHandler.getStackInSlot(0));
-    			
-    		upgradableWorkTime = upgradeHandler.getTotalProcessingTime();
-    		upgradableCrushingEnergy = upgradeHandler.getTotalEnergyUsed();
+    		energyStorage.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+    		energyStorage.oneUpgradeModifier(capacity, receive, upgradeSlotHandler.getStackInSlot(0));
+    		
     	}
     }
+
+	public boolean canExtractCapacity() {
+		
+		if(energy.isPresent()) {
+			
+			return energyStorage.canExtractFromSlot(energyStorage.getEnergyStored());
+			
+		} else 
+			return false;
+	}
     
     private boolean canCrush() {
 

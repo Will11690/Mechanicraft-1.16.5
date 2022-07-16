@@ -19,6 +19,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -125,10 +126,11 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -152,10 +154,11 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -179,10 +182,11 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -206,10 +210,11 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -233,10 +238,11 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -254,10 +260,11 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@SuppressWarnings("deprecation")
@@ -282,10 +289,11 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 				
 			@SuppressWarnings("deprecation")

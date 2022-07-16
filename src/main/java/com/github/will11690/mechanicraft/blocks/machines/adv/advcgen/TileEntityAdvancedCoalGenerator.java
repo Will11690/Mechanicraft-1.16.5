@@ -24,6 +24,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -34,6 +35,7 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import com.github.will11690.mechanicraft.blocks.machines.basic.basiccgen.BasicCoalGenerator;
 import com.github.will11690.mechanicraft.energy.MechaniCraftEnergyStorage;
+import com.github.will11690.mechanicraft.init.ModConfigs;
 import com.github.will11690.mechanicraft.init.ModItems;
 import com.github.will11690.mechanicraft.util.capabilities.factory.UpgradeGeneratorHandlerFactory;
 import com.github.will11690.mechanicraft.util.capabilities.interfaces.IUpgradeGeneratorHandler;
@@ -49,31 +51,27 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     
     private ItemStackHandler fuelSlotHandler = createFuel();
     private ItemStackHandler fuelSlotHandlerWrapper = createFuelWrapper(fuelSlotHandler);
-    public ItemStackHandler upgradeSlotHandler = createUpgradeHandler();
+    ItemStackHandler upgradeSlotHandler = createUpgradeHandler();
     private ItemStackHandler upgradeSlotHandlerWrapper = createUpgradeWrapper(upgradeSlotHandler);
     private ItemStackHandler chargeSlotHandler = createCharge();
     
-    private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
-    private LazyOptional<IUpgradeGeneratorHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
-    private LazyOptional<IItemHandler> fuelSlot  = LazyOptional.of(() -> fuelSlotHandler);
-    private LazyOptional<IItemHandler> fuelSlotWrapper  = LazyOptional.of(() -> fuelSlotHandlerWrapper);
-    private LazyOptional<IItemHandler> chargeSlot  = LazyOptional.of(() -> chargeSlotHandler);
+    private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
+    private final LazyOptional<IUpgradeGeneratorHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
+    private final LazyOptional<IItemHandler> fuelSlot  = LazyOptional.of(() -> fuelSlotHandler);
+    private final LazyOptional<IItemHandler> fuelSlotWrapper  = LazyOptional.of(() -> fuelSlotHandlerWrapper);
+    private final LazyOptional<IItemHandler> chargeSlot  = LazyOptional.of(() -> chargeSlotHandler);
     
     private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, fuelSlotHandlerWrapper, upgradeSlotHandlerWrapper));
 	
 	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, fuelSlotHandler));
 	boolean breakBlock = false;
-
-    //TODO Create config for powergen, Capacity, and Transfer
     
-    //For Configs Later
-    private static final int capacity = 500000;
-    private static final int extract = 2500;
-    private int powerGenBase = 250;
+    private static int capacity = ModConfigs.advancedCoalGeneratorCapacityInt;
+    private static int extract = ModConfigs.advancedCoalGeneratorExtractInt;
+    private int powerGenBase = ModConfigs.advancedCoalGeneratorPowerGenInt;
     
     private int burnTime = 0;
     private int totalBurnTime = 0;
-    
     
     //For upgrade capability
     private int burnTimeBase = 0;
@@ -95,9 +93,7 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
                 case 2:
                 	return energyStorage.getEnergyStored();
                 case 3:
-                	return Math.max(energyStorage.getBaseCapacity(), energyStorage.getUpgradedCapacity());
-                case 4:
-                	return energyStorage.getBaseCapacity();
+                	return energyStorage.getCapacity();
                 default:
                     return 0;
                     
@@ -121,9 +117,6 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
                 case 3:
                 	energyStorage.setCapacity(value);
                     break;
-                case 4:
-                	energyStorage.setBaseCapacity(value);
-                    break;
                 default:
                 	break;
                     
@@ -133,7 +126,7 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
         @Override
         public int getCount() {
         	
-            return 5;
+            return 4;
             
         }
     };
@@ -150,9 +143,11 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
         	
             @Override
 			protected void onEnergyChanged() {
-
-                setChanged();
-                
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
         };
     }
@@ -163,10 +158,11 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@SuppressWarnings("deprecation")
@@ -197,10 +193,11 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@SuppressWarnings("deprecation")
@@ -230,10 +227,11 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -257,10 +255,11 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -281,21 +280,25 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     		@Override
     		@Nonnull
     		public ItemStack extractItem(int slot, int amount, boolean simulate) {
-    			 
-    			if(!(upgradeHandler.canExtractFromSlot(burnTime))) {
-    				 
-    				return ItemStack.EMPTY;
-    				 
+   			 
+    			if(stacks.get(slot).getItem().equals(ModItems.SPEED_UPGRADE.get()) || stacks.get(slot).getItem().equals(ModItems.EFFICIENCY_UPGRADE.get())) {
+       			
+    				if(upgradeHandler.canExtractFromSlot(burnTime) != true) {
+   				 
+    					return ItemStack.EMPTY;
+    				}
     			}
-    			
-    			if(energyStorage.getEnergyStored() > energyStorage.getBaseCapacity()) {
-    				
-    				return ItemStack.EMPTY;
-    				
-    			} else
-    			 	
-    				return super.extractItem(slot, amount, simulate);
-    		 }
+   			
+    			if(stacks.get(slot).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
+   				
+    				if(energyStorage.canExtractFromSlot(energyStorage.getEnergyStored()) != true) {
+   				
+    					return ItemStack.EMPTY;
+    				}
+    			}
+   			 	
+    			return super.extractItem(slot, amount, simulate);
+   		 	}
 		};
 		
     }
@@ -306,10 +309,11 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -331,19 +335,23 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     		@Nonnull
     		public ItemStack extractItem(int slot, int amount, boolean simulate) {
     			 
-    			if(!(upgradeHandler.canExtractFromSlot(burnTime))) {
+    			if(stacks.get(slot).getItem().equals(ModItems.SPEED_UPGRADE.get()) || stacks.get(slot).getItem().equals(ModItems.EFFICIENCY_UPGRADE.get())) {
+        			
+    				if(upgradeHandler.canExtractFromSlot(burnTime) != true) {
     				 
-    				return ItemStack.EMPTY;
-    				 
+    					return ItemStack.EMPTY;
+    				}
     			}
     			
-    			if(energyStorage.getEnergyStored() > energyStorage.getBaseCapacity()) {
+    			if(stacks.get(slot).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     				
-    				return ItemStack.EMPTY;
+    				if(energyStorage.canExtractFromSlot(energyStorage.getEnergyStored()) != true) {
     				
-    			} else
+    					return ItemStack.EMPTY;
+    				}
+    			}
     			 	
-    				return super.extractItem(slot, amount, simulate);
+    			return super.extractItem(slot, amount, simulate);
     		 }
 		};
     }
@@ -354,11 +362,11 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
         	
             @Override
 			public void onUpgradeChanged() {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
-                
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
         };
     }
@@ -373,54 +381,16 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
             
         }
         
+        this.setUpgradeModifiers();
+        
         ItemStack chargeStack = chargeSlotHandler.getStackInSlot(0);
     	ItemStack fuelStack = fuelSlotHandler.getStackInSlot(0);
-		
-        ItemStack upgradeStack1 = upgradeSlotHandler.getStackInSlot(0);
-        ItemStack upgradeStack2 = upgradeSlotHandler.getStackInSlot(1);
-    	
-        if(hasCapUpgrades() && energyStorage.getCapacity() != energyStorage.getUpgradedCapacity()) {
-        	
-        	if(upgradeStack1.getItem().equals(ModItems.CAPACITY_UPGRADE.get()) || upgradeStack2.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-        		
-        		applyCapUpgrades(upgradeStack1, upgradeStack2);
-        		
-        	}
-        }
-        
-        if(hasTransUpgrades() && (energyStorage.getMaxExtract() != energyStorage.getUpgradedExtract()) &&
-        						 (energyStorage.getMaxReceive() != energyStorage.getUpgradedReceive())) {
-        	
-        	if(upgradeStack1.getItem().equals(ModItems.TRANSFER_UPGRADE.get()) || upgradeStack2.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-        		
-        		applyTransUpgrades(upgradeStack1, upgradeStack2);
-        		
-        	}
-        }
-        
-       if(!hasCapUpgrades() && energyStorage.getCapacity() != energyStorage.getBaseCapacity()) {
-        	
-        	energyStorage.setCapacity(energyStorage.getBaseCapacity());
-        	
-        }
-        
-        if(!hasTransUpgrades() && energyStorage.getMaxExtract() != energyStorage.getBaseExtract()) {
-        	
-        	energyStorage.setMaxExtract(energyStorage.getBaseExtract());
-        	
-        }
     	
     	if(!(fuelStack.isEmpty()) && burnTimeBase == 0) {
     		
     		burnTimeBase = ForgeHooks.getBurnTime(fuelStack);
     		
         }
-    	
-    	if(burnTime == 0) {
-    		
-    		this.setUpgradeModifiers();
-    		
-    	}
         
         if(burnTime <= 0 && this.level.getBlockState(this.worldPosition).getValue(BasicCoalGenerator.LIT) == true) {
         	
@@ -487,108 +457,41 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     	}
     	
     }
-	
-	private boolean hasTransUpgrades() {
-    	
-    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.TRANSFER_UPGRADE.get()) || upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-    		
-    		return true;
-    	}
-    	
-    	return false;
-    }
-    
-    public boolean hasCapUpgrades() {
-    	
-    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) || upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-    		
-    		return true;
-    	}
-    	
-    	return false;
-    }
-
-	private void applyCapUpgrades(ItemStack stack1, ItemStack stack2) {
-		
-    	int capUpgradeCount = 0;
-    	int modify1;
-    	int modify2;
-			
-		if(stack1.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-		
-			modify1 = stack1.getCount();
-			
-		} else {
-				
-			modify1 = 0;
-				
-		}
-			
-		if(stack2.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-		
-			modify2 = stack2.getCount();
-				
-		} else {
-				
-			modify2 = 0;
-				
-		}
-			
-		capUpgradeCount = modify1 + modify2;
-		
-		if(capUpgradeCount > 0) {
-				
-			energyStorage.applyCapacityUpgrades(capUpgradeCount);
-			
-		} 
-    }
-    
-    private void applyTransUpgrades(ItemStack stack1, ItemStack stack2) {
-		
-    	int transUpgradeCount = 0;
-    	int modify1;
-    	int modify2;
-			
-		if(stack1.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-		
-			modify1 = stack1.getCount();
-			
-		} else {
-			
-			modify1 = 0;
-		}
-			
-		if(stack2.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-		
-			modify2 = stack2.getCount();
-			
-		} else {
-			
-			modify2 = 0;
-		}
-			
-		transUpgradeCount = modify1 + modify2;
-		
-		if(transUpgradeCount > 0) {
-			
-			energyStorage.applyTransferUpgrades(transUpgradeCount);
-		
-		}
-    }
     
     private void setUpgradeModifiers() {
     	
     	if(upgrade.isPresent()) {
+    	
+    		if(burnTime == 0) {
     		
-    		upgradeHandler.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
-    		upgradeHandler.setUpgrade2Stack(upgradeSlotHandler.getStackInSlot(1));
+    			upgradeHandler.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+        		upgradeHandler.setUpgrade2Stack(upgradeSlotHandler.getStackInSlot(1));
+        		
+        		upgradeHandler.twoUpgradeModifier(burnTimeBase, powerGenBase, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1));
+        			
+        		upgradableBurnTime = upgradeHandler.getTotalBurnTime();
+        		upgradablePowerGen = upgradeHandler.getTotalEnergyGen();
+    		}
+    	}
+    	
+    	if(energy.isPresent()) {
     		
-    		upgradeHandler.twoUpgradeModifier(burnTimeBase, powerGenBase, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1));
-    			
-    		upgradableBurnTime = upgradeHandler.getTotalBurnTime();
-    		upgradablePowerGen = upgradeHandler.getTotalEnergyGen();
+    		energyStorage.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+    		energyStorage.setUpgrade2Stack(upgradeSlotHandler.getStackInSlot(1));
+    		energyStorage.twoUpgradeModifier(capacity, extract, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1));
+    		
     	}
     }
+
+	public boolean canExtractCapacity() {
+		
+		if(energy.isPresent()) {
+			
+			return energyStorage.canExtractFromSlot(energyStorage.getEnergyStored());
+			
+		} else 
+			return false;
+	}
     
     private boolean canGenerate() {
     	

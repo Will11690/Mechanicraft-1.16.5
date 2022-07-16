@@ -33,6 +33,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -61,10 +62,10 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
 	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotHandler, outputSlotHandler));
 	boolean breakBlock = false;
 
-	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
+	private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 
-	private int crushingEnergy = 100/*PER TICK*/;
-	private static int WORK_TIME = 10 * 20;
+	private int crushingEnergy = ModConfigs.t1CrusherEnergyPerTickInt/*PER TICK*/;
+	private static int WORK_TIME = ModConfigs.t1CrusherWorkTimeInt;
 		
 	private static int capacity = ModConfigs.t1CrusherCapacityInt;
 	private static int receive = ModConfigs.t1CrusherReceiveInt;
@@ -83,11 +84,9 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
 			case 1:
 				return progress;
 			case 2:
-				return Math.max(energyStorage.getBaseCapacity(), energyStorage.getUpgradedCapacity());
+				return energyStorage.getCapacity();
 			case 3:
 				return WORK_TIME;
-			case 4:
-				energyStorage.getBaseCapacity();
 			default:
 				return 0;
 
@@ -111,9 +110,6 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
 			case 3:
 				WORK_TIME = value;
 				break;
-			case 4:
-				energyStorage.setBaseCapacity(value);
-				break;
 			default:
 				break;
 			}
@@ -122,7 +118,7 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
 		@Override
 		public int getCount() {
         	
-			return 5;
+			return 4;
             
 		}
 	};
@@ -139,10 +135,11 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -166,10 +163,11 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -193,10 +191,11 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -220,10 +219,11 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -241,9 +241,11 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
 
 			@Override
 			protected void onEnergyChanged() {
-
-				setChanged();
-
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
 			}
 		};
 	}
@@ -256,6 +258,8 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
 			return;
  
 		}
+		
+		this.updateEnergyStorage();
 
 		if(energyStorage.getMaxEnergyStored() > energyStorage.getEnergyStored()) {
 
@@ -299,6 +303,14 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
 
 			this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(T1Crusher.LIT, Boolean.valueOf(true)));
 
+		}
+	}
+
+	private void updateEnergyStorage() {
+		
+		if(energy.isPresent()) {
+				
+			energyStorage.updateEnergyStorageNoUpgrades(capacity, receive, 0);
 		}
 	}
 

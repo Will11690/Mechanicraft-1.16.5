@@ -95,7 +95,7 @@ public class BasicFluidTank extends Block {
 		Block neighborBlock = neighborState.getBlock();
 		TileEntity neighborEntity = world.getBlockEntity(neighborPos);
 		
-		if(neighborBlock.hasTileEntity(neighborState) && neighborEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing).isPresent()) {
+		if(neighborBlock.hasTileEntity(neighborState) && (neighborEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing).isPresent() || neighborEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent())) {
 			
 			return true;
 			

@@ -34,7 +34,7 @@ public class ContainerT3Crusher  extends Container {
 
     public ContainerT3Crusher(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-        this((TileEntityT3Crusher) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(5), id, playerInventory, new ItemStackHandler(5));
+        this((TileEntityT3Crusher) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(4), id, playerInventory, new ItemStackHandler(5));
         
     }
 
@@ -73,14 +73,14 @@ public class ContainerT3Crusher  extends Container {
     	@Override
         public boolean mayPickup(PlayerEntity playerIn) {
     		
-    		if(tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+    		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     			
     			return false;
     			
     		} else
     		
     		if((tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.SPEED_UPGRADE.get()) || tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.EFFICIENCY_UPGRADE.get())) 
-    				&& canExtractSpeedorEfficiency() != true) {
+    				&& canExtractSpeedorEfficiency() == false) {
     			
     			return false;
     			
@@ -151,27 +151,8 @@ public class ContainerT3Crusher  extends Container {
     }
     
     private boolean canExtractSpeedorEfficiency() {
-    	
-    	if(tile.upgradeHandler.canExtractFromSlot(this.fields.get(1)) == true) {
     		
-    		return true;
-    		
-    	}
-    	
-    	return false;
-    	
-    }
-    
-    private boolean canExtractCapacity() {
-    	
-    	if(this.fields.get(0) > this.fields.get(4)) {
-    		
-    		return false;
-    		
-    	} else
-    		
-    		return true;
-    	
+    	return tile.upgradeHandler.canExtractFromSlot(this.fields.get(1));
     }
 
     public int getProgress() {

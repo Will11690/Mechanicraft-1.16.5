@@ -34,7 +34,7 @@ public class ContainerT5Crusher  extends Container {
 
     public ContainerT5Crusher(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-        this((TileEntityT5Crusher) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(5), id, playerInventory, new ItemStackHandler(7));
+        this((TileEntityT5Crusher) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(4), id, playerInventory, new ItemStackHandler(7));
         
     }
 
@@ -73,7 +73,7 @@ public class ContainerT5Crusher  extends Container {
     	@Override
         public boolean mayPickup(PlayerEntity playerIn) {
     		
-    		if(tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+    		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     			
     			return false;
     			
@@ -95,7 +95,7 @@ public class ContainerT5Crusher  extends Container {
     	@Override
         public boolean mayPickup(PlayerEntity playerIn) {
     		
-    		if(tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+    		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     			
     			return false;
     			
@@ -117,7 +117,7 @@ public class ContainerT5Crusher  extends Container {
     	@Override
         public boolean mayPickup(PlayerEntity playerIn) {
     		
-    		if(tile.upgradeSlotHandler.getStackInSlot(2).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+    		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(2).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     			
     			return false;
     			
@@ -196,26 +196,7 @@ public class ContainerT5Crusher  extends Container {
     
     private boolean canExtractSpeedorEfficiency() {
     	
-    	if(tile.upgradeHandler.canExtractFromSlot(this.fields.get(1)) == true) {
-    		
-    		return true;
-    		
-    	}
-    	
-    	return false;
-    	
-    }
-    
-    private boolean canExtractCapacity() {
-    	
-    	if(this.fields.get(0) > this.fields.get(4)) {
-    		
-    		return false;
-    		
-    	} else
-    		
-    		return true;
-    	
+    	return tile.upgradeHandler.canExtractFromSlot(this.fields.get(1));
     }
 
     public int getProgress() {

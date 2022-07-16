@@ -31,7 +31,7 @@ public class ContainerT4MetallicInfuser extends Container {
 
     public ContainerT4MetallicInfuser(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-    	this((TileEntityT4MetallicInfuser) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(5), id, playerInventory, new ItemStackHandler(6));
+    	this((TileEntityT4MetallicInfuser) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(4), id, playerInventory, new ItemStackHandler(6));
     	
     }
     
@@ -50,7 +50,7 @@ public class ContainerT4MetallicInfuser extends Container {
     	@Override
         public boolean mayPickup(PlayerEntity playerIn) {
     		
-    		if(tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+    		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     			
     			return false;
     			
@@ -72,7 +72,7 @@ public class ContainerT4MetallicInfuser extends Container {
     	@Override
         public boolean mayPickup(PlayerEntity playerIn) {
     		
-    		if(tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+    		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     			
     			return false;
     			
@@ -174,26 +174,7 @@ public class ContainerT4MetallicInfuser extends Container {
     
     private boolean canExtractSpeedorEfficiency() {
     	
-    	if(tile.upgradeHandler.canExtractFromSlot(this.fields.get(1)) == true) {
-    		
-    		return true;
-    		
-    	}
-    	
-    	return false;
-    	
-    }
-    
-    private boolean canExtractCapacity() {
-    	
-    	if(this.fields.get(0) > this.fields.get(4)) {
-    		
-    		return false;
-    		
-    	} else
-    		
-    		return true;
-    	
+    	return tile.upgradeHandler.canExtractFromSlot(this.fields.get(1));
     }
 
     public int getProgress() {

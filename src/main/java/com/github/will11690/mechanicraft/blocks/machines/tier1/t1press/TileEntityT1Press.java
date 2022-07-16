@@ -33,6 +33,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -61,10 +62,10 @@ public class TileEntityT1Press extends TileEntity implements ITickableTileEntity
 	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotHandler, outputSlotHandler));
 	boolean breakBlock = false;
 
-	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
+	private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 
-	private int pressingEnergy = 100/*PER TICK*/;
-	private static int WORK_TIME = 10 * 20;
+	private int pressingEnergy = ModConfigs.t1PressEnergyPerTickInt/*PER TICK*/;
+	private static int WORK_TIME = ModConfigs.t1PressWorkTimeInt;
 		
 	private static int capacity = ModConfigs.t1PressCapacityInt;
 	private static int receive = ModConfigs.t1PressReceiveInt;
@@ -139,10 +140,11 @@ public class TileEntityT1Press extends TileEntity implements ITickableTileEntity
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -166,10 +168,11 @@ public class TileEntityT1Press extends TileEntity implements ITickableTileEntity
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -241,10 +244,11 @@ public class TileEntityT1Press extends TileEntity implements ITickableTileEntity
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -316,10 +320,11 @@ public class TileEntityT1Press extends TileEntity implements ITickableTileEntity
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -337,9 +342,11 @@ public class TileEntityT1Press extends TileEntity implements ITickableTileEntity
 
 			@Override
 			protected void onEnergyChanged() {
-
-				setChanged();
-
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
 			}
 		};
 	}
@@ -352,6 +359,13 @@ public class TileEntityT1Press extends TileEntity implements ITickableTileEntity
 			return;
  
 		}
+		
+		this.updateEnergyStorage();
+		
+		if(energyStorage.getBaseCapacity() <= 0 || energyStorage.getBaseReceive() <= 0) {
+			
+			energyStorage.updateEnergyStorageNoUpgrades(capacity, receive, 0);
+		}
 
 		if(energyStorage.getMaxEnergyStored() > energyStorage.getEnergyStored()) {
 
@@ -359,18 +373,14 @@ public class TileEntityT1Press extends TileEntity implements ITickableTileEntity
 
 				receivePowerItem(chargeSlotHandler.getStackInSlot(0));
 
-			}
-
-			else
+			} else
 
 				receivePower();
-
 		}
 
 		if(canPress()) {
 
 			startPressing();
-
 		}
         
 		if(!canPress() && (inputSlotHandler.getStackInSlot(0).isEmpty() || inputSlotHandler.getStackInSlot(1).isEmpty() || inputSlotHandler.getStackInSlot(2).isEmpty() ||
@@ -378,25 +388,29 @@ public class TileEntityT1Press extends TileEntity implements ITickableTileEntity
 				inputSlotHandler.getStackInSlot(6).isEmpty() || inputSlotHandler.getStackInSlot(7).isEmpty() || inputSlotHandler.getStackInSlot(8).isEmpty()) && progress > 0) {
 
 			progress = 0;
-
 		}
 
 		if(!canPress() && progress > 0) {
 
 			progress -= 2;
-
 		}
 
 		if(!canPress() && this.level.getBlockState(this.worldPosition).getValue(T1Press.LIT) == true) {
 
 			this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(T1Press.LIT, Boolean.valueOf(false)));
-
 		}
 
 		if(canPress() && this.level.getBlockState(this.worldPosition).getValue(T1Press.LIT) == false) {
 
 			this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(T1Press.LIT, Boolean.valueOf(true)));
+		}
+	}
 
+	private void updateEnergyStorage() {
+		
+		if(energy.isPresent()) {
+				
+			energyStorage.updateEnergyStorageNoUpgrades(capacity, receive, 0);
 		}
 	}
 

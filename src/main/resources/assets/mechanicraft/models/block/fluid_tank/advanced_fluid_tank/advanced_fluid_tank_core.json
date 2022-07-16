@@ -5,7 +5,7 @@
 		"3": "mechanicraft:models/fluid_tank/advanced_fluid_tank/tank_cap_1",
 		"4": "mechanicraft:models/fluid_tank/advanced_fluid_tank/tank_cap_2",
 		"5": "mechanicraft:models/fluid_tank/advanced_fluid_tank/tank_wall_interior",
-		"particle": "mechanicraft:models/advanced_fluid_tank/tank_walls"
+		"particle": "mechanicraft:models/fluid_tank/advanced_fluid_tank/tank_walls"
 	},
 	"elements": [
 		{

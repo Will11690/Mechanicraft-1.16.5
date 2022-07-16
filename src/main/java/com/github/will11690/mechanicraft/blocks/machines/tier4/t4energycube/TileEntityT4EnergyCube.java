@@ -28,6 +28,7 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -38,14 +39,14 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 public class TileEntityT4EnergyCube extends TileEntity implements ITickableTileEntity, INamedContainerProvider {
 	
-	public ItemStackHandler upgradeSlotHandler = createUpgrade();
+	ItemStackHandler upgradeSlotHandler = createUpgrade();
     private ItemStackHandler upgradeSlotHandlerWrapper = createUpgradeWrapper(upgradeSlotHandler);
     private ItemStackHandler chargeSlotsHandler = createCharge();
     private MechaniCraftEnergyStorage energyStorage = createEnergy();
     
-    private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
-    public LazyOptional<IItemHandler> chargeSlots  = LazyOptional.of(() -> chargeSlotsHandler);
-    private LazyOptional<IItemHandler> upgradeSlotWrapper  = LazyOptional.of(() -> upgradeSlotHandlerWrapper);
+    private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
+    private final LazyOptional<IItemHandler> chargeSlots  = LazyOptional.of(() -> chargeSlotsHandler);
+    private final LazyOptional<IItemHandler> upgradeSlotWrapper  = LazyOptional.of(() -> upgradeSlotHandlerWrapper);
     
     private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotsHandler, upgradeSlotHandlerWrapper));
 	
@@ -66,8 +67,6 @@ public class TileEntityT4EnergyCube extends TileEntity implements ITickableTileE
                 	return energyStorage.getEnergyStored();
                 case 1:
                 	return energyStorage.getCapacity();
-                case 2:
-                	return energyStorage.getBaseCapacity();
                 default:
                     return 0;
                     
@@ -84,9 +83,6 @@ public class TileEntityT4EnergyCube extends TileEntity implements ITickableTileE
                     break;
                 case 1:
                 	energyStorage.setCapacity(value);
-                    break;
-                case 2:
-                	energyStorage.setBaseCapacity(value);
                     break;
                 default:
                 	break;
@@ -108,8 +104,11 @@ public class TileEntityT4EnergyCube extends TileEntity implements ITickableTileE
         	
             @Override
             protected void onEnergyChanged() {
-            	
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
         };
     }
@@ -120,10 +119,11 @@ public class TileEntityT4EnergyCube extends TileEntity implements ITickableTileE
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -147,10 +147,11 @@ public class TileEntityT4EnergyCube extends TileEntity implements ITickableTileE
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -172,13 +173,15 @@ public class TileEntityT4EnergyCube extends TileEntity implements ITickableTileE
     		@Nonnull
     		public ItemStack extractItem(int slot, int amount, boolean simulate) {
     			
-    			if(energyStorage.getEnergyStored() > energyStorage.getBaseCapacity()) {
+    			if(stacks.get(slot).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     				
-    				return ItemStack.EMPTY;
+    				if(energyStorage.canExtractFromSlot(energyStorage.getEnergyStored()) != true) {
     				
-    			} else
+    					return ItemStack.EMPTY;
+    				}
+    			}
     			 	
-    				return super.extractItem(slot, amount, simulate);
+    			return super.extractItem(slot, amount, simulate);
     		 }
 		};
 		
@@ -190,10 +193,11 @@ public class TileEntityT4EnergyCube extends TileEntity implements ITickableTileE
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -215,13 +219,15 @@ public class TileEntityT4EnergyCube extends TileEntity implements ITickableTileE
     		@Nonnull
     		public ItemStack extractItem(int slot, int amount, boolean simulate) {
     			
-    			if(energyStorage.getEnergyStored() > energyStorage.getBaseCapacity()) {
+    			if(stacks.get(slot).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     				
-    				return ItemStack.EMPTY;
+    				if(energyStorage.canExtractFromSlot(energyStorage.getEnergyStored()) != true) {
     				
-    			} else
+    					return ItemStack.EMPTY;
+    				}
+    			}
     			 	
-    				return super.extractItem(slot, amount, simulate);
+    			return super.extractItem(slot, amount, simulate);
     		 }
 		};
     }
@@ -240,6 +246,8 @@ public class TileEntityT4EnergyCube extends TileEntity implements ITickableTileE
             return;
             
         }
+        
+        this.setUpgradeModifiers();
         	
         ItemStack chargeStack1 = chargeSlotsHandler.getStackInSlot(0);
         ItemStack chargeStack2 = chargeSlotsHandler.getStackInSlot(1);
@@ -249,41 +257,6 @@ public class TileEntityT4EnergyCube extends TileEntity implements ITickableTileE
         ItemStack chargeStack6 = chargeSlotsHandler.getStackInSlot(5);
         ItemStack chargeStack7 = chargeSlotsHandler.getStackInSlot(6);
         ItemStack chargeStack8 = chargeSlotsHandler.getStackInSlot(7);
-        ItemStack upgradeStack1 = upgradeSlotHandler.getStackInSlot(0);
-        ItemStack upgradeStack2 = upgradeSlotHandler.getStackInSlot(1);
-    	
-        if(hasCapUpgrades() && energyStorage.getCapacity() != energyStorage.getUpgradedCapacity()) {
-        	
-        	if(upgradeStack1.getItem().equals(ModItems.CAPACITY_UPGRADE.get()) || upgradeStack2.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-        		
-        		applyCapUpgrades(upgradeStack1, upgradeStack2);
-        		
-        	}
-        }
-        
-        if(hasTransUpgrades() && (energyStorage.getMaxExtract() != energyStorage.getUpgradedExtract()) &&
-        						 (energyStorage.getMaxReceive() != energyStorage.getUpgradedReceive())) {
-        	
-        	if(upgradeStack1.getItem().equals(ModItems.TRANSFER_UPGRADE.get()) || upgradeStack2.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-        		
-        		applyTransUpgrades(upgradeStack1, upgradeStack2);
-        		
-        	}
-        }
-        
-        if(!hasCapUpgrades() && energyStorage.getCapacity() != energyStorage.getBaseCapacity()) {
-        	
-        	energyStorage.setCapacity(energyStorage.getBaseCapacity());
-        	
-        }
-        
-        if(!hasTransUpgrades() && (energyStorage.getMaxExtract() != energyStorage.getBaseExtract()) &&
-        						  (energyStorage.getMaxReceive() != energyStorage.getBaseReceive())) {
-        	
-        	energyStorage.setMaxExtract(energyStorage.getBaseExtract());
-        	energyStorage.setMaxReceive(energyStorage.getBaseReceive());
-        	
-        }
         
         if(energyStorage.getEnergyStored() < energyStorage.getCapacity()) {
         		
@@ -343,94 +316,27 @@ public class TileEntityT4EnergyCube extends TileEntity implements ITickableTileE
         }
         
     }
-	
-	private boolean hasTransUpgrades() {
-    	
-    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.TRANSFER_UPGRADE.get()) || upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-    		
-    		return true;
-    	}
-    	
-    	return false;
-    }
     
-    public boolean hasCapUpgrades() {
+    private void setUpgradeModifiers() {
     	
-    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) || upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
+    	if(energy.isPresent()) {
     		
-    		return true;
+    		energyStorage.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+    		energyStorage.setUpgrade2Stack(upgradeSlotHandler.getStackInSlot(1));
+    		energyStorage.twoUpgradeModifier(capacity, transfer, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1));
+    		
     	}
-    	
-    	return false;
     }
 
-	private void applyCapUpgrades(ItemStack stack1, ItemStack stack2) {
+	public boolean canExtractCapacity() {
 		
-    	int capUpgradeCount = 0;
-    	int modify1;
-    	int modify2;
+		if(energy.isPresent()) {
 			
-		if(stack1.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-		
-			modify1 = stack1.getCount();
+			return energyStorage.canExtractFromSlot(energyStorage.getEnergyStored());
 			
-		} else {
-				
-			modify1 = 0;
-				
-		}
-			
-		if(stack2.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-		
-			modify2 = stack2.getCount();
-				
-		} else {
-				
-			modify2 = 0;
-				
-		}
-			
-		capUpgradeCount = modify1 + modify2;
-		
-		if(capUpgradeCount > 0) {
-				
-			energyStorage.applyCapacityUpgrades(capUpgradeCount);
-			
-		} 
-    }
-    
-    private void applyTransUpgrades(ItemStack stack1, ItemStack stack2) {
-		
-    	int transUpgradeCount = 0;
-    	int modify1;
-    	int modify2;
-			
-		if(stack1.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-		
-			modify1 = stack1.getCount();
-			
-		} else {
-			
-			modify1 = 0;
-		}
-			
-		if(stack2.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-		
-			modify2 = stack2.getCount();
-			
-		} else {
-			
-			modify2 = 0;
-		}
-			
-		transUpgradeCount = modify1 + modify2;
-		
-		if(transUpgradeCount > 0) {
-			
-			energyStorage.applyTransferUpgrades(transUpgradeCount);
-		
-		}
-    }
+		} else 
+			return false;
+	}
 	
 	private void receivePower() {
 		

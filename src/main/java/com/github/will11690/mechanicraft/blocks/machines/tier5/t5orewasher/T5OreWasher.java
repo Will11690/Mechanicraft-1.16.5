@@ -1,5 +1,7 @@
 package com.github.will11690.mechanicraft.blocks.machines.tier5.t5orewasher;
 
+import java.util.Optional;
+
 import javax.annotation.Nullable;
 
 import com.github.will11690.mechanicraft.util.handlers.TileEntityHandler;
@@ -12,6 +14,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
@@ -27,7 +30,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidActionResult;
+import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -58,23 +68,175 @@ public class T5OreWasher extends Block {
         return TileEntityHandler.TILE_ENTITY_T5_ORE_WASHER.get().create();
         
     }
+    
+    @Nullable
+    private Direction tankToInteractWith(Direction facing, World world, PlayerEntity player, Hand hand) {
+        	
+    	ItemStack heldItem = player.getItemInHand(hand);
+    	
+    	if(heldItem.getItem() instanceof BucketItem || heldItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()) {
+    	
+    		Optional<FluidStack> fluid = FluidUtil.getFluidContained(heldItem);
+    		
+    		if(fluid.isPresent()) {
+    			
+    			FluidStack fluidStack = fluid.get();
+    		
+    			if(facing == Direction.NORTH) {
+        		
+    				if(TileEntityT5OreWasher.isRecipeInputFluid(world, fluidStack.getFluid())) {
+        			
+    					return Direction.DOWN;
+        			
+    				} else if(fluidStack.isEmpty()) {
+    					
+    					return facing.getOpposite();
+    					
+    				} else
+        				
+        			return null;
+        		}
+        
+    			if(facing == Direction.SOUTH) {
+        		
+    				if(TileEntityT5OreWasher.isRecipeInputFluid(world, fluidStack.getFluid())) {
+        			
+    					return Direction.DOWN;
+        			
+    				}else if(fluidStack.isEmpty()) {
+    					
+    					return facing.getOpposite();
+    					
+    				} else
+        				
+    					return null;
+        		
+    			}
+        
+    			if(facing == Direction.EAST) {
+        		
+    				if(TileEntityT5OreWasher.isRecipeInputFluid(world, fluidStack.getFluid())) {
+        			
+    					return Direction.DOWN;
+        			
+    				} else if(fluidStack.isEmpty()) {
+    					
+    					return facing.getOpposite();
+    					
+    				} else
+        				
+    					return null;
+    			}
+        
+    			if(facing == Direction.WEST) {
+        		
+    				if(TileEntityT5OreWasher.isRecipeInputFluid(world, fluidStack.getFluid())) {
+        			
+    					return Direction.DOWN;
+        			
+    				} else if(fluidStack.isEmpty()) {
+    					
+    					return facing.getOpposite();
+    					
+    				} else
+        				
+    					return null;
+        		}
+    			
+    		} else if(!fluid.isPresent()) {
+    			
+    			if(facing == Direction.NORTH) {
+    				
+    				return facing.getOpposite();
+    			}
+    			
+    			if(facing == Direction.SOUTH) {
+    				
+    				return facing.getOpposite();
+    			}
+    			
+    			if(facing == Direction.EAST) {
+    				
+    				return facing.getOpposite();
+    			}
+    			
+    			if(facing == Direction.WEST) {
+    				
+    				return facing.getOpposite();
+    			}
+    		}
+    	}
+		return null;
+    }
 
     @Override
     public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTrace) {
     	
-        if (world.isClientSide) {
+        if(world.isClientSide) {
         	
             return ActionResultType.SUCCESS;
-            
         }
         
+        ItemStack heldItem = player.getItemInHand(hand);
         TileEntity te = world.getBlockEntity(pos);
-        if (!(te instanceof TileEntityT5OreWasher))
-            return ActionResultType.FAIL;
 
-        NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) te, pos);
-        return ActionResultType.SUCCESS;
+        LazyOptional<IFluidHandler> fluidHandlerCapStack = heldItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
         
+        if (!(te instanceof TileEntityT5OreWasher)) {
+        	
+            return ActionResultType.FAIL;
+        }
+        
+        if((!fluidHandlerCapStack.isPresent() && !(heldItem.getItem() instanceof BucketItem)) || player.isShiftKeyDown()) {
+        	
+			te.getLevel().sendBlockUpdated(pos, state, state, Constants.BlockFlags.DEFAULT);
+        	NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) te, pos);
+        	return ActionResultType.SUCCESS;
+        }
+        
+        LazyOptional<IFluidHandler> fluidHandlerCap = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, tankToInteractWith(world.getBlockState(pos).getValue(FACING), world, player, hand));
+        
+        if(fluidHandlerCap.isPresent() && !player.isShiftKeyDown()) {
+        	
+        	IFluidHandler fluidHandler = fluidHandlerCap.orElseThrow(IllegalStateException::new);
+        
+        	if(heldItem.getItem() instanceof BucketItem && tankToInteractWith(world.getBlockState(pos).getValue(FACING), world, player, hand) != world.getBlockState(pos).getValue(FACING).getOpposite()) {
+        		
+        		return (FluidUtil.interactWithFluidHandler(player, hand, fluidHandler)) ? ActionResultType.SUCCESS : ActionResultType.FAIL;
+        	
+        	} else if(heldItem.getItem() instanceof BucketItem && tankToInteractWith(world.getBlockState(pos).getValue(FACING), world, player, hand) == world.getBlockState(pos).getValue(FACING).getOpposite()) {
+        		    		
+        		FluidActionResult canFill = FluidUtil.tryFillContainer(heldItem, fluidHandler, FluidAttributes.BUCKET_VOLUME, player, false);
+        		
+        		if(canFill.isSuccess()) {
+        			
+        			FluidUtil.interactWithFluidHandler(player, hand, fluidHandler);
+        			return ActionResultType.SUCCESS;
+        			
+        		} else
+        		
+        		return ActionResultType.FAIL;
+        		
+        	} else if(fluidHandlerCapStack.isPresent() && !(heldItem.getItem() instanceof BucketItem) && tankToInteractWith(world.getBlockState(pos).getValue(FACING), world, player, hand) != world.getBlockState(pos).getValue(FACING).getOpposite()) {
+        	
+        		return (FluidUtil.interactWithFluidHandler(player, hand, fluidHandler)) ? ActionResultType.SUCCESS : ActionResultType.FAIL;
+        	
+        	} else if(fluidHandlerCapStack.isPresent() && !(heldItem.getItem() instanceof BucketItem) && tankToInteractWith(world.getBlockState(pos).getValue(FACING), world, player, hand) == world.getBlockState(pos).getValue(FACING).getOpposite()) {
+        		
+        		FluidActionResult canFill = FluidUtil.tryFillContainer(heldItem, fluidHandler, 250, player, false);
+        		
+        		if(canFill.isSuccess()) {
+        			
+        			FluidUtil.interactWithFluidHandler(player, hand, fluidHandler);
+        			return ActionResultType.SUCCESS;
+        			
+        		} else
+        		
+        		return ActionResultType.FAIL;
+        		
+        	}
+        }
+		return ActionResultType.FAIL;
     }
 
     @Nullable

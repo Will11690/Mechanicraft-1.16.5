@@ -11,7 +11,6 @@ import net.minecraftforge.common.capabilities.Capability;
 
 public class UpgradeMachineHandlerStorage implements Capability.IStorage<IUpgradeMachineHandler> {
 
-    // THIS MAY NEED TO BE IPlayerData, we'll see
     @Nullable
     @Override
     public INBT writeNBT(Capability<IUpgradeMachineHandler> capability, IUpgradeMachineHandler instance, Direction side) {

@@ -1,5 +1,6 @@
 package com.github.will11690.mechanicraft.items.armor;
 
+import com.github.will11690.mechanicraft.init.ModConfigs;
 import com.github.will11690.mechanicraft.init.ModItems;
 
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -21,20 +22,19 @@ public class RArmorBase extends ArmorItem {
     @Override
     public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
     	
-        if(player.getItemBySlot(EquipmentSlotType.HEAD).getItem() == ModItems.RUBONIUM_HELMET.get() &&
+        if(ModConfigs.armorEffectsBool == true && player.getItemBySlot(EquipmentSlotType.HEAD).getItem() == ModItems.RUBONIUM_HELMET.get() &&
            player.getItemBySlot(EquipmentSlotType.CHEST).getItem() == ModItems.RUBONIUM_CHESTPLATE.get() &&
            player.getItemBySlot(EquipmentSlotType.LEGS).getItem() == ModItems.RUBONIUM_LEGGINGS.get() &&
            player.getItemBySlot(EquipmentSlotType.FEET).getItem() == ModItems.RUBONIUM_BOOTS.get()) {
         	
-        	if(player.getAttribute(Attributes.MAX_HEALTH).getValue() < 30.0D) {
+        	if(ModConfigs.ruboniumArmorHealthEffectBool == true && player.getAttribute(Attributes.MAX_HEALTH).getValue() < 30.0D) {
         		
         		player.getAttribute(Attributes.MAX_HEALTH).addTransientModifier(new AttributeModifier("MaxHealth", 10.0D, AttributeModifier.Operation.ADDITION));
         	}
-        }
-        
-        else {
         	
-        	if(player.getAttribute(Attributes.MAX_HEALTH).getValue() > 20.0D) {
+        } else {
+        	
+        	if(ModConfigs.ruboniumArmorHealthEffectBool == true && player.getAttribute(Attributes.MAX_HEALTH).getValue() > 20.0D) {
         		
         		player.getAttribute(Attributes.MAX_HEALTH).addTransientModifier(new AttributeModifier("MaxHealth", -20.0D, AttributeModifier.Operation.ADDITION));
         	}

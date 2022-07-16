@@ -63,12 +63,12 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
 	private ItemStackHandler inputSlotHandler = createInput();
 	private ItemStackHandler inputSlotWrapperHandler = createInputWrapper(inputSlotHandler);
 	
-	public ItemStackHandler upgradeSlotHandler = createUpgrade();
+	ItemStackHandler upgradeSlotHandler = createUpgrade();
     private ItemStackHandler upgradeSlotHandlerWrapper = createUpgradeWrapper(upgradeSlotHandler);
     
 	private ItemStackHandler chargeSlotHandler = createCharge();
 	private final LazyOptional<IItemHandler> inputSlotWrapper  = LazyOptional.of(() -> inputSlotWrapperHandler);
-	private LazyOptional<IItemHandler> upgradeSlotWrapper  = LazyOptional.of(() -> upgradeSlotHandlerWrapper);
+	private final LazyOptional<IItemHandler> upgradeSlotWrapper  = LazyOptional.of(() -> upgradeSlotHandlerWrapper);
 	private final LazyOptional<IItemHandler> chargeSlot  = LazyOptional.of(() -> chargeSlotHandler);
 	
 	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(upgradeSlotHandlerWrapper, chargeSlotHandler, inputSlotWrapperHandler));
@@ -76,11 +76,11 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
 	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotHandler));
 	boolean breakBlock = false;
 	
-	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
-	private LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
+	private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
+	private final LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
 
-	private int washingEnergy = 120/*PER TICK*/;
-	private int WORK_TIME = 10 * 18;
+	private int washingEnergy = ModConfigs.t2OreWasherEnergyPerTickInt/*PER TICK*/;
+	private int WORK_TIME = ModConfigs.t2OreWasherWorkTimeInt;
 		
 	private static int capacity = ModConfigs.t2OreWasherEnergyCapacityInt;
 	private static int receive = ModConfigs.t2OreWasherReceiveInt;
@@ -102,18 +102,16 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
                 case 1:
                 	return progress;
                 case 2:
-                	return Math.max(energyStorage.getBaseCapacity(), energyStorage.getUpgradedCapacity());
+                	return energyStorage.getCapacity();
     			case 3:
     				return upgradableWorkTime;
     			case 4:
-    				energyStorage.getBaseCapacity();
-    			case 5:
     				return inputFluidTank.getCapacity();
-    			case 6:
+    			case 5:
     				return inputFluidTank.getFluidInTank(0).getAmount();
-    			case 7:
+    			case 6:
     				return outputFluidTank.getCapacity();
-    			case 8:
+    			case 7:
     				return outputFluidTank.getFluidInTank(0).getAmount();
                 default:
                     return 0;
@@ -138,9 +136,6 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
             	case 3:
             		upgradableWorkTime = value;
             		break;
-            	case 4:
-            		energyStorage.setBaseCapacity(value);
-            		break;
             	default:
             		break;
                     
@@ -150,7 +145,7 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
         @Override
         public int getCount() {
         	
-            return 9;
+            return 8;
             
         }
     };
@@ -167,8 +162,11 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
 			
 			@Override
             protected void onContentsChanged() {
-				
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 			
 			@Override
@@ -192,8 +190,11 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
 			
 			@Override
             protected void onContentsChanged() {
-				
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 			
 			@Override
@@ -217,9 +218,11 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
     		
     		@Override
             protected void onContentsChanged(int slot) {
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -243,9 +246,11 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
     		
     		@Override
             protected void onContentsChanged(int slot) {
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -269,9 +274,11 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
     		
     		@Override
             protected void onContentsChanged(int slot) {
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -295,9 +302,11 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
     		
     		@Override
             protected void onContentsChanged(int slot) {
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -319,19 +328,23 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
     		@Nonnull
     		public ItemStack extractItem(int slot, int amount, boolean simulate) {
     			 
-    			if(!(upgradeHandler.canExtractFromSlot(progress))) {
+    			if(stacks.get(slot).getItem().equals(ModItems.SPEED_UPGRADE.get()) || stacks.get(slot).getItem().equals(ModItems.EFFICIENCY_UPGRADE.get())) {
+        			
+    				if(upgradeHandler.canExtractFromSlot(progress) != true) {
     				 
-    				return ItemStack.EMPTY;
-    				 
+    					return ItemStack.EMPTY;
+    				}
     			}
     			
-    			if(energyStorage.getEnergyStored() > energyStorage.getBaseCapacity()) {
+    			if(stacks.get(slot).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     				
-    				return ItemStack.EMPTY;
+    				if(energyStorage.canExtractFromSlot(energyStorage.getEnergyStored()) != true) {
     				
-    			} else
+    					return ItemStack.EMPTY;
+    				}
+    			}
     			 	
-    				return super.extractItem(slot, amount, simulate);
+    			return super.extractItem(slot, amount, simulate);
     		 }
 		};
 		
@@ -343,9 +356,11 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
     		
     		@Override
             protected void onContentsChanged(int slot) {
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -367,19 +382,23 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
     		@Nonnull
     		public ItemStack extractItem(int slot, int amount, boolean simulate) {
     			 
-    			if(!(upgradeHandler.canExtractFromSlot(progress))) {
+    			if(stacks.get(slot).getItem().equals(ModItems.SPEED_UPGRADE.get()) || stacks.get(slot).getItem().equals(ModItems.EFFICIENCY_UPGRADE.get())) {
+        			
+    				if(upgradeHandler.canExtractFromSlot(progress) != true) {
     				 
-    				return ItemStack.EMPTY;
-    				 
+    					return ItemStack.EMPTY;
+    				}
     			}
     			
-    			if(energyStorage.getEnergyStored() > energyStorage.getBaseCapacity()) {
+    			if(stacks.get(slot).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     				
-    				return ItemStack.EMPTY;
+    				if(energyStorage.canExtractFromSlot(energyStorage.getEnergyStored()) != true) {
     				
-    			} else
+    					return ItemStack.EMPTY;
+    				}
+    			}
     			 	
-    				return super.extractItem(slot, amount, simulate);
+    			return super.extractItem(slot, amount, simulate);
     		 }
 		};
     }
@@ -390,8 +409,11 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
 
 			@Override
 			protected void onEnergyChanged() {
-				
-				setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
 			}
 		};
 	}
@@ -402,9 +424,11 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
         	
             @Override
 			public void onUpgradeChanged() {
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
                 
             }
         };
@@ -418,39 +442,8 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
             return;
             
         }
-		
-		ItemStack upgradeStack = upgradeSlotHandler.getStackInSlot(0);
-		
-        if(hasCapUpgrades() && energyStorage.getCapacity() != energyStorage.getUpgradedCapacity() &&
-           inputFluidTank.getCapacity() != inputFluidTank.getUpgradedCapacity() && outputFluidTank.getCapacity() != outputFluidTank.getUpgradedCapacity()) {
-        	
-        	if(upgradeStack.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-        		
-        		applyCapUpgrades(upgradeStack);
-        		
-        	}
-        }
-        
-        if(hasTransUpgrades() && energyStorage.getMaxReceive() != energyStorage.getUpgradedReceive()) {
-        	
-        	if(upgradeStack.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-        		
-        		applyTransUpgrades(upgradeStack);
-        		
-        	}
-        }
-        
-       if(!hasCapUpgrades() && energyStorage.getCapacity() != energyStorage.getBaseCapacity()) {
-        	
-        	energyStorage.setCapacity(energyStorage.getBaseCapacity());
-        	
-        }
-        
-        if(!hasTransUpgrades() && energyStorage.getMaxReceive() != energyStorage.getBaseReceive()) {
-        	
-        	energyStorage.setMaxReceive(energyStorage.getBaseReceive());
-        	
-        }
+    	
+        this.setUpgradeModifiers();
 
 		if(energyStorage.getMaxEnergyStored() > energyStorage.getEnergyStored()) {
 
@@ -465,12 +458,6 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
 				receivePower();
 
 		}
-		
-		if(progress == 0) {
-        	
-        	this.setUpgradeModifiers();
-        	
-        }
 		
     	if(canCraft()) {
     			
@@ -502,62 +489,38 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
         }
     }
     
-    private boolean hasTransUpgrades() {
-    	
-    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-    		
-    		return true;
-    		
-    	}
-    	
-    	return false;
-    	
-    }
-    
-    public boolean hasCapUpgrades() {
-    	
-    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-    		
-    		return true;
-    		
-    	}
-    	
-    	return false;
-    	
-    }
-
-	private void applyCapUpgrades(ItemStack stack) {
-    		
-    	if(stack.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-    		
-    		energyStorage.applyCapacityUpgrades(stack.getCount());
-    		inputFluidTank.applyCapacityUpgrades(stack.getCount());
-    		outputFluidTank.applyCapacityUpgrades(stack.getCount());
-    		
-    	}
-    }
-    
-    private void applyTransUpgrades(ItemStack stack) {
-    		
-    	if(stack.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-    		
-    		energyStorage.applyTransferUpgrades(stack.getCount());
-    		
-    	}
-    }
-    
     private void setUpgradeModifiers() {
     	
     	if(upgrade.isPresent()) {
+    	
+    		if(progress == 0) {
     		
-    		upgradeHandler.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+    			upgradeHandler.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+        		
+        		upgradeHandler.oneUpgradeModifier(WORK_TIME, washingEnergy, upgradeSlotHandler.getStackInSlot(0));
+        			
+        		upgradableWorkTime = upgradeHandler.getTotalProcessingTime();
+        		upgradableWashingEnergy = upgradeHandler.getTotalEnergyUsed();
+    		}
+    	}
+    	
+    	if(energy.isPresent()) {
     		
-    		upgradeHandler.oneUpgradeModifier(WORK_TIME, washingEnergy, upgradeSlotHandler.getStackInSlot(0));
-    			
-    		upgradableWorkTime = upgradeHandler.getTotalProcessingTime();
-    		upgradableWashingEnergy = upgradeHandler.getTotalEnergyUsed();
+    		energyStorage.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+    		energyStorage.oneUpgradeModifier(capacity, receive, upgradeSlotHandler.getStackInSlot(0));
+    		
     	}
     }
+
+	public boolean canExtractCapacity() {
+		
+		if(energy.isPresent()) {
+			
+			return energyStorage.canExtractFromSlot(energyStorage.getEnergyStored());
+			
+		} else 
+			return false;
+	}
     
     private boolean canCraft() {
     	

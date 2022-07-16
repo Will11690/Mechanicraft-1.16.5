@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.github.will11690.mechanicraft.blocks.machines.tier1.t1slurryprocessor.T1SlurryProcessor;
 import com.github.will11690.mechanicraft.energy.MechaniCraftEnergyStorage;
 import com.github.will11690.mechanicraft.fluid.MechanicraftFluidTank;
 import com.github.will11690.mechanicraft.init.ModConfigs;
@@ -64,12 +65,12 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
 	
 	private ItemStackHandler outputSlotHandler = createOutput();
 	
-	public ItemStackHandler upgradeSlotHandler = createUpgrade();
+	ItemStackHandler upgradeSlotHandler = createUpgrade();
     private ItemStackHandler upgradeSlotHandlerWrapper = createUpgradeWrapper(upgradeSlotHandler);
     
-	private ItemStackHandler chargeSlotHandler = createCharge();
+	private final ItemStackHandler chargeSlotHandler = createCharge();
 	private final LazyOptional<IItemHandler> outputSlot  = LazyOptional.of(() -> outputSlotHandler);
-	private LazyOptional<IItemHandler> upgradeSlotWrapper  = LazyOptional.of(() -> upgradeSlotHandlerWrapper);
+	private final LazyOptional<IItemHandler> upgradeSlotWrapper  = LazyOptional.of(() -> upgradeSlotHandlerWrapper);
 	private final LazyOptional<IItemHandler> chargeSlot  = LazyOptional.of(() -> chargeSlotHandler);
 	
 	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(upgradeSlotHandlerWrapper, chargeSlotHandler, outputSlotHandler));
@@ -77,11 +78,11 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
 	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, outputSlotHandler));
 	boolean breakBlock = false;
 	
-	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
-	private LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
+	private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
+	private final LazyOptional<IUpgradeMachineHandler> upgrade = LazyOptional.of(() -> upgradeHandler);
 
-	private int processingEnergy = 140/*PER TICK*/;
-	private int WORK_TIME = 10 * 16;
+	private int processingEnergy = ModConfigs.t3SlurryProcessorEnergyPerTickInt/*PER TICK*/;
+	private int WORK_TIME = ModConfigs.t3SlurryProcessorWorkTimeInt;
 		
 	private static int capacity = ModConfigs.t3SlurryProcessorEnergyCapacityInt;
 	private static int receive = ModConfigs.t3SlurryProcessorReceiveInt;
@@ -103,22 +104,20 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
                 case 1:
                 	return progress;
                 case 2:
-                	return Math.max(energyStorage.getBaseCapacity(), energyStorage.getUpgradedCapacity());
+                	return energyStorage.getCapacity();
     			case 3:
     				return upgradableWorkTime;
     			case 4:
-    				energyStorage.getBaseCapacity();
-    			case 5:
     				return inputFluidTank1.getCapacity();
-    			case 6:
+    			case 5:
     				return inputFluidTank1.getFluidInTank(0).getAmount();
-    			case 7:
+    			case 6:
     				return inputFluidTank2.getCapacity();
-    			case 8:
+    			case 7:
     				return inputFluidTank2.getFluidInTank(0).getAmount();
-    			case 9:
+    			case 8:
     				return outputFluidTank.getCapacity();
-    			case 10:
+    			case 9:
     				return outputFluidTank.getFluidInTank(0).getAmount();
                 default:
                     return 0;
@@ -155,7 +154,7 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
         @Override
         public int getCount() {
         	
-            return 11;
+            return 10;
             
         }
     };
@@ -172,8 +171,11 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
 			
 			@Override
             protected void onContentsChanged() {
-				
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 			
 			@Override
@@ -197,8 +199,11 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
 			
 			@Override
             protected void onContentsChanged() {
-				
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 			
 			@Override
@@ -222,8 +227,11 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
 			
 			@Override
             protected void onContentsChanged() {
-				
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 			
 			@Override
@@ -247,9 +255,11 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
     		
     		@Override
             protected void onContentsChanged(int slot) {
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -273,9 +283,11 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
     		
     		@Override
             protected void onContentsChanged(int slot) {
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -293,9 +305,11 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
     		
     		@Override
             protected void onContentsChanged(int slot) {
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -341,9 +355,11 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
     		
     		@Override
             protected void onContentsChanged(int slot) {
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override
@@ -388,8 +404,11 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
 
 			@Override
 			protected void onEnergyChanged() {
-				
-				setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
 			}
 		};
 	}
@@ -400,10 +419,11 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
         	
             @Override
 			public void onUpgradeChanged() {
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
-                
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
         };
     }
@@ -416,40 +436,9 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
             return;
             
         }
+        
+        this.setUpgradeModifiers();
 		
-		ItemStack upgradeStack = upgradeSlotHandler.getStackInSlot(0);
-		
-        if(hasCapUpgrades() && energyStorage.getCapacity() != energyStorage.getUpgradedCapacity() && inputFluidTank1.getCapacity() != inputFluidTank1.getUpgradedCapacity() &&
-           inputFluidTank2.getCapacity() != inputFluidTank2.getUpgradedCapacity() && outputFluidTank.getCapacity() != outputFluidTank.getUpgradedCapacity()) {
-        	
-        	if(upgradeStack.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-        		
-        		applyCapUpgrades(upgradeStack);
-        		
-        	}
-        }
-        
-        if(hasTransUpgrades() && energyStorage.getMaxReceive() != energyStorage.getUpgradedReceive()) {
-        	
-        	if(upgradeStack.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-        		
-        		applyTransUpgrades(upgradeStack);
-        		
-        	}
-        }
-        
-       if(!hasCapUpgrades() && energyStorage.getCapacity() != energyStorage.getBaseCapacity()) {
-        	
-        	energyStorage.setCapacity(energyStorage.getBaseCapacity());
-        	
-        }
-        
-        if(!hasTransUpgrades() && energyStorage.getMaxReceive() != energyStorage.getBaseReceive()) {
-        	
-        	energyStorage.setMaxReceive(energyStorage.getBaseReceive());
-        	
-        }
-
 		if(energyStorage.getMaxEnergyStored() > energyStorage.getEnergyStored()) {
 
 			if(!(chargeSlotHandler.getStackInSlot(0).equals(ItemStack.EMPTY))) {
@@ -463,12 +452,6 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
 				receivePower();
 
 		}
-		
-		if(progress == 0) {
-        	
-        	this.setUpgradeModifiers();
-        	
-        }
 		
     	if(canCraft()) {
     			
@@ -499,64 +482,39 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
         	
         }
     }
-    
-    private boolean hasTransUpgrades() {
-    	
-    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-    		
-    		return true;
-    		
-    	}
-    	
-    	return false;
-    	
-    }
-    
-    public boolean hasCapUpgrades() {
-    	
-    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-    		
-    		return true;
-    		
-    	}
-    	
-    	return false;
-    	
-    }
-
-	private void applyCapUpgrades(ItemStack stack) {
-    		
-    	if(stack.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
-    		
-    		energyStorage.applyCapacityUpgrades(stack.getCount());
-    		inputFluidTank1.applyCapacityUpgrades(stack.getCount());
-    		inputFluidTank2.applyCapacityUpgrades(stack.getCount());
-    		outputFluidTank.applyCapacityUpgrades(stack.getCount());
-    		
-    	}
-    }
-    
-    private void applyTransUpgrades(ItemStack stack) {
-    		
-    	if(stack.getItem().equals(ModItems.TRANSFER_UPGRADE.get())) {
-    		
-    		energyStorage.applyTransferUpgrades(stack.getCount());
-    		
-    	}
-    }
-    
-    private void setUpgradeModifiers() {
+	
+	private void setUpgradeModifiers() {
     	
     	if(upgrade.isPresent()) {
     		
-    		upgradeHandler.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
-    		
-    		upgradeHandler.oneUpgradeModifier(WORK_TIME, processingEnergy, upgradeSlotHandler.getStackInSlot(0));
+    		if(progress == 0) {
     			
-    		upgradableWorkTime = upgradeHandler.getTotalProcessingTime();
-    		upgradableProcessingEnergy = upgradeHandler.getTotalEnergyUsed();
+    			upgradeHandler.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+    		
+    			upgradeHandler.oneUpgradeModifier(WORK_TIME, processingEnergy, upgradeSlotHandler.getStackInSlot(0));
+    			
+    			upgradableWorkTime = upgradeHandler.getTotalProcessingTime();
+    			upgradableProcessingEnergy = upgradeHandler.getTotalEnergyUsed();
+    		}
+    	}
+    	
+    	if(energy.isPresent()) {
+    		
+    		energyStorage.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
+    		energyStorage.oneUpgradeModifier(capacity, receive, upgradeSlotHandler.getStackInSlot(0));
+    		
     	}
     }
+
+	public boolean canExtractCapacity() {
+		
+		if(energy.isPresent()) {
+			
+			return energyStorage.canExtractFromSlot(energyStorage.getEnergyStored());
+			
+		} else 
+			return false;
+	}
     
     private boolean canCraft() {
     	
@@ -1083,6 +1041,10 @@ public class TileEntityT3SlurryProcessor extends TileEntity implements ITickable
 				
 				return dropSlots.cast();
 			}
+
+		} else if(!this.remove && cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && side == level.getBlockState(worldPosition).getValue(T1SlurryProcessor.FACING).getOpposite()) {
+			
+			return LazyOptional.of(() -> this.outputFluidTank).cast();
 		}
         
         return super.getCapability(cap, side);

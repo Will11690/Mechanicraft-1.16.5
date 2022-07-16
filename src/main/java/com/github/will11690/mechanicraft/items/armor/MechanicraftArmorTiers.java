@@ -12,33 +12,34 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.function.Supplier;
 
+import com.github.will11690.mechanicraft.init.ModConfigs;
 import com.github.will11690.mechanicraft.init.ModItems;
 import com.github.will11690.mechanicraft.util.Reference;
 
 public enum MechanicraftArmorTiers implements IArmorMaterial {
 
-    EMERONIUM("emeronium", 30, new int[] { 3, 6, 8, 3 }, 14, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0f, 0.5f, () -> {
-        return Ingredient.of(ModItems.EMERONIUM_INGOT.get());}),
+    EMERONIUM("emeronium", /*durability*/ModConfigs.emeroniumArmorDurabilityInt, new int[] { /*boots*/ModConfigs.emeroniumBootsProtectionInt, /*leggings*/ModConfigs.emeroniumLeggingsProtectionInt, /*chestplate*/ModConfigs.emeroniumChestplateProtectionInt, /*helmet*/ModConfigs.emeroniumHelmetProtectionInt },
+    /*enchantability*/ModConfigs.emeroniumArmorEnchantabilityInt, SoundEvents.ARMOR_EQUIP_DIAMOND, /*toughness*/(float)ModConfigs.emeroniumArmorToughnessFloat, /*resistance*/(float)ModConfigs.emeroniumArmorResistanceFloat, () -> { return Ingredient.of(ModItems.EMERONIUM_INGOT.get());}),
 	
-	ENDONIUM("endonium", 37, new int[] { 4, 7, 9, 4 }, 16, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0f, 1.0f, () -> {
-        return Ingredient.of(ModItems.ENDONIUM_INGOT.get());}),
+	ENDONIUM("endonium", /*durability*/ModConfigs.endoniumArmorDurabilityInt, new int[] { /*boots*/ModConfigs.endoniumBootsProtectionInt, /*leggings*/ModConfigs.endoniumLeggingsProtectionInt, /*chestplate*/ModConfigs.endoniumChestplateProtectionInt, /*helmet*/ModConfigs.endoniumHelmetProtectionInt },
+	/*enchantability*/ModConfigs.endoniumArmorEnchantabilityInt, SoundEvents.ARMOR_EQUIP_DIAMOND, /*toughness*/(float)ModConfigs.endoniumArmorToughnessFloat, /*resistance*/(float)ModConfigs.endoniumArmorResistanceFloat, () -> { return Ingredient.of(ModItems.ENDONIUM_INGOT.get());}),
 	
-	ENDONIUM_CRYSTAL("endonium_crystal", 40, new int[] { 5, 8, 10, 5 }, 16, SoundEvents.ARMOR_EQUIP_NETHERITE, 4.0f, 1.0f, () -> {
-        return Ingredient.of(ModItems.ENDONIUM_CRYSTAL.get());}),
+	ENDONIUM_CRYSTAL("endonium_crystal", /*durability*/ModConfigs.endoniumCrystalArmorDurabilityInt, new int[] { /*boots*/ModConfigs.endoniumCrystalBootsProtectionInt, /*leggings*/ModConfigs.endoniumCrystalLeggingsProtectionInt, /*chestplate*/ModConfigs.endoniumCrystalChestplateProtectionInt, /*helmet*/ModConfigs.endoniumCrystalHelmetProtectionInt },
+	/*enchantability*/ModConfigs.endoniumCrystalArmorEnchantabilityInt, SoundEvents.ARMOR_EQUIP_NETHERITE, /*toughness*/(float)ModConfigs.endoniumCrystalArmorToughnessFloat, /*resistance*/(float)ModConfigs.endoniumCrystalArmorResistanceFloat, () -> { return Ingredient.of(ModItems.ENDONIUM_CRYSTAL.get());}),
 	
-	SAPHONIUM("saphonium", 30, new int[] { 3, 6, 8, 3 }, 14, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0f, 0.5f, () -> {
-        return Ingredient.of(ModItems.SAPHONIUM_INGOT.get());}),
+	SAPHONIUM("saphonium", /*durability*/ModConfigs.saphoniumArmorDurabilityInt, new int[] { /*boots*/ModConfigs.saphoniumBootsProtectionInt, /*leggings*/ModConfigs.saphoniumLeggingsProtectionInt, /*chestplate*/ModConfigs.saphoniumChestplateProtectionInt, /*helmet*/ModConfigs.saphoniumHelmetProtectionInt },
+	/*enchantability*/ModConfigs.saphoniumArmorEnchantabilityInt, SoundEvents.ARMOR_EQUIP_DIAMOND, /*toughness*/(float)ModConfigs.saphoniumArmorToughnessFloat, /*resistance*/(float)ModConfigs.saphoniumArmorResistanceFloat, () -> { return Ingredient.of(ModItems.SAPHONIUM_INGOT.get());}),
 	
-	RUBONIUM("rubonium", 30, new int[] { 3, 6, 8, 3 }, 14, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0f, 0.5f, () -> {
-        return Ingredient.of(ModItems.RUBONIUM_INGOT.get());}),
+	RUBONIUM("rubonium", /*durability*/ModConfigs.ruboniumArmorDurabilityInt, new int[] { /*boots*/ModConfigs.ruboniumBootsProtectionInt, /*leggings*/ModConfigs.ruboniumLeggingsProtectionInt, /*chestplate*/ModConfigs.ruboniumChestplateProtectionInt, /*helmet*/ModConfigs.ruboniumHelmetProtectionInt },
+	/*enchantability*/ModConfigs.ruboniumArmorEnchantabilityInt, SoundEvents.ARMOR_EQUIP_DIAMOND, /*toughness*/(float)ModConfigs.ruboniumArmorToughnessFloat, /*resistance*/(float)ModConfigs.ruboniumArmorResistanceFloat, () -> { return Ingredient.of(ModItems.RUBONIUM_INGOT.get());}),
 	
-	OBSIDIUM("obsidium", 30, new int[] { 3, 6, 8, 3 }, 12, SoundEvents.ARMOR_EQUIP_IRON, 3.0f, 0.8f, () -> {
-        return Ingredient.of(ModItems.OBSIDIUM_INGOT.get());}),
+	OBSIDIUM("obsidium", /*durability*/ModConfigs.obsidiumArmorDurabilityInt, new int[] { /*boots*/ModConfigs.obsidiumBootsProtectionInt, /*leggings*/ModConfigs.obsidiumLeggingsProtectionInt, /*chestplate*/ModConfigs.obsidiumChestplateProtectionInt, /*helmet*/ModConfigs.obsidiumHelmetProtectionInt },
+	/*enchantability*/ModConfigs.obsidiumArmorEnchantabilityInt, SoundEvents.ARMOR_EQUIP_IRON, /*toughness*/(float)ModConfigs.obsidiumArmorToughnessFloat, /*resistance*/(float)ModConfigs.obsidiumArmorResistanceFloat, () -> { return Ingredient.of(ModItems.OBSIDIUM_INGOT.get());}),
 	
-	GLASS("glass", 2, new int[] { 1, 6, 4, 1 }, 5, SoundEvents.ARMOR_EQUIP_DIAMOND, 0.0f, 0.0f, () -> {
-        return Ingredient.of(Items.GLASS);});
+	GLASS("glass", /*durability*/ModConfigs.glassArmorDurabilityInt, new int[] { /*boots*/ModConfigs.glassBootsProtectionInt, /*leggings*/ModConfigs.glassLeggingsProtectionInt, /*chestplate*/ModConfigs.glassChestplateProtectionInt, /*helmet*/ModConfigs.glassHelmetProtectionInt },
+	/*enchantability*/ModConfigs.glassArmorEnchantabilityInt, SoundEvents.ARMOR_EQUIP_DIAMOND, /*toughness*/(float)ModConfigs.glassArmorToughnessFloat, /*resistance*/(float)ModConfigs.glassArmorResistanceFloat, () -> { return Ingredient.of(Items.GLASS);});
 
-    private static final int[] MAX_DAMAGE_ARRAY = new int[]{13, 15, 16, 11};
+    private static final int[] MAX_DAMAGE_ARRAY = new int[]{/*boots*/11, /*leggings*/15, /*chestplate*/16, /*helmet*/13};
     private final String name;
     private final int maxDamageFactor;
     private final int[] damageReductionAmountArray;

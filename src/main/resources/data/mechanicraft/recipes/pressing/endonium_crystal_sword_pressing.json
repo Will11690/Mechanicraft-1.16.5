@@ -1,0 +1,63 @@
+{
+	"type": "mechanicraft:press_recipes",
+	"input1": {
+	
+		"tag": "forge:gems/endonium_crystal"
+		
+		},
+		
+	"input2": {
+	
+		"item": "mechanicraft:endonium_sword"
+		
+		},
+		
+	"input3": {
+	
+		"tag": "forge:gems/endonium_crystal"
+		
+		},
+		
+	"input4": {
+	
+		"tag": "forge:gems/endonium_crystal"
+		
+		},
+		
+	"input5": {
+	
+		"tag": "forge:gems/endonium_crystal"
+		
+		},
+		
+	"input6": {
+	
+		"tag": "forge:gems/endonium_crystal"
+		
+		},
+		
+	"input7": {
+	
+		"tag": "forge:gems/endonium_crystal"
+		
+		},
+		
+	"input8": {
+	
+		"tag": "forge:gems/endonium_crystal"
+		
+		},
+	
+	"input9": {
+	
+		"item": "minecraft:netherite_sword"
+		
+		},
+		
+	"output": {
+	
+		"item": "mechanicraft:endonium_crystal_sword"
+	
+	}
+
+}

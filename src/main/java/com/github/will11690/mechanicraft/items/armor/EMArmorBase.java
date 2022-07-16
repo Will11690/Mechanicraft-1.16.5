@@ -1,5 +1,6 @@
 package com.github.will11690.mechanicraft.items.armor;
 
+import com.github.will11690.mechanicraft.init.ModConfigs;
 import com.github.will11690.mechanicraft.init.ModItems;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,17 +22,22 @@ public class EMArmorBase extends ArmorItem {
     @Override
     public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
     	
-        if(player.getItemBySlot(EquipmentSlotType.HEAD).getItem() == ModItems.EMERONIUM_HELMET.get() &&
+        if(ModConfigs.armorEffectsBool == true && player.getItemBySlot(EquipmentSlotType.HEAD).getItem() == ModItems.EMERONIUM_HELMET.get() &&
            player.getItemBySlot(EquipmentSlotType.CHEST).getItem() == ModItems.EMERONIUM_CHESTPLATE.get() &&
            player.getItemBySlot(EquipmentSlotType.LEGS).getItem() == ModItems.EMERONIUM_LEGGINGS.get() &&
            player.getItemBySlot(EquipmentSlotType.FEET).getItem() == ModItems.EMERONIUM_BOOTS.get()) {
         	
-        	player.addEffect(new EffectInstance(Effects.HERO_OF_THE_VILLAGE, 300, 0, false, false, false));
-        }
-        
-        else {
+        	if(ModConfigs.emeroniumArmorHeroEffectBool == true) {
+        	
+        		player.addEffect(new EffectInstance(Effects.HERO_OF_THE_VILLAGE, 300, 0, false, false, false));
         		
-        	player.removeEffect(Effects.HERO_OF_THE_VILLAGE);
+        	} else {
+        		
+        		if(ModConfigs.emeroniumArmorHeroEffectBool == true) {
+        			
+        			player.removeEffect(Effects.HERO_OF_THE_VILLAGE);
+        		}
+        	}
         }
     }
 }

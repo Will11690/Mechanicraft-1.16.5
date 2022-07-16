@@ -1,5 +1,6 @@
 package com.github.will11690.mechanicraft.items.armor;
 
+import com.github.will11690.mechanicraft.init.ModConfigs;
 import com.github.will11690.mechanicraft.init.ModItems;
 import com.github.will11690.mechanicraft.util.handlers.RegistryHandler;
 
@@ -24,37 +25,82 @@ public class ECArmorBase extends ArmorItem {
     @Override
     public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
     	
-        if(player.getItemBySlot(EquipmentSlotType.HEAD).getItem() == ModItems.ENDONIUM_CRYSTAL_HELMET.get() &&
+        if(ModConfigs.armorEffectsBool == true && player.getItemBySlot(EquipmentSlotType.HEAD).getItem() == ModItems.ENDONIUM_CRYSTAL_HELMET.get() &&
            player.getItemBySlot(EquipmentSlotType.CHEST).getItem() == ModItems.ENDONIUM_CRYSTAL_CHESTPLATE.get() &&
            player.getItemBySlot(EquipmentSlotType.LEGS).getItem() == ModItems.ENDONIUM_CRYSTAL_LEGGINGS.get() &&
            player.getItemBySlot(EquipmentSlotType.FEET).getItem() == ModItems.ENDONIUM_CRYSTAL_BOOTS.get()) {
         	
-        	if(player.getAttribute(Attributes.MAX_HEALTH).getValue() < 40.0D) {
+        	if(ModConfigs.endoniumCrystalArmorHealthEffectBool == true && player.getAttribute(Attributes.MAX_HEALTH).getValue() < 40.0D) {
         		
         		player.getAttribute(Attributes.MAX_HEALTH).addTransientModifier(new AttributeModifier("MaxHealth", 20.0D, AttributeModifier.Operation.ADDITION));
         	}
         	
-			player.addEffect(new EffectInstance(RegistryHandler.FLIGHT_EFFECT.get(), 300, 0, false, false, false));
-        	player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 300, 2, false, false, false));
-        	player.addEffect(new EffectInstance(Effects.HERO_OF_THE_VILLAGE, 300, 0, false, false, false));
-			player.addEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 300, 0, false, false, false));
-			player.addEffect(new EffectInstance(Effects.WATER_BREATHING, 300, 0, false, false, false));
-			player.addEffect(new EffectInstance(Effects.NIGHT_VISION, 300, 0, false, false, false));
-        }
-        
-        else {
+        	if(ModConfigs.endoniumCrystalArmorFlightEffectBool == true) {
+        		
+        		player.addEffect(new EffectInstance(RegistryHandler.FLIGHT_EFFECT.get(), 300, 0, false, false, false));
+        	}
         	
-        	if(player.getAttribute(Attributes.MAX_HEALTH).getValue() > 20.0D) {
+        	if(ModConfigs.endoniumCrystalArmorSpeedEffectBool == true) {
+        		
+        		player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 300, 2, false, false, false));
+        	}
+        	
+        	if(ModConfigs.endoniumCrystalArmorHeroEffectBool == true) {
+        		
+        		player.addEffect(new EffectInstance(Effects.HERO_OF_THE_VILLAGE, 300, 0, false, false, false));
+        	}
+        	
+        	if(ModConfigs.endoniumCrystalArmorFireEffectBool == true) {
+        		
+        		player.addEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 300, 0, false, false, false));
+        	}
+        	
+        	if(ModConfigs.endoniumCrystalArmorWaterEffectBool == true) {
+        		
+        		player.addEffect(new EffectInstance(Effects.WATER_BREATHING, 300, 0, false, false, false));
+        	}
+        	
+        	if(ModConfigs.endoniumCrystalArmorVisionEffectBool == true) {
+        		
+        		player.addEffect(new EffectInstance(Effects.NIGHT_VISION, 300, 0, false, false, false));
+        	}
+        	
+        } else {
+        	
+        	if(ModConfigs.endoniumCrystalArmorHealthEffectBool == true && player.getAttribute(Attributes.MAX_HEALTH).getValue() > 20.0D) {
         		
         		player.getAttribute(Attributes.MAX_HEALTH).addTransientModifier(new AttributeModifier("MaxHealth", -20.0D, AttributeModifier.Operation.ADDITION));
         	}
+
+        	if(ModConfigs.endoniumCrystalArmorFlightEffectBool == true) {
+        		
+        		player.removeEffect(RegistryHandler.FLIGHT_EFFECT.get());
+        	}
         	
-        	player.removeEffect(RegistryHandler.FLIGHT_EFFECT.get());
-        	player.removeEffect(Effects.MOVEMENT_SPEED);
-        	player.removeEffect(Effects.HERO_OF_THE_VILLAGE);
-        	player.removeEffect(Effects.FIRE_RESISTANCE);
-        	player.removeEffect(Effects.WATER_BREATHING);
-        	player.removeEffect(Effects.NIGHT_VISION);
+        	if(ModConfigs.endoniumCrystalArmorSpeedEffectBool == true) {
+        		
+        		player.removeEffect(Effects.MOVEMENT_SPEED);
+        	}
+        	
+        	if(ModConfigs.endoniumCrystalArmorHeroEffectBool == true) {
+        		
+        		player.removeEffect(Effects.HERO_OF_THE_VILLAGE);
+        	}
+        	
+        	if(ModConfigs.endoniumCrystalArmorFireEffectBool == true) {
+        		
+        		player.removeEffect(Effects.FIRE_RESISTANCE);
+        	}
+        	
+        	if(ModConfigs.endoniumCrystalArmorWaterEffectBool == true) {
+        		
+        		player.removeEffect(Effects.WATER_BREATHING);
+        	}
+        	
+        	if(ModConfigs.endoniumCrystalArmorVisionEffectBool == true) {
+        		
+        		player.removeEffect(Effects.NIGHT_VISION);
+        	}
         }
     }
 }

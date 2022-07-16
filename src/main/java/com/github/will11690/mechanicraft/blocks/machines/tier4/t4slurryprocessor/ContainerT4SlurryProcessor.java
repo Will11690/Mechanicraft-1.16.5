@@ -50,7 +50,7 @@ public class ContainerT4SlurryProcessor extends Container {
     	@Override
         public boolean mayPickup(PlayerEntity playerIn) {
     		
-    		if(tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+    		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     			
     			return false;
     			
@@ -72,7 +72,7 @@ public class ContainerT4SlurryProcessor extends Container {
     	@Override
         public boolean mayPickup(PlayerEntity playerIn) {
     		
-    		if(tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+    		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
     			
     			return false;
     			
@@ -142,26 +142,7 @@ public class ContainerT4SlurryProcessor extends Container {
     
     private boolean canExtractSpeedorEfficiency() {
     	
-    	if(tile.upgradeHandler.canExtractFromSlot(this.fields.get(1)) == true) {
-    		
-    		return true;
-    		
-    	}
-    	
-    	return false;
-    	
-    }
-    
-    private boolean canExtractCapacity() {
-    	
-    	if(this.fields.get(0) > this.fields.get(4)) {
-    		
-    		return false;
-    		
-    	} else
-    		
-    		return true;
-    	
+    	return tile.upgradeHandler.canExtractFromSlot(this.fields.get(1));
     }
 
 	public TileEntityT4SlurryProcessor getTileEntity() {
@@ -203,32 +184,32 @@ public class ContainerT4SlurryProcessor extends Container {
 	
 	public int getInputTank1Capacity() {
 		
-		return this.fields.get(5);
+		return this.fields.get(4);
 	}
 	
 	public int getInputTank2Capacity() {
 		
-		return this.fields.get(7);
+		return this.fields.get(6);
 	}
 	
 	public int getOutputTankCapacity() {
 		
-		return this.fields.get(9);
+		return this.fields.get(8);
 	}
 	
 	public int getInputTank1Stored() {
 		
-		return this.fields.get(6);
+		return this.fields.get(5);
 	}
 	
 	public int getInputTank2Stored() {
 		
-		return this.fields.get(8);
+		return this.fields.get(7);
 	}
 	
 	public int getOutputTankStored() {
 		
-		return this.fields.get(10);
+		return this.fields.get(9);
 	}
 
     @Override

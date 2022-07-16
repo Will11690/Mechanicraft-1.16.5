@@ -32,6 +32,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -64,10 +65,10 @@ public class TileEntityT1PoweredSieve extends TileEntity implements ITickableTil
 	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotHandler1, inputSlotHandler2, outputSlotHandler));
 	boolean breakBlock = false;
 	
-	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
+	private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 
-	private int sievingEnergy = 100/*PER TICK*/;
-	private static int WORK_TIME = 10 * 20;
+	private int sievingEnergy = ModConfigs.t1PoweredSieveEnergyPerTickInt/*PER TICK*/;
+	private static int WORK_TIME = ModConfigs.t1PoweredSieveWorkTimeInt;
 		
 	private static int capacity = ModConfigs.t1PoweredSieveCapacityInt;
 	private static int receive = ModConfigs.t1PoweredSieveReceiveInt;
@@ -143,8 +144,11 @@ public class TileEntityT1PoweredSieve extends TileEntity implements ITickableTil
     		
     		@Override
             protected void onContentsChanged(int slot) {
-                
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -168,10 +172,11 @@ public class TileEntityT1PoweredSieve extends TileEntity implements ITickableTil
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -195,10 +200,11 @@ public class TileEntityT1PoweredSieve extends TileEntity implements ITickableTil
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -222,10 +228,11 @@ public class TileEntityT1PoweredSieve extends TileEntity implements ITickableTil
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -249,10 +256,11 @@ public class TileEntityT1PoweredSieve extends TileEntity implements ITickableTil
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -276,10 +284,11 @@ public class TileEntityT1PoweredSieve extends TileEntity implements ITickableTil
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -297,9 +306,11 @@ public class TileEntityT1PoweredSieve extends TileEntity implements ITickableTil
 
 			@Override
 			protected void onEnergyChanged() {
-
-				setChanged();
-
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
 			}
 		};
 	}
@@ -312,6 +323,13 @@ public class TileEntityT1PoweredSieve extends TileEntity implements ITickableTil
             return;
             
         }
+		
+		this.updateEnergyStorage();
+		
+        if(energyStorage.getBaseCapacity() <= 0 || energyStorage.getBaseReceive() <= 0) {
+			
+			energyStorage.updateEnergyStorageNoUpgrades(capacity, receive, 0);
+		}
 
 		if(energyStorage.getMaxEnergyStored() > energyStorage.getEnergyStored()) {
 
@@ -319,12 +337,9 @@ public class TileEntityT1PoweredSieve extends TileEntity implements ITickableTil
 
 				receivePowerItem(chargeSlotHandler.getStackInSlot(0));
 
-			}
-
-			else
+			} else
 
 				receivePower();
-
 		}
 		
     	if(canCraft()) {
@@ -335,27 +350,31 @@ public class TileEntityT1PoweredSieve extends TileEntity implements ITickableTil
     	if((inputSlotHandler1.getStackInSlot(0).isEmpty() || inputSlotHandler2.getStackInSlot(0).isEmpty()) && progress > 0) {
 
 			progress = 2;
-
 		}
     	
     	if(!canCraft() && progress > 0) {
 
 			progress -= 2;
-
 		}
         
         if(canCraft() && this.level.getBlockState(this.worldPosition).getValue(T1PoweredSieve.LIT) == false) {
         	
         	this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(T1PoweredSieve.LIT, Boolean.valueOf(true)));
-        	
         }
         
         if(!canCraft() && this.level.getBlockState(this.worldPosition).getValue(T1PoweredSieve.LIT) == true) {
         	
         	this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(T1PoweredSieve.LIT, Boolean.valueOf(false)));
-        	
         }
     }
+
+	private void updateEnergyStorage() {
+		
+		if(energy.isPresent()) {
+				
+			energyStorage.updateEnergyStorageNoUpgrades(capacity, receive, 0);
+		}
+	}
     
     private boolean canCraft() {
     	

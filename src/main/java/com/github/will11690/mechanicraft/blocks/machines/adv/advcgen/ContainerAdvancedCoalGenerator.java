@@ -27,7 +27,7 @@ import com.github.will11690.mechanicraft.init.ModItems;
 import com.github.will11690.mechanicraft.util.handlers.ContainerTypeHandler;
 
 public class ContainerAdvancedCoalGenerator extends Container {
-	//2 Upgrade Slots
+	
 	private final IItemHandler playerInventory;
     private IItemHandler handler;
     private IIntArray fields;
@@ -35,7 +35,7 @@ public class ContainerAdvancedCoalGenerator extends Container {
 
     public ContainerAdvancedCoalGenerator(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-        this((TileEntityAdvancedCoalGenerator) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(5), id, playerInventory, new ItemStackHandler(4));
+        this((TileEntityAdvancedCoalGenerator) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(4), id, playerInventory, new ItemStackHandler(4));
         
     }
 
@@ -78,7 +78,7 @@ public class ContainerAdvancedCoalGenerator extends Container {
 			@Override
             public boolean mayPickup(PlayerEntity playerIn) {
         		
-        		if(tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+        		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
         			
         			return false;
         			
@@ -100,7 +100,7 @@ public class ContainerAdvancedCoalGenerator extends Container {
         	@Override
             public boolean mayPickup(PlayerEntity playerIn) {
         		
-        		if(tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+        		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
         			
         			return false;
         			
@@ -159,26 +159,7 @@ public class ContainerAdvancedCoalGenerator extends Container {
     
     private boolean canExtractSpeedorEfficiency() {
     	
-    	if(tile.upgradeHandler.canExtractFromSlot(this.fields.get(0)) == true) {
-    		
-    		return true;
-    		
-    	}
-    	
-    	return false;
-    	
-    }
-    
-    private boolean canExtractCapacity() {
-    	
-    	if(this.fields.get(2) > this.fields.get(4)) {
-    		
-    		return false;
-    		
-    	} else
-    		
-    		return true;
-    	
+    	return tile.upgradeHandler.canExtractFromSlot(this.fields.get(0));
     }
 
 	public int getBurnTimeRemaining() {

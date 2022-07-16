@@ -19,6 +19,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -33,6 +34,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.github.will11690.mechanicraft.energy.MechaniCraftEnergyStorage;
+import com.github.will11690.mechanicraft.init.ModConfigs;
 import com.github.will11690.mechanicraft.util.handlers.NonExtractableStackHandler;
 import com.github.will11690.mechanicraft.util.handlers.TileEntityHandler;
 
@@ -41,29 +43,27 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
 	//TODO Clean this up and assign ItemStackHandlers via CombinedInvWrapper instead of per slot
 	
     private MechaniCraftEnergyStorage energyStorage = createEnergy();
-    private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
+    private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
     
     private ItemStackHandler fuelSlotHandler = createFuel();
     private ItemStackHandler fuelSlotHandlerWrapper = createFuelWrapper(fuelSlotHandler);
     private ItemStackHandler chargeSlotHandler = createCharge();
     
-    public LazyOptional<IItemHandler> fuelSlot  = LazyOptional.of(() -> fuelSlotHandler);
-    public LazyOptional<IItemHandler> fuelSlotWrapper  = LazyOptional.of(() -> fuelSlotHandlerWrapper);
-    public LazyOptional<IItemHandler> chargeSlot  = LazyOptional.of(() -> chargeSlotHandler);
+    private final LazyOptional<IItemHandler> fuelSlot  = LazyOptional.of(() -> fuelSlotHandler);
+    private final LazyOptional<IItemHandler> fuelSlotWrapper  = LazyOptional.of(() -> fuelSlotHandlerWrapper);
+    private final LazyOptional<IItemHandler> chargeSlot  = LazyOptional.of(() -> chargeSlotHandler);
     
     private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, fuelSlotHandlerWrapper));
 	
-	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, fuelSlotHandlerWrapper));
+	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, fuelSlotHandler));
 	boolean breakBlock = false;
-
-    //TODO Create config for powergen
     
     private int burnTime = 0;
-    private int powerGen = 100;
+    private int powerGen = ModConfigs.basicCoalGeneratorPowerGenInt;
     public int totalBurnTime = 0;
     
-    private static final int capacity = 250000;
-    private static final int extract = 1000;
+    private static int capacity = ModConfigs.basicCoalGeneratorCapacityInt;
+    private static int extract = ModConfigs.basicCoalGeneratorExtractInt;
 
     private final IIntArray fields = new IIntArray() {
     	
@@ -131,6 +131,13 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
             return;
             
         }
+		
+		this.updateEnergyStorage();
+		
+		if(energyStorage.getBaseCapacity() <= 0 || energyStorage.getBaseExtract() <= 0) {
+			
+			energyStorage.updateEnergyStorageNoUpgrades(capacity, 0, extract);
+		}
         
         if(burnTime <= 0 && this.level.getBlockState(this.worldPosition).getValue(BasicCoalGenerator.LIT) == true) {
         	
@@ -181,6 +188,14 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
         }
         
     }
+
+	private void updateEnergyStorage() {
+		
+		if(energy.isPresent()) {
+				
+			energyStorage.updateEnergyStorageNoUpgrades(capacity, 0, extract);
+		}
+	}
     
     private MechaniCraftEnergyStorage createEnergy() {
     	
@@ -188,9 +203,11 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
         	
             @Override
             protected void onEnergyChanged() {
-            	
-                setChanged();
-                
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
         };
     }
@@ -201,10 +218,11 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@SuppressWarnings("deprecation")
@@ -235,10 +253,11 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@SuppressWarnings("deprecation")
@@ -269,10 +288,11 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
     		
     		@Override

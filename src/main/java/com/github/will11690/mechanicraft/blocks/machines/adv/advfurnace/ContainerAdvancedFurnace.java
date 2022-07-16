@@ -34,7 +34,7 @@ public class ContainerAdvancedFurnace  extends Container {
 
     public ContainerAdvancedFurnace(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-        this((TileEntityAdvancedFurnace) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(6), id, playerInventory, new ItemStackHandler(7));
+        this((TileEntityAdvancedFurnace) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(5), id, playerInventory, new ItemStackHandler(7));
         
     }
 
@@ -54,7 +54,7 @@ public class ContainerAdvancedFurnace  extends Container {
         	@Override
             public boolean mayPickup(PlayerEntity playerIn) {
         		
-        		if(tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+        		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
         			
         			return false;
         			
@@ -76,7 +76,7 @@ public class ContainerAdvancedFurnace  extends Container {
         	@Override
             public boolean mayPickup(PlayerEntity playerIn) {
         		
-        		if(tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+        		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
         			
         			return false;
         			
@@ -193,26 +193,7 @@ public class ContainerAdvancedFurnace  extends Container {
     
     private boolean canExtractSpeedorEfficiency() {
     	
-    	if(tile.upgradeHandler.canExtractFromSlot(this.fields.get(1) + this.fields.get(3)) == true) {
-    		
-    		return true;
-    		
-    	}
-    	
-    	return false;
-    	
-    }
-    
-    private boolean canExtractCapacity() {
-    	
-    	if(this.fields.get(0) > this.fields.get(5)) {
-    		
-    		return false;
-    		
-    	} else
-    		
-    		return true;
-    	
+    	return tile.upgradeHandler.canExtractFromSlot(this.fields.get(1) + this.fields.get(3));
     }
 
     public int getProgress1() {

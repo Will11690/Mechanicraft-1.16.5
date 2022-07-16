@@ -46,9 +46,11 @@ public class TileEntitySupremeFluidTank extends TileEntity implements ITickableT
 			
 			@Override
             protected void onContentsChanged() {
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 			
 			@Override

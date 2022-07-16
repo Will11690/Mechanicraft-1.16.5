@@ -33,34 +33,34 @@ public class ModFeatures {
     	
     	//ALL(OVERWORLD)
     	SILVER_ORE_FEATURE = register(Reference.MOD_ID +":silver_ore", Feature.ORE.configured
-    	(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.SILVER_ORE.get().defaultBlockState(), 8))
-    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(1, 0, 32))).squared().count(4));
+    	(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.SILVER_ORE.get().defaultBlockState(), ModConfigs.silverVeinSizeInt))
+    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(ModConfigs.silverMinYInt, 0, ModConfigs.silverMaxYInt))).squared().count(ModConfigs.silverVeinsPerChunkInt));
     	
     	COPPER_ORE_FEATURE = register(Reference.MOD_ID +":copper_ore", Feature.ORE.configured
-    	(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.COPPER_ORE.get().defaultBlockState(), 8))
-    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(1, 0, 63))).squared().count(15));
+    	(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.COPPER_ORE.get().defaultBlockState(), ModConfigs.copperVeinSizeInt))
+    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(ModConfigs.copperMinYInt, 0, ModConfigs.copperMaxYInt))).squared().count(ModConfigs.copperVeinsPerChunkInt));
     	
     	TIN_ORE_FEATURE = register(Reference.MOD_ID +":tin_ore", Feature.ORE.configured
-    	(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.TIN_ORE.get().defaultBlockState(), 8))
-    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(1, 0, 63))).squared().count(15));
+    	(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.TIN_ORE.get().defaultBlockState(), ModConfigs.tinVeinSizeInt))
+    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(ModConfigs.tinMinYInt, 0, ModConfigs.tinMaxYInt))).squared().count(ModConfigs.tinVeinsPerChunkInt));
     	
     	LEAD_ORE_FEATURE = register(Reference.MOD_ID +":lead_ore", Feature.ORE.configured
-    	(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.LEAD_ORE.get().defaultBlockState(), 8))
-    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(1, 0, 63))).squared().count(10));
+    	(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.LEAD_ORE.get().defaultBlockState(), ModConfigs.leadVeinSizeInt))
+    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(ModConfigs.leadMinYInt, 0, ModConfigs.leadMaxYInt))).squared().count(ModConfigs.leadVeinsPerChunkInt));
 
     	//HILLS
     	RUBY_ORE_FEATURE = register(Reference.MOD_ID +":ruby_ore", Feature.ORE.configured
-    	(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.RUBY_ORE.get().defaultBlockState(), 4))
-    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(1, 0, 32))).squared().count(4));
+    	(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.RUBY_ORE.get().defaultBlockState(), ModConfigs.rubyVeinSizeInt))
+    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(ModConfigs.rubyMinYInt, 0, ModConfigs.rubyMaxYInt))).squared().count(ModConfigs.rubyVeinsPerChunkInt));
     	
     	SAPPHIRE_ORE_FEATURE = register(Reference.MOD_ID +":sapphire_ore", Feature.ORE.configured
-    	(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.SAPPHIRE_ORE.get().defaultBlockState(), 4))
-    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(1, 0, 32))).squared().count(4));
+    	(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.SAPPHIRE_ORE.get().defaultBlockState(), ModConfigs.sapphireVeinSizeInt))
+    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(ModConfigs.sapphireMinYInt, 0, ModConfigs.sapphireMaxYInt))).squared().count(ModConfigs.sapphireVeinsPerChunkInt));
 
     	//END
     	ENDER_ORE_FEATURE = register(Reference.MOD_ID +":ender_ore", Feature.ORE.configured
-    	(new OreFeatureConfig(END_STONE, ModBlocks.ENDER_ORE.get().defaultBlockState(), 24))
-    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(0, 0, 255))).squared().count(20));
+    	(new OreFeatureConfig(END_STONE, ModBlocks.ENDER_ORE.get().defaultBlockState(), ModConfigs.enderVeinSizeInt))
+    	.decorated(Placement.RANGE.configured(new TopSolidRangeConfig(ModConfigs.enderMinYInt, 0, ModConfigs.enderMaxYInt))).squared().count(ModConfigs.enderVeinsPerChunkInt));
     }
 
     private static <FC extends IFeatureConfig> ConfiguredFeature<FC, ?> register(String key, ConfiguredFeature<FC, ?> configuredFeature) {

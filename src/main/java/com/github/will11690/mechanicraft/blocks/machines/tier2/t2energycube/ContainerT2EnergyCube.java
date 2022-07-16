@@ -31,7 +31,7 @@ public class ContainerT2EnergyCube extends Container {
 
     public ContainerT2EnergyCube(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-        this((TileEntityT2EnergyCube) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(3), id, playerInventory, new ItemStackHandler(5));
+        this((TileEntityT2EnergyCube) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(2), id, playerInventory, new ItemStackHandler(5));
         
     }
 
@@ -57,7 +57,7 @@ public class ContainerT2EnergyCube extends Container {
         	@Override
             public boolean mayPickup(PlayerEntity playerIn) {
         		
-        		if(tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) && canExtractCapacity() != true) {
+        		if(tile.canExtractCapacity() == false && tile.upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
         			
         			return false;
         			

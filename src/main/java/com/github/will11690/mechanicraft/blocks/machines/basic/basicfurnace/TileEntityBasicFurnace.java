@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.github.will11690.mechanicraft.energy.MechaniCraftEnergyStorage;
+import com.github.will11690.mechanicraft.init.ModConfigs;
 import com.github.will11690.mechanicraft.util.handlers.TileEntityHandler;
 import com.github.will11690.mechanicraft.util.handlers.NonExtractableStackHandler;
 
@@ -31,6 +32,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -59,18 +61,16 @@ public class TileEntityBasicFurnace extends TileEntity implements ITickableTileE
 	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, inputSlotHandler, outputSlotHandler));
 	boolean breakBlock = false;
 
-	private LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
+	private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 
 	private int progress = 0;
 
-	static final int WORK_TIME = 15 * 20;
+	static int WORK_TIME = ModConfigs.basicFurnaceWorkTimeInt;
 	
-	private static final int capacity = 100000;
-	private static final int receive = 500;
+	private static int capacity = ModConfigs.basicFurnaceCapacityInt;
+	private static int receive = ModConfigs.basicFurnaceReceiveInt;
 
-	//TODO Create config for energy consumed and working times
-
-	private int smeltingEnergy = 20/*PER TICK*/;
+	private int smeltingEnergy = ModConfigs.basicFurnaceEnergyPerTickInt/*PER TICK*/;
 
 	private final IIntArray fields = new IIntArray() {
 
@@ -131,10 +131,11 @@ public class TileEntityBasicFurnace extends TileEntity implements ITickableTileE
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -158,10 +159,11 @@ public class TileEntityBasicFurnace extends TileEntity implements ITickableTileE
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -187,10 +189,11 @@ public class TileEntityBasicFurnace extends TileEntity implements ITickableTileE
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -216,10 +219,11 @@ public class TileEntityBasicFurnace extends TileEntity implements ITickableTileE
     		
     		@Override
             protected void onContentsChanged(int slot) {
-
-				BlockState state = level.getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
-                setChanged();
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
             }
 
 			@Override
@@ -237,9 +241,11 @@ public class TileEntityBasicFurnace extends TileEntity implements ITickableTileE
 
 			@Override
 			protected void onEnergyChanged() {
-
-				setChanged();
-
+				if(level != null) {
+					BlockState state = level.getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.DEFAULT);
+					setChanged();
+				}
 			}
 		};
 	}
@@ -251,6 +257,13 @@ public class TileEntityBasicFurnace extends TileEntity implements ITickableTileE
 
 			return;
  
+		}
+		
+		this.updateEnergyStorage();
+		
+		if(energyStorage.getBaseCapacity() <= 0 || energyStorage.getBaseReceive() <= 0) {
+			
+			energyStorage.updateEnergyStorageNoUpgrades(capacity, receive, 0);
 		}
 
 		if(energyStorage.getMaxEnergyStored() > energyStorage.getEnergyStored()) {
@@ -295,6 +308,14 @@ public class TileEntityBasicFurnace extends TileEntity implements ITickableTileE
 
 			this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(BasicFurnace.LIT, Boolean.valueOf(true)));
 
+		}
+	}
+
+	private void updateEnergyStorage() {
+		
+		if(energy.isPresent()) {
+				
+			energyStorage.updateEnergyStorageNoUpgrades(capacity, receive, 0);
 		}
 	}
 

@@ -3,7 +3,6 @@ package com.github.will11690.mechanicraft.util.handlers;
 import com.github.will11690.mechanicraft.MechaniCraftMain;
 import com.github.will11690.mechanicraft.effects.FlightEffect;
 import com.github.will11690.mechanicraft.init.ModBlocks;
-import com.github.will11690.mechanicraft.init.ModConfigs;
 import com.github.will11690.mechanicraft.init.ModFluids;
 
 import net.minecraft.block.Block;
@@ -14,9 +13,7 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -96,10 +93,6 @@ public class RegistryHandler {
         MechaniCraftMain.MECHANICRAFT_LOGGER.info(Reference.MOD_ID + "-" + Reference.VERSION + ": " + "Registering Tile Entities!");
         TileEntityHandler.register();
         MechaniCraftMain.MECHANICRAFT_LOGGER.info(Reference.MOD_ID + "-" + Reference.VERSION + ": " + "Tile Entities Registered!");
-        
-        MechaniCraftMain.MECHANICRAFT_LOGGER.info(Reference.MOD_ID + "-" + Reference.VERSION + ": " + "Registering Configs!");
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ModConfigs.MECHANICRAFT_SPEC, "mechanicraft-common.toml");
-        MechaniCraftMain.MECHANICRAFT_LOGGER.info(Reference.MOD_ID + "-" + Reference.VERSION + ": " + "Configs Registered!");
         
     }
 

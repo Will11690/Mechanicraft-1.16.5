@@ -1,5 +1,6 @@
 package com.github.will11690.mechanicraft.items.armor;
 
+import com.github.will11690.mechanicraft.init.ModConfigs;
 import com.github.will11690.mechanicraft.init.ModItems;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,17 +23,22 @@ public class GArmorBase extends ArmorItem {
     @Override
     public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
     	
-        if(player.getItemBySlot(EquipmentSlotType.HEAD).getItem() == ModItems.GLASS_HELMET.get() &&
+        if(ModConfigs.armorEffectsBool == true && player.getItemBySlot(EquipmentSlotType.HEAD).getItem() == ModItems.GLASS_HELMET.get() &&
            player.getItemBySlot(EquipmentSlotType.CHEST).getItem() == ModItems.GLASS_CHESTPLATE.get() &&
            player.getItemBySlot(EquipmentSlotType.LEGS).getItem() == ModItems.GLASS_LEGGINGS.get() &&
            player.getItemBySlot(EquipmentSlotType.FEET).getItem() == ModItems.GLASS_BOOTS.get()) {
-        	
-        	player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 300, 0, false, false, false));
-        }
-        
-        else {
+
+        	if(ModConfigs.glassArmorSpeedEffectBool == true) {
         		
-        	player.removeEffect(Effects.MOVEMENT_SPEED);
+        		player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 300, 0, false, false, false));
+        	}
+        	
+        } else {
+
+        	if(ModConfigs.glassArmorSpeedEffectBool == true) {
+        		
+        		player.removeEffect(Effects.MOVEMENT_SPEED);
+        	}
         }
     }
 }
