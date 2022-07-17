@@ -323,7 +323,7 @@ public class TileEntityT4EnergyCube extends TileEntity implements ITickableTileE
     		
     		energyStorage.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
     		energyStorage.setUpgrade2Stack(upgradeSlotHandler.getStackInSlot(1));
-    		energyStorage.twoUpgradeModifier(capacity, transfer, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1));
+    		energyStorage.twoUpgradeModifier(capacity, transfer, transfer, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1));
     		
     	}
     }

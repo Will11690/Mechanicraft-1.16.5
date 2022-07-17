@@ -508,7 +508,7 @@ public class TileEntityT5OreWasher extends TileEntity implements ITickableTileEn
     		energyStorage.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
     		energyStorage.setUpgrade2Stack(upgradeSlotHandler.getStackInSlot(1));
     		energyStorage.setUpgrade3Stack(upgradeSlotHandler.getStackInSlot(2));
-    		energyStorage.threeUpgradeModifier(capacity, receive, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1), upgradeSlotHandler.getStackInSlot(2));
+    		energyStorage.threeUpgradeModifier(capacity, receive, 0, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1), upgradeSlotHandler.getStackInSlot(2));
     		
     	}
     }

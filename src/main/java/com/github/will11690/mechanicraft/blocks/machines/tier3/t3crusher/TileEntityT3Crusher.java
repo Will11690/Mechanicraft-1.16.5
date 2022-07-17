@@ -459,7 +459,7 @@ public class TileEntityT3Crusher extends TileEntity implements ITickableTileEnti
     	if(energy.isPresent()) {
     		
     		energyStorage.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
-    		energyStorage.oneUpgradeModifier(capacity, receive, upgradeSlotHandler.getStackInSlot(0));
+    		energyStorage.oneUpgradeModifier(capacity, receive, 0, upgradeSlotHandler.getStackInSlot(0));
     		
     	}
     }

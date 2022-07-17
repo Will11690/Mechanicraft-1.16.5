@@ -516,7 +516,7 @@ public class TileEntityT4MetallicInfuser extends TileEntity implements ITickable
     		
     		energyStorage.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
     		energyStorage.setUpgrade2Stack(upgradeSlotHandler.getStackInSlot(1));
-    		energyStorage.twoUpgradeModifier(capacity, receive, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1));
+    		energyStorage.twoUpgradeModifier(capacity, receive, 0, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1));
     		
     	}
     }

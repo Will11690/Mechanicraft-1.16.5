@@ -41,7 +41,6 @@ The machines are powered by Forge Energy/Redstone Flux(NOTE: AS THIS IS AN ALPHA
 
 Current missing features/known issues:
 Fluid, Item, and energy transport.
-Machines lose power stored when broken.
 Machine side configuration
 A wrench type item(low priority)
 Creative upgrade(Item is added but can't be used)

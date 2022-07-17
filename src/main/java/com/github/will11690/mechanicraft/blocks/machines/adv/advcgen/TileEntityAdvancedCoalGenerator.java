@@ -478,7 +478,7 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     		
     		energyStorage.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
     		energyStorage.setUpgrade2Stack(upgradeSlotHandler.getStackInSlot(1));
-    		energyStorage.twoUpgradeModifier(capacity, extract, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1));
+    		energyStorage.twoUpgradeModifier(capacity, 0, extract, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1));
     		
     	}
     }

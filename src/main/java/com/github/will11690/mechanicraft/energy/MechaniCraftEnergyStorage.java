@@ -298,11 +298,14 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 		}
 	}
 	
-	public void oneUpgradeModifier(int capacity, int transfer, ItemStack upgrade) {
+	public void oneUpgradeModifier(int capacity, int receive, int extract, ItemStack upgrade) {
 		
 		int capacityCount = 0;
-		
 		int transferCount = 0;
+		
+		this.baseCapacity = capacity;
+		this.baseExtract = extract;
+		this.baseReceive = receive;
 		
 		if(!(upgrade1Stack.equals(ItemStack.EMPTY))) {
 			
@@ -312,14 +315,22 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 		int totalCapacity = 0;
 		int totalTransfer = 0;
 		
-		this.baseCapacity = capacity;
-		
-		if(this.maxExtract > 0) {
-			this.setBaseExtract(transfer);
+		if(this.baseCapacity > 0 && this.capacity < this.baseCapacity) {
+			
+			this.setCapacity(capacity);
+			onEnergyChanged();
 		}
 		
-		if(this.maxReceive > 0) {
-			this.setBaseReceive(transfer);
+		if(this.baseExtract > 0 && this.maxExtract < this.baseExtract) {
+			
+			this.setMaxExtract(extract);
+			onEnergyChanged();
+		}
+		
+		if(this.baseReceive > 0 && this.maxReceive < this.baseReceive) {
+			
+			this.setMaxReceive(receive);
+			onEnergyChanged();
 		}
 		
 		if(upgrade1Count != 0 || upgrade2Count != 0) {
@@ -387,7 +398,7 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 		}
 	}
 
-	public void twoUpgradeModifier(int capacity, int transfer, ItemStack upgrade1, ItemStack upgrade2) {
+	public void twoUpgradeModifier(int capacity, int receive, int extract, ItemStack upgrade1, ItemStack upgrade2) {
 		
 		int capacityCount1 = 0;
 		int capacityCount2 = 0;
@@ -408,14 +419,26 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 		int totalCapacity = 0;
 		int totalTransfer = 0;
 		
-		this.setBaseCapacity(capacity);
+		this.baseCapacity = capacity;
+		this.baseExtract = extract;
+		this.baseReceive = receive;
 		
-		if(this.maxExtract > 0) {
-			this.setBaseExtract(transfer);
+		if(this.baseCapacity > 0 && this.capacity < this.baseCapacity) {
+			
+			this.setCapacity(capacity);
+			onEnergyChanged();
 		}
 		
-		if(this.maxReceive > 0) {
-			this.setBaseReceive(transfer);
+		if(this.baseExtract > 0 && this.maxExtract < this.baseExtract) {
+			
+			this.setMaxExtract(extract);
+			onEnergyChanged();
+		}
+		
+		if(this.baseReceive > 0 && this.maxReceive < this.baseReceive) {
+			
+			this.setMaxReceive(receive);
+			onEnergyChanged();
 		}
 		
 		if(upgrade1Count != 0 || upgrade2Count != 0) {
@@ -520,7 +543,7 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 		}
 	}
 
-	public void threeUpgradeModifier(int capacity, int transfer, ItemStack upgrade1, ItemStack upgrade2, ItemStack upgrade3) {
+	public void threeUpgradeModifier(int capacity, int receive, int extract, ItemStack upgrade1, ItemStack upgrade2, ItemStack upgrade3) {
 		
 		int capacityCount1 = 0;
 		int capacityCount2 = 0;
@@ -529,6 +552,10 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 		int transferCount1 = 0;
 		int transferCount2 = 0;
 		int transferCount3 = 0;
+		
+		this.baseCapacity = capacity;
+		this.baseExtract = extract;
+		this.baseReceive = receive;
 		
 		if(!(upgrade1Stack.equals(ItemStack.EMPTY))) {
 			
@@ -548,14 +575,22 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 		int totalCapacity = 0;
 		int totalTransfer = 0;
 		
-		this.setBaseCapacity(capacity);
-		
-		if(this.maxExtract > 0) {
-			this.setBaseExtract(transfer);
+		if(this.baseCapacity > 0 && this.capacity < this.baseCapacity) {
+			
+			this.setCapacity(capacity);
+			onEnergyChanged();
 		}
 		
-		if(this.maxReceive > 0) {
-			this.setBaseReceive(transfer);
+		if(this.baseExtract > 0 && this.maxExtract < this.baseExtract) {
+			
+			this.setMaxExtract(extract);
+			onEnergyChanged();
+		}
+		
+		if(this.baseReceive > 0 && this.maxReceive < this.baseReceive) {
+			
+			this.setMaxReceive(receive);
+			onEnergyChanged();
 		}
 		
 		if(upgrade1Count != 0 || upgrade2Count != 0 || upgrade3Count != 0) {
@@ -672,7 +707,7 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 		}
 	}
 
-	public void fourUpgradeModifier(int capacity, int transfer, ItemStack upgrade1, ItemStack upgrade2, ItemStack upgrade3, ItemStack upgrade4) {
+	public void fourUpgradeModifier(int capacity, int receive, int extract, ItemStack upgrade1, ItemStack upgrade2, ItemStack upgrade3, ItemStack upgrade4) {
 		
 		int capacityCount1 = 0;
 		int capacityCount2 = 0;
@@ -683,6 +718,10 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 		int transferCount2 = 0;
 		int transferCount3 = 0;
 		int transferCount4 = 0;
+		
+		this.baseCapacity = capacity;
+		this.baseExtract = extract;
+		this.baseReceive = receive;
 		
 		if(!(upgrade1Stack.equals(ItemStack.EMPTY))) {
 			
@@ -707,14 +746,22 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 		int totalCapacity = 0;
 		int totalTransfer = 0;
 		
-		this.baseCapacity = capacity;
-		
-		if(this.maxExtract > 0) {
-			this.baseExtract = transfer;
+		if(this.baseCapacity > 0 && this.capacity < this.baseCapacity) {
+			
+			this.setCapacity(capacity);
+			onEnergyChanged();
 		}
 		
-		if(this.maxReceive > 0) {
-			this.baseReceive = transfer;
+		if(this.baseExtract > 0 && this.maxExtract < this.baseExtract) {
+			
+			this.setMaxExtract(extract);
+			onEnergyChanged();
+		}
+		
+		if(this.baseReceive > 0 && this.maxReceive < this.baseReceive) {
+			
+			this.setMaxReceive(receive);
+			onEnergyChanged();
 		}
 		
 		if(upgrade1Count != 0 || upgrade2Count != 0 || upgrade3Count != 0 || upgrade4Count != 0) {

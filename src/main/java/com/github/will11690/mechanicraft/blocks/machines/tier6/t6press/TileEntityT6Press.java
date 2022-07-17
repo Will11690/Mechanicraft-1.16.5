@@ -561,7 +561,7 @@ public class TileEntityT6Press extends TileEntity implements ITickableTileEntity
     		energyStorage.setUpgrade2Stack(upgradeSlotHandler.getStackInSlot(1));
     		energyStorage.setUpgrade3Stack(upgradeSlotHandler.getStackInSlot(2));
     		energyStorage.setUpgrade4Stack(upgradeSlotHandler.getStackInSlot(3));
-    		energyStorage.fourUpgradeModifier(capacity, receive, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1), upgradeSlotHandler.getStackInSlot(2), upgradeSlotHandler.getStackInSlot(3));
+    		energyStorage.fourUpgradeModifier(capacity, receive, 0, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1), upgradeSlotHandler.getStackInSlot(2), upgradeSlotHandler.getStackInSlot(3));
     		
     	}
     }

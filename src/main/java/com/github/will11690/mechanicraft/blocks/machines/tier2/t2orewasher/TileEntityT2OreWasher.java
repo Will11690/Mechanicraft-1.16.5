@@ -507,7 +507,7 @@ public class TileEntityT2OreWasher extends TileEntity implements ITickableTileEn
     	if(energy.isPresent()) {
     		
     		energyStorage.setUpgrade1Stack(upgradeSlotHandler.getStackInSlot(0));
-    		energyStorage.oneUpgradeModifier(capacity, receive, upgradeSlotHandler.getStackInSlot(0));
+    		energyStorage.oneUpgradeModifier(capacity, receive, 0, upgradeSlotHandler.getStackInSlot(0));
     		
     	}
     }
