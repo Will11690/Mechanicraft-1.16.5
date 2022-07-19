@@ -2,10 +2,13 @@ package com.github.will11690.mechanicraft.blocks.machines.basic.basicinfuser;
 
 import javax.annotation.Nullable;
 
+import com.github.will11690.mechanicraft.network.packet.PacketHandler;
+import com.github.will11690.mechanicraft.network.packet.energy.ClientboundBurnTimePacket;
 import com.github.will11690.mechanicraft.util.handlers.ContainerTypeHandler;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -16,6 +19,9 @@ import net.minecraft.util.IntArray;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.network.PacketDistributor.PacketTarget;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -24,13 +30,16 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 public class ContainerBasicMetallicInfuser extends Container {
 	
 	private final IItemHandler playerInventory;
+	private PlayerEntity player;
     private IItemHandler handler;
     private IIntArray fields;
     private TileEntityBasicMetallicInfuser tile;
+    private int burnTime;
+    private int totalBurnTime;
 
     public ContainerBasicMetallicInfuser(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-    	this((TileEntityBasicMetallicInfuser) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(3), id, playerInventory, new ItemStackHandler(4));
+    	this((TileEntityBasicMetallicInfuser) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(1), id, playerInventory, new ItemStackHandler(4));
     	
     }
     
@@ -41,7 +50,12 @@ public class ContainerBasicMetallicInfuser extends Container {
     	this.handler = iItemHandler;
         this.fields = fields;
         this.tile = tile;
+        this.player = playerInventory.player;
         this.playerInventory = new InvWrapper(playerInventory);
+        
+        this.burnTime = 0;
+        this.totalBurnTime = 0;
+        
         layoutPlayerInventorySlots(8, 86);
 
         this.addSlot(new SlotItemHandler(this.handler, 0, 30, 20) {
@@ -142,29 +156,56 @@ public class ContainerBasicMetallicInfuser extends Container {
         addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
         
     }
+    
+    private int getBurn() {
+    	
+    	return tile.burnTime;
+    }
+    
+    private int getTotalBurn() {
+    	
+    	return tile.totalBurnTime;
+    }
+    
+    @Override
+    public void broadcastChanges() {
+    	super.broadcastChanges();
+    	if((player instanceof ServerPlayerEntity) && !(player instanceof FakePlayer)) {
+    		
+    		PacketTarget target = PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player);
+    		ClientboundBurnTimePacket messageBurn = new ClientboundBurnTimePacket(this.burnTime, this.totalBurnTime, tile.getBlockPos(), player.getUUID());
+    		
+    		int newBurnTime = getBurn();
+			int newTotalBurnTime = getTotalBurn();
+    		
+			if(getBurn() > -1 || getTotalBurn() > -1) {
+				
+				PacketHandler.INSTANCE_BURN_TIME.send(target, messageBurn);
+				this.burnTime = newBurnTime;
+				this.totalBurnTime = newTotalBurnTime;
+			}
+    	}
+    }
+    
+    public int setBurnTime(int burnTime) {
+    	
+    	return this.burnTime = burnTime;
+    }
+    
+    public int setTotalBurnTime(int totalBurnTime) {
+    	
+    	return this.totalBurnTime = totalBurnTime;
+    }
 
 	public int getMaxProgress() {
 		
 		return TileEntityBasicMetallicInfuser.WORK_TIME;
 		
 	}
-
-	public int getBurnTimeRemaining() {
-		
-		return this.fields.get(0);
-		
-	}
-	
-	public int getItemBurnTime() {
-		
-		return this.fields.get(1);
-		
-	}
 	
 	public int getProgress() {
 		
-		return this.fields.get(2);
-		
+		return this.fields.get(0);
 	}
 
 	public int getProgressionScaled() {
@@ -174,32 +215,16 @@ public class ContainerBasicMetallicInfuser extends Container {
 		return cookTimeForRecipe != 0 && cookProgress != 0 ? cookProgress * 24 / cookTimeForRecipe : 0;
 		
 	}
-
-	public int getBurnLeftScaled() {
-		
-		int totalBurnTime = this.getItemBurnTime();
-		
-		if (totalBurnTime == 0) {
-			
-			totalBurnTime = 200;
-			
-		}
-
-		return this.getBurnTimeRemaining() * 13 / totalBurnTime;
-		
-	}
-	
-	public boolean isBurning() {
-		
-		if(TileEntityBasicMetallicInfuser.BURN_TIME > 0) {
-			
-			return true;
-			
-		}
-		
-		else return false;
-		
-	}
+    
+    public int getBurnTime() {
+    	
+    	return this.burnTime;
+    }
+    
+    public int getTotalBurnTime() {
+    	
+    	return this.totalBurnTime;
+    }
 
     @Override
     public boolean stillValid(PlayerEntity player) {

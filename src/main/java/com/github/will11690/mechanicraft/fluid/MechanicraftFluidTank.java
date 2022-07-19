@@ -1,11 +1,15 @@
 package com.github.will11690.mechanicraft.fluid;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nonnull;
+
+import com.github.will11690.mechanicraft.init.ModItems;
+
 import java.util.function.Predicate;
 
 /**
@@ -35,13 +39,19 @@ public class MechanicraftFluidTank implements IFluidHandler, IFluidTank {
     public MechanicraftFluidTank(int capacity, Predicate<FluidStack> validator) {
     	
     	this.baseCapacity = capacity;
-        this.capacity = getFluidCapacity();
+        this.capacity = capacity;
         this.validator = validator;
     }
 
     public MechanicraftFluidTank setCapacity(int capacity) {
     	
         this.capacity = capacity;
+        
+        if(fluid.getAmount() > capacity) {
+        	
+        	fluid.setAmount(capacity);
+        }
+        
         return this;
     }
 
@@ -218,52 +228,63 @@ public class MechanicraftFluidTank implements IFluidHandler, IFluidTank {
     }
     
     //From this point on are Mechanicraft additions
+    public void upgradeCapacity(ItemStack stack1, ItemStack stack2, ItemStack stack3, ItemStack stack4) {
+    	
+    	int stack1Count = 0;
+    	int stack2Count = 0;
+    	int stack3Count = 0;
+    	int stack4Count = 0;
+    	
+    	int totalCount = 0;
+    	
+    	if(!stack1.isEmpty() && stack1.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
+    		
+    		stack1Count = stack1.getCount();
+    	}
+    	
+    	if(!stack2.isEmpty() && stack2.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
+    		
+    		stack2Count = stack2.getCount();
+    	}
+    	
+    	if(!stack3.isEmpty() && stack3.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
+    		
+    		stack3Count = stack3.getCount();
+    	}
+    	
+    	if(!stack4.isEmpty() && stack4.getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
+    		
+    		stack4Count = stack4.getCount();
+    	}
+    	
+    	totalCount = stack1Count + stack2Count + stack3Count + stack4Count;
+    	
+    	if(totalCount > 0) {
+    		
+    		applyCapacityUpgrades(totalCount);
+    		onContentsChanged();
+    	}
+    }
+    
 	public int upgradedCapacity(int capacityUpgrade) {
 		
 		int setMaxCapacity;
 		
-		if(baseCapacity != 0 && baseCapacity != upgradedCapacity && capacityUpgrade > 0) {
-			
-			setMaxCapacity = (int)Math.round(baseCapacity * (capacityUpgrade * 1.10));
+		if(baseCapacity != 0 && capacityUpgrade > 0) {
+			double modify = (capacityUpgrade * 0.10) + 1;
+			setMaxCapacity = (int)Math.round(baseCapacity * modify);
 			upgradedCapacity = setMaxCapacity;
 			
-			onContentsChanged();
-			
 			return upgradedCapacity;
-			
-		} else {
-			
-			upgradedCapacity = baseCapacity;
 		}
 		
-		onContentsChanged();
-		return upgradedCapacity;
+		return baseCapacity;
 	}
 	
 	public void applyCapacityUpgrades(int capacityUpgrade) {
 		
         setCapacity(upgradedCapacity(capacityUpgrade));
         onContentsChanged();
-    }
-	
-    private int getFluidCapacity() {
-    	
-    	int cap;
-    	
-    	if(upgradedCapacity > 0) {
-    		
-    		cap = upgradedCapacity;
-    		onContentsChanged();
-    		return cap;
-    		
-		} else if(capacity != baseCapacity && upgradedCapacity <= 0) {
-			
-			cap = baseCapacity;
-			onContentsChanged();
-			return cap;
-		}
-    	
-    	return baseCapacity;
     }
     
     public int getBaseCapacity() {

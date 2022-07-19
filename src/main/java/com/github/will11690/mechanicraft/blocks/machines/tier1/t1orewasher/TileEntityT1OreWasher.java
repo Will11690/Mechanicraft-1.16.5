@@ -50,10 +50,10 @@ public class TileEntityT1OreWasher extends TileEntity implements ITickableTileEn
 
 	//TODO Clean this up and assign ItemStackHandlers via CombinedInvWrapper instead of per slot
 	
-	private MechaniCraftEnergyStorage energyStorage = createEnergy();
+	MechaniCraftEnergyStorage energyStorage = createEnergy();
 	
-	private MechanicraftFluidTank inputFluidTank = createInputFluidTank();
-	private MechanicraftFluidTank outputFluidTank = createOutputFluidTank();
+	MechanicraftFluidTank inputFluidTank = createInputFluidTank();
+	MechanicraftFluidTank outputFluidTank = createOutputFluidTank();
 	
 	private ItemStackHandler inputSlotHandler = createInput();
 	private ItemStackHandler inputSlotWrapperHandler = createInputWrapper(inputSlotHandler);
@@ -86,23 +86,9 @@ public class TileEntityT1OreWasher extends TileEntity implements ITickableTileEn
             switch (index) {
             
                 case 0:
-                	return energyStorage.getEnergyStored();
-                case 1:
                 	return progress;
-                case 2:
-                	return Math.max(energyStorage.getBaseCapacity(), energyStorage.getUpgradedCapacity());
-    			case 3:
+    			case 1:
     				return WORK_TIME;
-    			case 4:
-    				energyStorage.getBaseCapacity();
-    			case 5:
-    				return inputFluidTank.getCapacity();
-    			case 6:
-    				return inputFluidTank.getFluidInTank(0).getAmount();
-    			case 7:
-    				return outputFluidTank.getCapacity();
-    			case 8:
-    				return outputFluidTank.getFluidInTank(0).getAmount();
                 default:
                     return 0;
                     
@@ -115,19 +101,10 @@ public class TileEntityT1OreWasher extends TileEntity implements ITickableTileEn
             switch (index) {
             
             	case 0:
-            		energyStorage.setEnergy(value);
-            		break;
-            	case 1:
             		progress = value;
             		break;
-            	case 2:
-            		energyStorage.setCapacity(value);
-            		break;
-            	case 3:
+            	case 1:
             		WORK_TIME = value;
-            		break;
-            	case 4:
-            		energyStorage.setBaseCapacity(value);
             		break;
             	default:
             		break;
@@ -138,17 +115,17 @@ public class TileEntityT1OreWasher extends TileEntity implements ITickableTileEn
         @Override
         public int getCount() {
         	
-            return 9;
+            return 2;
             
         }
     };
-
+    
     public TileEntityT1OreWasher() {
     	
         super(TileEntityHandler.TILE_ENTITY_T1_ORE_WASHER.get());
         
     }
-
+    
 	private MechanicraftFluidTank createInputFluidTank() {
 		
 		return new MechanicraftFluidTank(fluid_capacity) {
@@ -312,13 +289,8 @@ public class TileEntityT1OreWasher extends TileEntity implements ITickableTileEn
             return;
             
         }
-		
+        
 		this.updateEnergyStorage();
-		
-        if(energyStorage.getBaseCapacity() <= 0 || energyStorage.getBaseReceive() <= 0) {
-			
-			energyStorage.updateEnergyStorageNoUpgrades(capacity, receive, 0);
-		}
 
 		if(energyStorage.getMaxEnergyStored() > energyStorage.getEnergyStored()) {
 
@@ -346,7 +318,7 @@ public class TileEntityT1OreWasher extends TileEntity implements ITickableTileEn
 			progress -= 2;
 		}
         
-        if(canCraft() && this.level.getBlockState(this.worldPosition).getValue(T1OreWasher.LIT) == false) {
+    	if(canCraft() && this.level.getBlockState(this.worldPosition).getValue(T1OreWasher.LIT) == false) {
         	
         	this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(T1OreWasher.LIT, Boolean.valueOf(true)));
         }
@@ -367,34 +339,38 @@ public class TileEntityT1OreWasher extends TileEntity implements ITickableTileEn
     
     private boolean canCraft() {
     	
-    	Inventory recipeInventory = new Inventory(this.inputSlotHandler.getStackInSlot(0));
-    	
-    	Optional<WasherRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.WASHER_RECIPES, recipeInventory, this.level);
-    	WasherRecipes recipe = rOpt.orElse(null);
-    	
-    	int outputHandlerCount = 0;
-    	
-    	FluidStack output = FluidStack.EMPTY;
-    	if(!this.inputFluidTank.getFluidInTank(0).equals(FluidStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(0).equals(ItemStack.EMPTY)) {
+    	if(allSlots.isPresent()) {
     		
-    		if(recipe != null)
-    			output = recipe.assembleFluid(inputFluidTank, inputSlotHandler).copy();
+    		Inventory recipeInventory = new Inventory(this.inputSlotHandler.getStackInSlot(0));
     	
+    		Optional<WasherRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.WASHER_RECIPES, recipeInventory, this.level);
+    		WasherRecipes recipe = rOpt.orElse(null);
     	
-    		FluidStack outputHandler = outputFluidTank.getFluidInTank(0);
+    		int outputHandlerCount = 0;
     	
-    		if(!(outputHandler.equals(FluidStack.EMPTY))) {
+    		FluidStack output = FluidStack.EMPTY;
+    		if(!this.inputFluidTank.getFluidInTank(0).equals(FluidStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(0).equals(ItemStack.EMPTY)) {
     		
-    			outputHandlerCount = outputHandler.getAmount();
-    		}
+    			if(recipe != null)
+    				output = recipe.assembleFluid(inputFluidTank, inputSlotHandler).copy();
     	
-    		if(energyStorage.getEnergyStored() >= washingEnergy) {
     	
-    			if(recipe != null && (output.getFluid().equals(outputHandler.getFluid()) || outputHandler.equals(FluidStack.EMPTY)) && (output.getAmount() + outputHandlerCount <= outputFluidTank.getCapacity())) {
+    			FluidStack outputHandler = outputFluidTank.getFluidInTank(0);
+    	
+    			if(!(outputHandler.equals(FluidStack.EMPTY))) {
     		
-    				return true;
+    				outputHandlerCount = outputHandler.getAmount();
+    			}
+    	
+    			if(energyStorage.getEnergyStored() >= washingEnergy) {
+    	
+    				if(recipe != null && (output.getFluid().equals(outputHandler.getFluid()) || outputHandler.equals(FluidStack.EMPTY)) && (output.getAmount() + outputHandlerCount <= outputFluidTank.getCapacity())) {
+    		
+    					return true;
+    				}
     			}
     		}
+    		return false;
     	}
     	return false;
     }
@@ -564,16 +540,6 @@ public class TileEntityT1OreWasher extends TileEntity implements ITickableTileEn
         }
 
         return false;
-    }
-	
-    public FluidStack getInputFluidStack() {
-		
-        return this.inputFluidTank.getFluidInTank(0);
-    }
-	
-    public FluidStack getOutputFluidStack() {
-		
-        return this.outputFluidTank.getFluidInTank(0);
     }
 
     @Override

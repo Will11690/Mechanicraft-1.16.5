@@ -24,7 +24,6 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -55,48 +54,6 @@ public class TileEntityT1EnergyCube extends TileEntity implements ITickableTileE
     
     private static int capacity = ModConfigs.t1EnergyCubeCapacityInt;
     private static int transfer = ModConfigs.t1EnergyCubeTransferInt;
-
-    private final IIntArray fields = new IIntArray() {
-    	
-        @Override
-        public int get(int index) {
-        	
-            switch (index) {
-            
-                case 0:
-                	return energyStorage.getEnergyStored();
-                case 1:
-                	return energyStorage.getCapacity();
-                default:
-                    return 0;
-                    
-            }
-        }
-
-        @Override
-        public void set(int index, int value) {
-        	
-            switch (index) {
-            
-                case 0:
-                	energyStorage.setEnergy(value);
-                    break;
-                case 1:
-                	energyStorage.setCapacity(value);
-                    break;
-                default:
-                	break;
-                    
-            }
-        }
-
-        @Override
-        public int getCount() {
-        	
-            return 2;
-            
-        }
-    };
     
     private MechaniCraftEnergyStorage createEnergy() {
     	
@@ -237,7 +194,7 @@ public class TileEntityT1EnergyCube extends TileEntity implements ITickableTileE
         super(TileEntityHandler.TILE_ENTITY_T1_ENERGY_CUBE.get());
         
     }
-
+    
 	@Override
     public void tick() {
     	
@@ -463,7 +420,7 @@ public class TileEntityT1EnergyCube extends TileEntity implements ITickableTileE
     @Override
     public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity playerEntity) {
         assert level != null;
-        return new ContainerT1EnergyCube(this, this.fields, id, playerInventory, new CombinedInvWrapper(chargeSlotsHandler, upgradeSlotHandler));
+        return new ContainerT1EnergyCube(this, id, playerInventory, new CombinedInvWrapper(chargeSlotsHandler, upgradeSlotHandler));
     }
 
     @Override

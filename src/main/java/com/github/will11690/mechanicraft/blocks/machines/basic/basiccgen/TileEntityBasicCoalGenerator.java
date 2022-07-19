@@ -14,7 +14,6 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.ForgeHooks;
@@ -58,64 +57,12 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
 	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(chargeSlotHandler, fuelSlotHandler));
 	boolean breakBlock = false;
     
-    private int burnTime = 0;
+    public int burnTime = 0;
     private int powerGen = ModConfigs.basicCoalGeneratorPowerGenInt;
     public int totalBurnTime = 0;
     
     private static int capacity = ModConfigs.basicCoalGeneratorCapacityInt;
     private static int extract = ModConfigs.basicCoalGeneratorExtractInt;
-
-    private final IIntArray fields = new IIntArray() {
-    	
-        @Override
-        public int get(int index) {
-        	
-            switch (index) {
-            
-                case 0:
-                    return burnTime;
-                case 1:
-                	return totalBurnTime;
-                case 2:
-                	return energyStorage.getEnergyStored();
-                case 3:
-                	return energyStorage.getCapacity();
-                default:
-                    return 0;
-                    
-            }
-        }
-
-        @Override
-        public void set(int index, int value) {
-        	
-            switch (index) {
-            
-                case 0:
-                	burnTime = value;
-                    break;
-                case 1:
-                	totalBurnTime = value;
-                    break;
-                case 2:
-                	energyStorage.setEnergy(value);
-                    break;
-                case 3:
-                	energyStorage.setCapacity(value);
-                	break;
-                default:
-                	break;
-                    
-            }
-        }
-
-        @Override
-        public int getCount() {
-        	
-            return 4;
-            
-        }
-    };
 
     public TileEntityBasicCoalGenerator() {
     	
@@ -133,11 +80,6 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
         }
 		
 		this.updateEnergyStorage();
-		
-		if(energyStorage.getBaseCapacity() <= 0 || energyStorage.getBaseExtract() <= 0) {
-			
-			energyStorage.updateEnergyStorageNoUpgrades(capacity, 0, extract);
-		}
         
         if(burnTime <= 0 && this.level.getBlockState(this.worldPosition).getValue(BasicCoalGenerator.LIT) == true) {
         	
@@ -192,8 +134,8 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
 	private void updateEnergyStorage() {
 		
 		if(energy.isPresent()) {
-				
-			energyStorage.updateEnergyStorageNoUpgrades(capacity, 0, extract);
+			if(energyStorage.getCapacity() != capacity || energyStorage.getMaxExtract() != extract)
+				energyStorage.updateEnergyStorageNoUpgrades(capacity, 0, extract);
 		}
 	}
     
@@ -327,16 +269,19 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
     
     private boolean canGenerate() {
     	
-    	if(energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored() >= 0) {
+    	if(allSlots.isPresent()) {
     		
-    		return true;
+    		if(energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored() >= 0) {
     		
-    	} else {
+    			return true;
     		
-    		return false;
+    		} else {
     		
+    			return false;
+    		
+    		}
     	}
-    	
+    	return false;
     }
     
     private void startGenerating() {
@@ -456,7 +401,7 @@ public class TileEntityBasicCoalGenerator extends TileEntity implements ITickabl
     @Override
     public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity playerEntity) {
         assert level != null;
-        return new ContainerBasicCoalGenerator(this, this.fields, id, playerInventory, new CombinedInvWrapper(chargeSlotHandler, fuelSlotHandler));
+        return new ContainerBasicCoalGenerator(this, id, playerInventory, new CombinedInvWrapper(chargeSlotHandler, fuelSlotHandler));
     }
 
     @Override

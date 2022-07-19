@@ -3,18 +3,32 @@ package com.github.will11690.mechanicraft.blocks.machines.tier1.t1orewasher;
 import javax.annotation.Nullable;
 
 import com.github.will11690.mechanicraft.blocks.machines.common.slots.SlotEnergyItem;
+import com.github.will11690.mechanicraft.network.packet.PacketHandler;
+import com.github.will11690.mechanicraft.network.packet.orewasher.energy.ClientboundWasherEnergyPacket;
+import com.github.will11690.mechanicraft.network.packet.orewasher.input.ClientboundWasherInputPacket;
+import com.github.will11690.mechanicraft.network.packet.orewasher.output.ClientboundWasherOutputPacket;
 import com.github.will11690.mechanicraft.util.handlers.ContainerTypeHandler;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.network.PacketDistributor.PacketTarget;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -23,13 +37,20 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 public class ContainerT1OreWasher extends Container {
 	
 	private final IItemHandler playerInventory;
+	private PlayerEntity player;
     private IItemHandler handler;
     private IIntArray fields;
     private TileEntityT1OreWasher tile;
+    private int energyStored;
+    private int energyCapacity;
+    private FluidStack input;
+    private int inputCapacity;
+    private FluidStack output;
+    private int outputCapacity;
 
     public ContainerT1OreWasher(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-    	this((TileEntityT1OreWasher) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(9), id, playerInventory, new ItemStackHandler(2));
+    	this((TileEntityT1OreWasher) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(2), id, playerInventory, new ItemStackHandler(2));
     	
     }
     
@@ -40,7 +61,16 @@ public class ContainerT1OreWasher extends Container {
     	this.handler = iItemHandler;
         this.fields = fields;
         this.tile = tile;
+        this.player = playerInventory.player;
         this.playerInventory = new InvWrapper(playerInventory);
+        
+        this.energyStored = 0;
+        this.energyCapacity = 0;
+        this.input = FluidStack.EMPTY;
+        this.inputCapacity = 0;
+        this.output = FluidStack.EMPTY;
+        this.outputCapacity = 0;
+        
         layoutPlayerInventorySlots(8, 86);
         
         this.addSlot(new SlotEnergyItem(this.handler, 0, 8, 55));
@@ -99,63 +129,151 @@ public class ContainerT1OreWasher extends Container {
         addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
         
     }
-
-	public TileEntityT1OreWasher getTileEntity() {
+    
+    private IEnergyStorage getEnergy() {
+    	
+    	return tile.getCapability(CapabilityEnergy.ENERGY, Direction.DOWN).orElse(null);
+    }
+    
+    private IFluidHandler getFluid1() {
+    	
+    	return tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, Direction.DOWN).orElse(null);
+    }
+    
+    private IFluidHandler getFluid2() {
+    	
+    	return tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, tile.getBlockState().getValue(T1OreWasher.FACING).getOpposite()).orElse(null);
+    }
+    
+    @Override
+    public void broadcastChanges() {
+    	super.broadcastChanges();
+    	if((player instanceof ServerPlayerEntity) && !(player instanceof FakePlayer)) {
+			
+			PacketTarget target = PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player);
+			ClientboundWasherEnergyPacket messageEnergy = new ClientboundWasherEnergyPacket(this.energyStored, this.energyCapacity, tile.getBlockPos(), player.getUUID());
+			ClientboundWasherInputPacket messageInput = new ClientboundWasherInputPacket(this.input, this.inputCapacity, tile.getBlockPos(), player.getUUID());
+			ClientboundWasherOutputPacket messageOutput = new ClientboundWasherOutputPacket(this.output, this.outputCapacity, tile.getBlockPos(), player.getUUID());
+			
+			int newEnergyStored = getEnergy().getEnergyStored();
+			int newEnergyCapacity = getEnergy().getMaxEnergyStored();
+			FluidStack newFluidStack1 = getFluid1().getFluidInTank(0).copy();
+			int newFluid1Capacity = getFluid1().getTankCapacity(0);
+			FluidStack newFluidStack2 = getFluid2().getFluidInTank(0).copy();
+			int newFluid2Capacity = getFluid2().getTankCapacity(0);
+			
+			if(getEnergy() != null) {
+				
+				PacketHandler.INSTANCE_WASHER_ENERGY.send(target, messageEnergy);
+				this.energyStored = newEnergyStored;
+				this.energyCapacity = newEnergyCapacity;
+			}
+			
+			if(!getFluid1().equals(null)) {
+				
+				PacketHandler.INSTANCE_WASHER_INPUT.send(target, messageInput);
+				this.input = newFluidStack1;
+				this.inputCapacity = newFluid1Capacity;
+			}
+			
+			if(!getFluid2().equals(null)) {
+				
+				PacketHandler.INSTANCE_WASHER_OUTPUT.send(target, messageOutput);
+				this.output = newFluidStack2;
+				this.outputCapacity = newFluid2Capacity;
+			}
+		}
+    }
+	
+	public int setEnergyStored(int energyStored) {
 		
-		return tile;
-	}
+       return this.energyStored = energyStored;
+    }
+
+    public int setEnergyCapacity(int energyCapacity) {
+    	
+        return this.energyCapacity = energyCapacity;
+    }
+
+    public FluidStack setInputFluid(FluidStack input) {
+    	
+    	if(!input.equals(null)) {
+    	
+    		return this.input = input;
+    	}
+    	
+    	return this.input = FluidStack.EMPTY;
+    }
+
+    public int setInputCapacity(int inputCapacity) {
+    	
+        return this.inputCapacity = inputCapacity;
+    }
+
+    public FluidStack setOutputFluid(FluidStack output) {
+    	
+    	if(!output.equals(null)) {
+    	
+    		return this.output = output;
+    	}
+    	
+    	return this.output = FluidStack.EMPTY;
+    }
+
+    public int setOutputCapacity(int outputCapacity) {
+    	
+        return this.outputCapacity = outputCapacity;
+    }
 
     public int getProgress() {
     	
-		return this.fields.get(1);
+		return this.fields.get(0);
 		
 	}
     
     public int getMaxProgress() {
     	
-    	return this.fields.get(3);
+    	return this.fields.get(1);
     	
     }
 
 	public int getProgressionScaled() {
 		
 		int cookProgress = this.getProgress();
-		int cookTimeForRecipe = this.fields.get(3);
+		int cookTimeForRecipe = this.fields.get(1);
 		return cookTimeForRecipe != 0 && cookProgress != 0 ? cookProgress * 24 / cookTimeForRecipe : 0;
 		
 	}
 	
-	public int getEnergy() {
+	public int getEnergyStored() {
 		
-		return this.fields.get(0);
-		
-	}
-	
-	public int getCapacity() {
-		
-		return this.fields.get(2);
-		
-	}
-	
-	public int getInputTankCapacity() {
-		
-		return this.fields.get(5);
-	}
-	
-	public int getOutputTankCapacity() {
-		
-		return this.fields.get(7);
-	}
-	
-	public int getInputTankStored() {
-		
-		return this.fields.get(6);
-	}
-	
-	public int getOutputTankStored() {
-		
-		return this.fields.get(8);
-	}
+       return this.energyStored;
+    }
+
+    public int getEnergyCapacity() {
+    	
+        return this.energyCapacity;
+    }
+
+    public FluidStack getInputFluid() {
+    	
+    	return this.input;
+    }
+
+    public int getInputCapacity() {
+    	
+        return this.inputCapacity;
+    }
+
+    public FluidStack getOutputFluid() {
+    	
+    	return this.output;
+    }
+
+    public int getOutputCapacity() {
+    	
+        return this.outputCapacity;
+    }
 
     @Override
     public boolean stillValid(PlayerEntity player) {

@@ -103,14 +103,10 @@ public class TileEntityAdvancedFurnace extends TileEntity implements ITickableTi
 			switch (index) {
 
 			case 0:
-				return energyStorage.getEnergyStored();
-			case 1:
 				return progress1;
-			case 2:
-				return energyStorage.getCapacity();
-			case 3:
+			case 1:
 				return progress2;
-			case 4:
+			case 2:
 				return upgradableWorkTime;
 			default:
 				return 0;
@@ -124,18 +120,12 @@ public class TileEntityAdvancedFurnace extends TileEntity implements ITickableTi
 			switch (index) {
 
 			case 0:
-				energyStorage.setEnergy(value);
-				break;
-			case 1:
 				progress1 = value;
 				break;
-			case 2:
-				energyStorage.setCapacity(value);
-				break;
-			case 3:
+			case 1:
 				progress2 = value;
 				break;
-			case 4:
+			case 2:
 				upgradableWorkTime = value;
 				break;
 			default:
@@ -147,7 +137,7 @@ public class TileEntityAdvancedFurnace extends TileEntity implements ITickableTi
 		@Override
 		public int getCount() {
         	
-			return 5;
+			return 3;
             
 		}
 	};
@@ -561,72 +551,74 @@ public class TileEntityAdvancedFurnace extends TileEntity implements ITickableTi
 
 	private boolean canSmelt1() {
 
-		ItemStack input = inputSlotHandler1.getStackInSlot(0);
-		ItemStack output = outputSlotHandler1.getStackInSlot(0);
+		if(allSlots.isPresent()) {
+		
+			ItemStack input = inputSlotHandler1.getStackInSlot(0);
+			ItemStack output = outputSlotHandler1.getStackInSlot(0);
 
-		ItemStack result = getResultForItem1(level, input);
+			ItemStack result = getResultForItem1(level, input);
 
-		if(energyStorage.getEnergyStored() >= upgradableSmeltingEnergy) {
+			if(energyStorage.getEnergyStored() >= upgradableSmeltingEnergy) {
 
-			if (result.isEmpty() || input.isEmpty()) {
+				if (result.isEmpty() || input.isEmpty()) {
+
+					return false;
+
+				}
+
+				if ((output.getCount() + result.getCount()) > output.getMaxStackSize()) {
+
+					return false;
+
+				}
+
+				if (output.isEmpty() || output.getItem().equals(result.getItem())) {
+
+					return true;
+
+				}
 
 				return false;
 
-			}
-
-			if ((output.getCount() + result.getCount()) > output.getMaxStackSize()) {
-
-				return false;
-
-			}
-
-			if (output.isEmpty() || output.getItem().equals(result.getItem())) {
-
-				return true;
-
-			}
-
-			return false;
-
+			} else return false;
 		}
-
-		else return false;
-
+		return false;
 	}
 	
 	private boolean canSmelt2() {
+		
+		if(allSlots.isPresent()) {
+			
+			ItemStack input = inputSlotHandler2.getStackInSlot(0);
+			ItemStack output = outputSlotHandler2.getStackInSlot(0);
 
-		ItemStack input = inputSlotHandler2.getStackInSlot(0);
-		ItemStack output = outputSlotHandler2.getStackInSlot(0);
+			ItemStack result = getResultForItem2(level, input);
 
-		ItemStack result = getResultForItem2(level, input);
+			if(energyStorage.getEnergyStored() >= upgradableSmeltingEnergy) {
 
-		if(energyStorage.getEnergyStored() >= upgradableSmeltingEnergy) {
+				if (result.isEmpty() || input.isEmpty()) {
 
-			if (result.isEmpty() || input.isEmpty()) {
+					return false;
+
+				}
+
+				if ((output.getCount() + result.getCount()) > output.getMaxStackSize()) {
+
+					return false;
+
+				}
+
+				if (output.isEmpty() || output.getItem().equals(result.getItem())) {
+
+					return true;
+
+				}
 
 				return false;
 
-			}
-
-			if ((output.getCount() + result.getCount()) > output.getMaxStackSize()) {
-
-				return false;
-
-			}
-
-			if (output.isEmpty() || output.getItem().equals(result.getItem())) {
-
-				return true;
-
-			}
-
-			return false;
-
+			} else return false;
 		}
-
-		else return false;
-
+		return false;
 	}
 
 	private void startSmelting1() {

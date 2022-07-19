@@ -59,7 +59,7 @@ public class BasicInfuserCatagory implements IRecipeCategory<InfuserRecipes> {
 
     protected IDrawableAnimated getArrow(InfuserRecipes recipe) {
     	
-        int cookTime = TileEntityBasicMetallicInfuser.getWorkTime();
+        int cookTime = TileEntityBasicMetallicInfuser.WORK_TIME;
         
         if (cookTime <= 0) {
         	
@@ -128,7 +128,7 @@ public class BasicInfuserCatagory implements IRecipeCategory<InfuserRecipes> {
     }
 
     protected void drawCookTime(InfuserRecipes recipe, MatrixStack matrixStack, int y) {
-        int cookTime = TileEntityBasicMetallicInfuser.getWorkTime();
+        int cookTime = TileEntityBasicMetallicInfuser.WORK_TIME;
         if (cookTime > 0) {
             int cookTimeSeconds = cookTime / 20;
             TranslationTextComponent timeString = new TranslationTextComponent("gui.jei.category.smelting.time.seconds", cookTimeSeconds);

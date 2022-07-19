@@ -98,21 +98,9 @@ public class TileEntityT6OreWasher extends TileEntity implements ITickableTileEn
             switch (index) {
             
                 case 0:
-                	return energyStorage.getEnergyStored();
-                case 1:
                 	return progress;
-                case 2:
-                	return energyStorage.getCapacity();
-    			case 3:
+    			case 1:
     				return upgradableWorkTime;
-    			case 4:
-    				return inputFluidTank.getCapacity();
-    			case 5:
-    				return inputFluidTank.getFluidInTank(0).getAmount();
-    			case 6:
-    				return outputFluidTank.getCapacity();
-    			case 7:
-    				return outputFluidTank.getFluidInTank(0).getAmount();
                 default:
                     return 0;
                     
@@ -125,15 +113,9 @@ public class TileEntityT6OreWasher extends TileEntity implements ITickableTileEn
             switch (index) {
             
             	case 0:
-            		energyStorage.setEnergy(value);
-            		break;
-            	case 1:
             		progress = value;
             		break;
-            	case 2:
-            		energyStorage.setCapacity(value);
-            		break;
-            	case 3:
+            	case 1:
             		upgradableWorkTime = value;
             		break;
             	default:
@@ -145,7 +127,7 @@ public class TileEntityT6OreWasher extends TileEntity implements ITickableTileEn
         @Override
         public int getCount() {
         	
-            return 8;
+            return 2;
             
         }
     };
@@ -450,9 +432,7 @@ public class TileEntityT6OreWasher extends TileEntity implements ITickableTileEn
 
 				receivePowerItem(chargeSlotHandler.getStackInSlot(0));
 
-			}
-
-			else
+			} else
 
 				receivePower();
 
@@ -515,6 +495,18 @@ public class TileEntityT6OreWasher extends TileEntity implements ITickableTileEn
     		energyStorage.fourUpgradeModifier(capacity, receive, 0, upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1), upgradeSlotHandler.getStackInSlot(2), upgradeSlotHandler.getStackInSlot(3));
     		
     	}
+    	
+    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) || upgradeSlotHandler.getStackInSlot(1).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) ||
+    	upgradeSlotHandler.getStackInSlot(2).getItem().equals(ModItems.CAPACITY_UPGRADE.get()) || upgradeSlotHandler.getStackInSlot(3).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
+    		
+    		inputFluidTank.upgradeCapacity(upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1), upgradeSlotHandler.getStackInSlot(2), upgradeSlotHandler.getStackInSlot(3));
+    		outputFluidTank.upgradeCapacity(upgradeSlotHandler.getStackInSlot(0), upgradeSlotHandler.getStackInSlot(1), upgradeSlotHandler.getStackInSlot(2), upgradeSlotHandler.getStackInSlot(3));
+    		
+    	} else {
+    		
+    		inputFluidTank.setCapacity(fluid_capacity);
+    		outputFluidTank.setCapacity(fluid_capacity);
+    	}
     }
 
 	public boolean canExtractCapacity() {
@@ -529,34 +521,39 @@ public class TileEntityT6OreWasher extends TileEntity implements ITickableTileEn
     
     private boolean canCraft() {
     	
-    	Inventory recipeInventory = new Inventory(this.inputSlotHandler.getStackInSlot(0));
+    	if(allSlots.isPresent()) {
     	
-    	Optional<WasherRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.WASHER_RECIPES, recipeInventory, this.level);
-    	WasherRecipes recipe = rOpt.orElse(null);
+    		Inventory recipeInventory = new Inventory(this.inputSlotHandler.getStackInSlot(0));
     	
-    	int outputHandlerCount = 0;
+    		Optional<WasherRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.WASHER_RECIPES, recipeInventory, this.level);
+    		WasherRecipes recipe = rOpt.orElse(null);
     	
-    	FluidStack output = FluidStack.EMPTY;
-    	if(!this.inputFluidTank.getFluidInTank(0).equals(FluidStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(0).equals(ItemStack.EMPTY)) {
+    		int outputHandlerCount = 0;
+    	
+    		FluidStack output = FluidStack.EMPTY;
     		
-    		if(recipe != null)
-    			output = recipe.assembleFluid(inputFluidTank, inputSlotHandler).copy();
-    	
-    	
-    		FluidStack outputHandler = outputFluidTank.getFluidInTank(0);
-    	
-    		if(!(outputHandler.equals(FluidStack.EMPTY))) {
+    		if(!this.inputFluidTank.getFluidInTank(0).equals(FluidStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(0).equals(ItemStack.EMPTY)) {
     		
-    			outputHandlerCount = outputHandler.getAmount();
-    		}
+    			if(recipe != null)
+    				output = recipe.assembleFluid(inputFluidTank, inputSlotHandler).copy();
     	
-    		if(energyStorage.getEnergyStored() >= upgradableWashingEnergy) {
     	
-    			if(recipe != null && (output.getFluid().equals(outputHandler.getFluid()) || outputHandler.equals(FluidStack.EMPTY)) && (output.getAmount() + outputHandlerCount <= outputFluidTank.getCapacity())) {
+    			FluidStack outputHandler = outputFluidTank.getFluidInTank(0);
+    	
+    			if(!(outputHandler.equals(FluidStack.EMPTY))) {
     		
-    				return true;
+    				outputHandlerCount = outputHandler.getAmount();
+    			}
+    	
+    			if(energyStorage.getEnergyStored() >= upgradableWashingEnergy) {
+    	
+    				if(recipe != null && (output.getFluid().equals(outputHandler.getFluid()) || outputHandler.equals(FluidStack.EMPTY)) && (output.getAmount() + outputHandlerCount <= outputFluidTank.getCapacity())) {
+    		
+    					return true;
+    				}
     			}
     		}
+    		return false;
     	}
     	return false;
     }
@@ -726,16 +723,6 @@ public class TileEntityT6OreWasher extends TileEntity implements ITickableTileEn
         }
 
         return false;
-    }
-	
-    public FluidStack getInputFluidStack() {
-		
-        return this.inputFluidTank.getFluidInTank(0);
-    }
-	
-    public FluidStack getOutputFluidStack() {
-		
-        return this.outputFluidTank.getFluidInTank(0);
     }
 
     @Override

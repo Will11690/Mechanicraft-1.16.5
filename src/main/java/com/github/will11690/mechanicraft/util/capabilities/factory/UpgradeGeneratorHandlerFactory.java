@@ -64,7 +64,7 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 			
 			if(totalSpeed > 0 && totalEfficiency == 0) {
 					
-				double modify = totalSpeed * 1.10;
+				double modify = (totalSpeed * 0.10) + 1;
 	    		double efficencyDropBurn = burnTime * 0.05;
 	    		double upgradeGen = energyGen * modify;
 	    		double upgradeBurn = burnTime - (efficencyDropBurn * totalSpeed);
@@ -75,7 +75,7 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 					
 			} else if(totalEfficiency > 0 && totalSpeed == 0) {
 					
-				double modify = totalEfficiency * 1.10;
+				double modify = (totalEfficiency * 0.10) + 1;
 		    	double efficencyDropPower = energyGen * 0.05;
 		    	double upgradeBurn = burnTime * modify;
 		    	double upgradeGen = energyGen - (efficencyDropPower * totalEfficiency);
@@ -91,7 +91,6 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 			this.totalEnergyGen = this.baseEnergyGen;
     		this.totalBurnTime = this.baseBurnTime;
     		this.onUpgradeChanged();
-			
 		}
 	}
 
@@ -148,26 +147,15 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 			
 			totalSpeed = speedCount1 + speedCount2;
 			totalEfficiency = efficiencyCount1 + efficiencyCount2;
-			
-			if(totalSpeed > 16) {
-				
-				totalSpeed = 16;
-			}
-			
-			if(totalEfficiency > 16) {
-				
-				totalEfficiency = 16;
-			}
-			
 		}
 			
 		if(totalSpeed > 0 || totalEfficiency > 0) {
 			
 			if(totalSpeed != 0 && totalEfficiency != 0) {
 					
-				double modify1 = totalSpeed * 1.10;
+				double modify1 = (totalSpeed * 0.10) + 1;
 	    		double efficencyDropBurn = burnTime * 0.05;
-		    	double modify2 = totalEfficiency * 1.10;
+		    	double modify2 = (totalEfficiency * 0.10) + 1;
 		    	double efficencyDropPower = energyGen * 0.05;
 		    	
 		    	double upgradeGen = (energyGen * modify1) - (efficencyDropPower * totalEfficiency);
@@ -179,7 +167,7 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 					
 			} else if(totalSpeed > 0 && totalEfficiency == 0) {
 					
-				double modify = totalSpeed * 1.10;
+				double modify = (totalSpeed * 0.10) + 1;
 	    		double efficencyDropBurn = burnTime * 0.05;
 	    		double upgradeGen = energyGen * modify;
 	    		double upgradeBurn = burnTime - (efficencyDropBurn * totalSpeed);
@@ -190,7 +178,7 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 					
 			} else if(totalEfficiency > 0 && totalSpeed == 0) {
 					
-				double modify = totalEfficiency * 1.10;
+				double modify = (totalEfficiency * 0.10) + 1;
 		    	double efficencyDropPower = energyGen * 0.05;
 		    	double upgradeBurn = burnTime * modify;
 		    	double upgradeGen = energyGen - (efficencyDropPower * totalEfficiency);
@@ -282,25 +270,15 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 			
 			totalSpeed = speedCount1 + speedCount2 + speedCount3;
 			totalEfficiency = efficiencyCount1 + efficiencyCount2 + efficiencyCount3;
-			
-			if(totalSpeed > 16) {
-				
-				totalSpeed = 16;
-			}
-			
-			if(totalEfficiency > 16) {
-				
-				totalEfficiency = 16;
-			}
 		}
 			
 			if(totalSpeed > 0 || totalEfficiency > 0) {
 				
 				if(totalSpeed != 0 && totalEfficiency != 0) {
 						
-					double modify1 = totalSpeed * 1.10;
+					double modify1 = (totalSpeed * 0.10) + 1;
 		    		double efficencyDropBurn = burnTime * 0.05;
-			    	double modify2 = totalEfficiency * 1.10;
+			    	double modify2 = (totalEfficiency * 0.10) + 1;
 			    	double efficencyDropPower = energyGen * 0.05;
 			    	
 			    	double upgradeGen = (energyGen * modify1) - (efficencyDropPower * totalEfficiency);
@@ -312,7 +290,7 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 						
 				} else if(totalSpeed > 0 && totalEfficiency == 0) {
 						
-					double modify = totalSpeed * 1.10;
+					double modify = (totalSpeed * 0.10) + 1;
 		    		double efficencyDropBurn = burnTime * 0.05;
 		    		double upgradeGen = energyGen * modify;
 		    		double upgradeBurn = burnTime - (efficencyDropBurn * totalSpeed);
@@ -323,7 +301,7 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 						
 				} else if(totalEfficiency > 0 && totalSpeed == 0) {
 						
-					double modify = totalEfficiency * 1.10;
+					double modify = (totalEfficiency * 0.10) + 1;
 			    	double efficencyDropPower = energyGen * 0.05;
 			    	double upgradeBurn = burnTime * modify;
 			    	double upgradeGen = energyGen - (efficencyDropPower * totalEfficiency);
@@ -433,25 +411,15 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 			
 			totalSpeed = speedCount1 + speedCount2 + speedCount3 + speedCount4;
 			totalEfficiency = efficiencyCount1 + efficiencyCount2 + efficiencyCount3 + efficiencyCount4;
-			
-			if(totalSpeed > 16) {
-				
-				totalSpeed = 16;
-			}
-			
-			if(totalEfficiency > 16) {
-				
-				totalEfficiency = 16;
-			}
 		}
 			
 			if(totalSpeed > 0 || totalEfficiency > 0) {
 				
 				if(totalSpeed != 0 && totalEfficiency != 0) {
 						
-					double modify1 = totalSpeed * 1.10;
+					double modify1 = (totalSpeed * 0.10) + 1;
 		    		double efficencyDropBurn = burnTime * 0.05;
-			    	double modify2 = totalEfficiency * 1.10;
+			    	double modify2 = (totalEfficiency * 0.10) + 1;
 			    	double efficencyDropPower = energyGen * 0.05;
 			    	
 			    	double upgradeGen = (energyGen * modify1) - (efficencyDropPower * totalEfficiency);
@@ -463,7 +431,7 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 						
 				} else if(totalSpeed > 0 && totalEfficiency == 0) {
 						
-					double modify = totalSpeed * 1.10;
+					double modify = (totalSpeed * 0.10) + 1;
 		    		double efficencyDropBurn = burnTime * 0.05;
 		    		double upgradeGen = energyGen * modify;
 		    		double upgradeBurn = burnTime - (efficencyDropBurn * totalSpeed);
@@ -474,7 +442,7 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 						
 				} else if(totalEfficiency > 0 && totalSpeed == 0) {
 						
-					double modify = totalEfficiency * 1.10;
+					double modify = (totalEfficiency * 0.10) + 1;
 			    	double efficencyDropPower = energyGen * 0.05;
 			    	double upgradeBurn = burnTime * modify;
 			    	double upgradeGen = energyGen - (efficencyDropPower * totalEfficiency);

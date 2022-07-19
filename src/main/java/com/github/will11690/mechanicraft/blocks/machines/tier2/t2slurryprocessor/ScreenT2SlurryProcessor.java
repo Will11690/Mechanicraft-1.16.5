@@ -23,7 +23,6 @@ import net.minecraftforge.fluids.FluidStack;
 public class ScreenT2SlurryProcessor extends ContainerScreen<ContainerT2SlurryProcessor> {
 	
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/slurry_processor/t2_slurry_processor.png");
-    private TileEntityT2SlurryProcessor tile;
 
     //Progress INFO
   	public static final int PROGRESS_METER_FROM_X = 176;
@@ -92,7 +91,6 @@ public class ScreenT2SlurryProcessor extends ContainerScreen<ContainerT2SlurryPr
     public ScreenT2SlurryProcessor(ContainerT2SlurryProcessor container, PlayerInventory playerInventory, ITextComponent title) {
         
     	super(container, playerInventory, title);
-    	this.tile = container.getTileEntity();
     	
     }
     
@@ -111,17 +109,17 @@ public class ScreenT2SlurryProcessor extends ContainerScreen<ContainerT2SlurryPr
        super.render(matrixStack, x, y, partialTicks);
        this.renderTooltip(matrixStack, x, y);
        
-       int inputCapacity1 = this.menu.getInputTank1Capacity();
-       int inputCapacity2 = this.menu.getInputTank2Capacity();
-       int outputCapacity = this.menu.getOutputTankCapacity();
+       int inputCapacity1 = this.menu.getInput1Capacity();
+       int inputCapacity2 = this.menu.getInput2Capacity();
+       int outputCapacity = this.menu.getOutputCapacity();
        
-       int inputStored1 = this.menu.getInputTank1Stored();
-       int inputStored2 = this.menu.getInputTank2Stored();
-       int outputStored = this.menu.getOutputTankStored();
+       int inputStored1 = this.menu.getInputFluid1().getAmount();
+       int inputStored2 = this.menu.getInputFluid2().getAmount();
+       int outputStored = this.menu.getOutputFluid().getAmount();
        
-       FluidStack inputStack1 = tile.getInputFluidStack1();
-       FluidStack inputStack2 = tile.getInputFluidStack2();
-       FluidStack outputStack = tile.getOutputFluidStack();
+       FluidStack inputStack1 = this.menu.getInputFluid1();
+       FluidStack inputStack2 = this.menu.getInputFluid2();
+       FluidStack outputStack = this.menu.getOutputFluid();
        
        if(Screen.hasShiftDown()) {
        	
@@ -188,7 +186,7 @@ public class ScreenT2SlurryProcessor extends ContainerScreen<ContainerT2SlurryPr
 			if (x > (getGuiLeft() + INFO_ENERGY_BAR_TO_X) && x < (getGuiLeft() + INFO_ENERGY_BAR_TO_X) + INFO_ENERGY_BAR_WIDTH && y > (getGuiTop() + INFO_ENERGY_BAR_TO_Y) && y < (getGuiTop() + INFO_ENERGY_BAR_TO_Y) + INFO_ENERGY_BAR_HEIGHT) {
 	            	
 				this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-				new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t2_slurry_processor.energy", this.menu.getEnergy(), this.menu.getCapacity())
+				new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t2_slurry_processor.energy", this.menu.getEnergyStored(), this.menu.getEnergyCapacity())
 				)), x, y);
 	        	
 			}
@@ -262,7 +260,7 @@ public class ScreenT2SlurryProcessor extends ContainerScreen<ContainerT2SlurryPr
 			if (x > (getGuiLeft() + INFO_ENERGY_BAR_TO_X) && x < (getGuiLeft() + INFO_ENERGY_BAR_TO_X) + INFO_ENERGY_BAR_WIDTH && y > (getGuiTop() + INFO_ENERGY_BAR_TO_Y) && y < (getGuiTop() + INFO_ENERGY_BAR_TO_Y) + INFO_ENERGY_BAR_HEIGHT) {
 	        	
 				this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-	        	new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t2_slurry_processor.energy", Utils.withSuffix(this.menu.getEnergy()), Utils.withSuffix(this.menu.getCapacity())),
+	        	new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t2_slurry_processor.energy", Utils.withSuffix(this.menu.getEnergyStored()), Utils.withSuffix(this.menu.getEnergyCapacity())),
 	        	new TranslationTextComponent("com.github.will11690.mechanicraft.screen.gui_details"))), x, y);
 	    	
 			}
@@ -286,29 +284,29 @@ public class ScreenT2SlurryProcessor extends ContainerScreen<ContainerT2SlurryPr
 
        blit(matrixStack, posX, posY, 0, 0, this.imageWidth, this.imageHeight);
 
-       int maxEnergy = this.menu.getCapacity();
+       int maxEnergy = this.menu.getEnergyCapacity();
        int energyHeight = ENERGY_BAR_HEIGHT;
-       int inputCapacity1 = this.menu.getInputTank1Capacity();
-       int inputCapacity2 = this.menu.getInputTank2Capacity();
-       int outputCapacity = this.menu.getOutputTankCapacity();
+       int inputCapacity1 = this.menu.getInput1Capacity();
+       int inputCapacity2 = this.menu.getInput2Capacity();
+       int outputCapacity = this.menu.getOutputCapacity();
        
-       int inputStored1 = this.menu.getInputTank1Stored();
-       int inputStored2 = this.menu.getInputTank2Stored();
-       int outputStored = this.menu.getOutputTankStored();
+       int inputStored1 = this.menu.getInputFluid1().getAmount();
+       int inputStored2 = this.menu.getInputFluid2().getAmount();
+       int outputStored = this.menu.getOutputFluid().getAmount();
        
-       FluidStack inputStack1 = tile.getInputFluidStack1();
-       FluidStack inputStack2 = tile.getInputFluidStack2();
-       FluidStack outputStack = tile.getOutputFluidStack();
+       FluidStack inputStack1 = this.menu.getInputFluid1();
+       FluidStack inputStack2 = this.menu.getInputFluid2();
+       FluidStack outputStack = this.menu.getOutputFluid();
        
-		if (maxEnergy > 0) {
+		if (this.menu.getEnergyStored() > 0) {
 	        //Draw Energy Bar
-			int remainingEnergy = (this.menu.getEnergy() * energyHeight) / maxEnergy;
+			int remainingEnergy = (this.menu.getEnergyStored() * energyHeight) / maxEnergy;
 			this.blit(matrixStack, posX + ENERGY_BAR_TO_X, posY + ENERGY_BAR_TO_Y - remainingEnergy, ENERGY_BAR_FROM_X, /*Pixels from top of gui to bottom of drawn texture*/64 - remainingEnergy, ENERGY_BAR_WIDTH, remainingEnergy + 1);
 	            
 		}
 
 		if (this.menu.getProgress() > 0) {
-       	//Draw Progress Bar
+			//Draw Progress Bar
 			int cookProgress = this.menu.getProgressionScaled() + 1;
 			this.blit(matrixStack, posX + PROGRESS_METER_TO_X, posY + PROGRESS_METER_TO_Y, PROGRESS_METER_FROM_X, PROGRESS_METER_FROM_Y, cookProgress, PROGRESS_METER_HEIGHT);
 	         	

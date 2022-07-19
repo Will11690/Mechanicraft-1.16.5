@@ -23,7 +23,6 @@ import net.minecraftforge.fluids.FluidStack;
 public class ScreenT4OreWasher extends ContainerScreen<ContainerT4OreWasher> {
 	
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/ore_washer/t4_ore_washer.png");
-    private TileEntityT4OreWasher tile;
 
     //Progress INFO
   	public static final int PROGRESS_METER_FROM_X = 176;
@@ -80,7 +79,6 @@ public class ScreenT4OreWasher extends ContainerScreen<ContainerT4OreWasher> {
     public ScreenT4OreWasher(ContainerT4OreWasher container, PlayerInventory playerInventory, ITextComponent title) {
         
     	super(container, playerInventory, title);
-    	this.tile = container.getTileEntity();
     	
     }
     
@@ -99,14 +97,14 @@ public class ScreenT4OreWasher extends ContainerScreen<ContainerT4OreWasher> {
         super.render(matrixStack, x, y, partialTicks);
         this.renderTooltip(matrixStack, x, y);
         
-        int inputCapacity = this.menu.getInputTankCapacity();
-        int outputCapacity = this.menu.getOutputTankCapacity();
+        int inputCapacity = this.menu.getInputCapacity();
+        int outputCapacity = this.menu.getOutputCapacity();
         
-        int inputStored = this.menu.getInputTankStored();
-        int outputStored = this.menu.getOutputTankStored();
+        int inputStored = this.menu.getInputFluid().getAmount();
+        int outputStored = this.menu.getOutputFluid().getAmount();
         
-        FluidStack inputStack = tile.getInputFluidStack();
-        FluidStack outputStack = tile.getOutputFluidStack();
+        FluidStack inputStack = this.menu.getInputFluid();
+        FluidStack outputStack = this.menu.getOutputFluid();
         
         if(Screen.hasShiftDown()) {
         	
@@ -156,7 +154,7 @@ public class ScreenT4OreWasher extends ContainerScreen<ContainerT4OreWasher> {
 			if (x > (getGuiLeft() + INFO_ENERGY_BAR_TO_X) && x < (getGuiLeft() + INFO_ENERGY_BAR_TO_X) + INFO_ENERGY_BAR_WIDTH && y > (getGuiTop() + INFO_ENERGY_BAR_TO_Y) && y < (getGuiTop() + INFO_ENERGY_BAR_TO_Y) + INFO_ENERGY_BAR_HEIGHT) {
 	            	
 				this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-				new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t4_ore_washer.energy", this.menu.getEnergy(), this.menu.getCapacity())
+				new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t4_ore_washer.energy", this.menu.getEnergyStored(), this.menu.getEnergyCapacity())
 				)), x, y);
 	        	
 			}
@@ -212,7 +210,7 @@ public class ScreenT4OreWasher extends ContainerScreen<ContainerT4OreWasher> {
 			if (x > (getGuiLeft() + INFO_ENERGY_BAR_TO_X) && x < (getGuiLeft() + INFO_ENERGY_BAR_TO_X) + INFO_ENERGY_BAR_WIDTH && y > (getGuiTop() + INFO_ENERGY_BAR_TO_Y) && y < (getGuiTop() + INFO_ENERGY_BAR_TO_Y) + INFO_ENERGY_BAR_HEIGHT) {
 	        	
 				this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-	        	new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t4_ore_washer.energy", Utils.withSuffix(this.menu.getEnergy()), Utils.withSuffix(this.menu.getCapacity())),
+	        	new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t4_ore_washer.energy", Utils.withSuffix(this.menu.getEnergyStored()), Utils.withSuffix(this.menu.getEnergyCapacity())),
 	        	new TranslationTextComponent("com.github.will11690.mechanicraft.screen.gui_details"))), x, y);
 	    	
 			}
@@ -236,20 +234,20 @@ public class ScreenT4OreWasher extends ContainerScreen<ContainerT4OreWasher> {
 
         blit(matrixStack, posX, posY, 0, 0, this.imageWidth, this.imageHeight);
 
-        int maxEnergy = this.menu.getCapacity();
+        int maxEnergy = this.menu.getEnergyCapacity();
         int energyHeight = ENERGY_BAR_HEIGHT;
-        int inputCapacity = this.menu.getInputTankCapacity();
-        int outputCapacity = this.menu.getOutputTankCapacity();
+        int inputCapacity = this.menu.getInputCapacity();
+        int outputCapacity = this.menu.getOutputCapacity();
         
-        int inputStored = this.menu.getInputTankStored();
-        int outputStored = this.menu.getOutputTankStored();
+        int inputStored = this.menu.getInputFluid().getAmount();
+        int outputStored = this.menu.getOutputFluid().getAmount();
         
-        FluidStack inputStack = tile.getInputFluidStack();
-        FluidStack outputStack = tile.getOutputFluidStack();
+        FluidStack inputStack = this.menu.getInputFluid();
+        FluidStack outputStack = this.menu.getOutputFluid();
         
-		if (maxEnergy > 0) {
+		if (this.menu.getEnergyStored() > 0) {
 	        //Draw Energy Bar
-			int remainingEnergy = (this.menu.getEnergy() * energyHeight) / maxEnergy;
+			int remainingEnergy = (this.menu.getEnergyStored() * energyHeight) / maxEnergy;
 			this.blit(matrixStack, posX + ENERGY_BAR_TO_X, posY + ENERGY_BAR_TO_Y - remainingEnergy, ENERGY_BAR_FROM_X, /*Pixels from top of gui to bottom of drawn texture*/64 - remainingEnergy, ENERGY_BAR_WIDTH, remainingEnergy + 1);
 	            
 		}

@@ -34,8 +34,6 @@ public class MechaniCraftMain {
     //TODO store player health before applying health bonus from armor and set max health back to that once removed
     //TODO fix bug where Fluid Handler Item with fluid matching output tanks can't remove more(add FluidStack matching to tankToInteractWith)
     
-    //TODO add itemHandler.isPresent() checks before any method in machines that use IItemHandler
-    
     //TODO May replace gem meshes with obsidium
     //TODO Maybe add Line Miner to configs, currently it is 100FE * Hardness of block to mine
     

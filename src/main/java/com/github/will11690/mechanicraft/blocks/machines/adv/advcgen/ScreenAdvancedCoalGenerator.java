@@ -50,7 +50,6 @@ public class ScreenAdvancedCoalGenerator extends ContainerScreen<ContainerAdvanc
     public ScreenAdvancedCoalGenerator(ContainerAdvancedCoalGenerator container, PlayerInventory playerInventory, ITextComponent title) {
         
     	super(container, playerInventory, title);
-    	
     }
     
     
@@ -76,7 +75,7 @@ public class ScreenAdvancedCoalGenerator extends ContainerScreen<ContainerAdvanc
         	if (x > (getGuiLeft() + INFO_ENERGY_BAR_TO_X) && x < (getGuiLeft() + INFO_ENERGY_BAR_TO_X) + INFO_ENERGY_BAR_WIDTH && y > (getGuiTop() + INFO_ENERGY_BAR_TO_Y) && y < (getGuiTop() + INFO_ENERGY_BAR_TO_Y) + INFO_ENERGY_BAR_HEIGHT) {
             	
                 this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-                new TranslationTextComponent("com.github.will11690.mechanicraft.screen.adv_coal_generator.energy", this.menu.getEnergy(), this.menu.getCapacity()))), x, y);
+                new TranslationTextComponent("com.github.will11690.mechanicraft.screen.adv_coal_generator.energy", this.menu.getEnergyStored(), this.menu.getEnergyCapacity()))), x, y);
         	
         	}
         	
@@ -84,7 +83,7 @@ public class ScreenAdvancedCoalGenerator extends ContainerScreen<ContainerAdvanc
         	if (x > (getGuiLeft() + INFO_BURN_METER_TO_X) && x < (getGuiLeft() + INFO_BURN_METER_TO_X) + INFO_BURN_METER_WIDTH && y > (getGuiTop() + INFO_BURN_METER_TO_Y) && y < (getGuiTop() + INFO_BURN_METER_TO_Y) + INFO_BURN_METER_HEIGHT) {
             	
                 this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-                new TranslationTextComponent("com.github.will11690.mechanicraft.screen.adv_coal_generator.burn_time", this.menu.getBurnTimeRemaining(), this.menu.getItemBurnTime()))), x, y);
+                new TranslationTextComponent("com.github.will11690.mechanicraft.screen.adv_coal_generator.burn_time", this.menu.getBurnTime(), this.menu.getTotalBurnTime()))), x, y);
         	
         	}
         	
@@ -94,7 +93,7 @@ public class ScreenAdvancedCoalGenerator extends ContainerScreen<ContainerAdvanc
         if (x > (getGuiLeft() + INFO_ENERGY_BAR_TO_X) && x < (getGuiLeft() + INFO_ENERGY_BAR_TO_X) + INFO_ENERGY_BAR_WIDTH && y > (getGuiTop() + INFO_ENERGY_BAR_TO_Y) && y < (getGuiTop() + INFO_ENERGY_BAR_TO_Y) + INFO_ENERGY_BAR_HEIGHT) {
         	
             this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-            new TranslationTextComponent("com.github.will11690.mechanicraft.screen.adv_coal_generator.energy", Utils.withSuffix(this.menu.getEnergy()), Utils.withSuffix(this.menu.getCapacity())),
+            new TranslationTextComponent("com.github.will11690.mechanicraft.screen.adv_coal_generator.energy", Utils.withSuffix(this.menu.getEnergyStored()), Utils.withSuffix(this.menu.getEnergyCapacity())),
             new TranslationTextComponent("com.github.will11690.mechanicraft.screen.gui_details"))), x, y);
     	
     	}
@@ -103,7 +102,7 @@ public class ScreenAdvancedCoalGenerator extends ContainerScreen<ContainerAdvanc
         if (x > (getGuiLeft() + INFO_BURN_METER_TO_X) && x < (getGuiLeft() + INFO_BURN_METER_TO_X) + INFO_BURN_METER_WIDTH && y > (getGuiTop() + INFO_BURN_METER_TO_Y) && y < (getGuiTop() + INFO_BURN_METER_TO_Y) + INFO_BURN_METER_HEIGHT) {
         	
             	this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-                new TranslationTextComponent("com.github.will11690.mechanicraft.screen.adv_coal_generator.burn_time", Utils.withSuffix(this.menu.getBurnTimeRemaining()), Utils.withSuffix(this.menu.getItemBurnTime())),
+                new TranslationTextComponent("com.github.will11690.mechanicraft.screen.adv_coal_generator.burn_time", Utils.withSuffix(this.menu.getBurnTime()), Utils.withSuffix(this.menu.getTotalBurnTime())),
                 new TranslationTextComponent("com.github.will11690.mechanicraft.screen.gui_details"))), x, y);
     	
     		}
@@ -129,18 +128,18 @@ public class ScreenAdvancedCoalGenerator extends ContainerScreen<ContainerAdvanc
         
         int maxHeight = BURN_METER_HEIGHT;
         
-        if (this.menu.getItemBurnTime() > 0) {
+        if (this.menu.getBurnTime() > 0) {
         	
-            int remaining = (this.menu.getBurnTimeRemaining() * maxHeight) / this.menu.getItemBurnTime();
+            int remaining = (this.menu.getBurnTime() * maxHeight) / this.menu.getTotalBurnTime();
             this.blit(matrixStack, posX + BURN_METER_TO_X, posY + BURN_METER_TO_Y + BURN_METER_HEIGHT - remaining, BURN_METER_FROM_X, /*Pixels from top of gui to bottom of drawn texture*/13 - remaining, BURN_METER_WIDTH, remaining + 1);
             
         }
 
-        int maxEnergy = this.menu.getCapacity(), height = ENERGY_BAR_HEIGHT;
+        int maxEnergy = this.menu.getEnergyCapacity(), height = ENERGY_BAR_HEIGHT;
         
-        if (this.menu.getEnergy() > 0) {
+        if (this.menu.getEnergyStored() > 0) {
         	
-            int remaining = (this.menu.getEnergy() * height) / maxEnergy;
+            int remaining = (this.menu.getEnergyStored() * height) / maxEnergy;
             this.blit(matrixStack, posX + ENERGY_BAR_TO_X, posY + ENERGY_BAR_TO_Y - remaining, ENERGY_BAR_FROM_X, /*Pixels from top of gui to bottom of drawn texture*/61 - remaining, ENERGY_BAR_WIDTH, remaining + 1);
             
         }

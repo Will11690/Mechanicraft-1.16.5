@@ -95,12 +95,8 @@ public class TileEntityT5MetallicInfuser extends TileEntity implements ITickable
             switch (index) {
             
                 case 0:
-                	return energyStorage.getEnergyStored();
-                case 1:
                 	return progress;
-                case 2:
-                	return energyStorage.getCapacity();
-    			case 3:
+    			case 1:
     				return upgradableWorkTime;
                 default:
                     return 0;
@@ -114,15 +110,9 @@ public class TileEntityT5MetallicInfuser extends TileEntity implements ITickable
             switch (index) {
             
             	case 0:
-            		energyStorage.setEnergy(value);
-            		break;
-            	case 1:
             		progress = value;
             		break;
-            	case 2:
-            		energyStorage.setCapacity(value);
-            		break;
-            	case 3:
+            	case 1:
             		upgradableWorkTime = value;
             		break;
             	default:
@@ -134,7 +124,7 @@ public class TileEntityT5MetallicInfuser extends TileEntity implements ITickable
         @Override
         public int getCount() {
         	
-            return 4;
+            return 2;
             
         }
     };
@@ -461,9 +451,7 @@ public class TileEntityT5MetallicInfuser extends TileEntity implements ITickable
 
 				receivePowerItem(chargeSlotHandler.getStackInSlot(0));
 
-			}
-
-			else
+			} else
 
 				receivePower();
 
@@ -538,33 +526,37 @@ public class TileEntityT5MetallicInfuser extends TileEntity implements ITickable
     
     private boolean canCraft() {
     	
-    	Inventory recipeInventory = new Inventory(this.inputSlotHandler1.getStackInSlot(0), this.inputSlotHandler2.getStackInSlot(0));
+    	if(allSlots.isPresent()) {
     	
-    	Optional<InfuserRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.INFUSER_RECIPES, recipeInventory, this.level);
-    	InfuserRecipes recipe = rOpt.orElse(null);
+    		Inventory recipeInventory = new Inventory(this.inputSlotHandler1.getStackInSlot(0), this.inputSlotHandler2.getStackInSlot(0));
     	
-    	int outputHandlerCount = 0;
+    		Optional<InfuserRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.INFUSER_RECIPES, recipeInventory, this.level);
+    		InfuserRecipes recipe = rOpt.orElse(null);
     	
-    	ItemStack output = ItemStack.EMPTY;
-    	if(!this.inputSlotHandler1.getStackInSlot(0).equals(ItemStack.EMPTY) && !this.inputSlotHandler2.getStackInSlot(0).equals(ItemStack.EMPTY)) {
+    		int outputHandlerCount = 0;
+    	
+    		ItemStack output = ItemStack.EMPTY;
+    		if(!this.inputSlotHandler1.getStackInSlot(0).equals(ItemStack.EMPTY) && !this.inputSlotHandler2.getStackInSlot(0).equals(ItemStack.EMPTY)) {
     		
-    		if(recipe != null)
-    			output = recipe.assemble(recipeInventory).copy();
-    	}
-    	
-    	ItemStack outputHandler = outputSlotHandler.getStackInSlot(0);
-    	
-    	if(!(outputHandler.equals(ItemStack.EMPTY))) {
-    		
-    		outputHandlerCount = outputHandler.getCount();
-    	}
-    	
-    	if(energyStorage.getEnergyStored() >= upgradableInfusingEnergy) {
-    	
-    		if(recipe != null && (output.getItem().equals(outputHandler.getItem()) || outputHandler.equals(ItemStack.EMPTY)) && (output.getCount() + outputHandlerCount <= outputHandler.getMaxStackSize())) {
-    		
-    			return true;
+    			if(recipe != null)
+    				output = recipe.assemble(recipeInventory).copy();
     		}
+    	
+    		ItemStack outputHandler = outputSlotHandler.getStackInSlot(0);
+    	
+    		if(!(outputHandler.equals(ItemStack.EMPTY))) {
+    		
+    			outputHandlerCount = outputHandler.getCount();
+    		}
+    	
+    		if(energyStorage.getEnergyStored() >= upgradableInfusingEnergy) {
+    	
+    			if(recipe != null && (output.getItem().equals(outputHandler.getItem()) || outputHandler.equals(ItemStack.EMPTY)) && (output.getCount() + outputHandlerCount <= outputHandler.getMaxStackSize())) {
+    		
+    				return true;
+    			}
+    		}
+    		return false;
     	}
     	return false;
     }

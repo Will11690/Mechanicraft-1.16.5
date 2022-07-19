@@ -356,7 +356,7 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 			
 			if(totalCapacity > 0 && totalTransfer == 0) {
 					
-				double modify = totalCapacity * 1.10;
+				double modify = (totalCapacity * 0.10) + 1;
 				double upgradeCap = baseCapacity * modify;
     			
 	    		this.setUpgradedCapacity((int)upgradeCap);
@@ -367,7 +367,7 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 					
 			} else if(totalTransfer > 0 && totalCapacity == 0) {
 					
-				double modify = totalTransfer * 1.10;
+				double modify = (totalTransfer * 0.10) + 1;
 				double upgradeExt = 0;
 				double upgradeRec = 0;
 				
@@ -476,9 +476,9 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 			
 			if(totalCapacity != 0 && totalTransfer != 0) {
 				
-				double modifyCap = totalCapacity * 1.10;
+				double modifyCap = (totalCapacity * 0.10) + 1;
 				double upgradeCap = baseCapacity * modifyCap;
-				double modifyTrans = totalTransfer * 1.10;
+				double modifyTrans = (totalTransfer * 0.10) + 1;
 				double upgradeExt = 0;
 				double upgradeRec = 0;
 			
@@ -501,7 +501,7 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 				
 			} else if(totalCapacity > 0 && totalTransfer == 0) {
 			
-				double modify = totalCapacity * 1.10;
+				double modify = (totalCapacity * 0.10) + 1;
 				double upgradeCap = baseCapacity * modify;
 		
 				this.upgradedCapacity = (int)upgradeCap;
@@ -512,7 +512,7 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 			
 			} else if(totalTransfer > 0 && totalCapacity == 0) {
 			
-				double modify = totalTransfer * 1.10;
+				double modify = (totalTransfer * 0.10) + 1;
 				double upgradeExt = 0;
 				double upgradeRec = 0;
 		
@@ -640,9 +640,9 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 			
 			if(totalCapacity != 0 && totalTransfer != 0) {
 				
-				double modifyCap = totalCapacity * 1.10;
+				double modifyCap = (totalCapacity * 0.10) + 1;
 				double upgradeCap = baseCapacity * modifyCap;
-				double modifyTrans = totalTransfer * 1.10;
+				double modifyTrans = (totalTransfer * 0.10) + 1;
 				double upgradeExt = 0;
 				double upgradeRec = 0;
 			
@@ -665,7 +665,7 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 				
 			} else if(totalCapacity > 0 && totalTransfer == 0) {
 			
-				double modify = totalCapacity * 1.10;
+				double modify = (totalCapacity * 0.10) + 1;
 				double upgradeCap = baseCapacity * modify;
 		
 				this.upgradedCapacity = (int)upgradeCap;
@@ -676,7 +676,7 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 			
 			} else if(totalTransfer > 0 && totalCapacity == 0) {
 			
-				double modify = totalTransfer * 1.10;
+				double modify = (totalTransfer * 0.10) + 1;
 				double upgradeExt = 0;
 				double upgradeRec = 0;
 		
@@ -823,9 +823,9 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 		
 			if(totalCapacity != 0 && totalTransfer != 0) {
 				
-				double modifyCap = totalCapacity * 1.10;
+				double modifyCap = (totalCapacity * 0.10) + 1;
 				double upgradeCap = baseCapacity * modifyCap;
-				double modifyTrans = totalTransfer * 1.10;
+				double modifyTrans = (totalTransfer * 0.10) + 1;
 				double upgradeExt = 0;
 				double upgradeRec = 0;
 			
@@ -848,7 +848,7 @@ public class MechaniCraftEnergyStorage extends EnergyStorage implements INBTSeri
 				
 			} else if(totalCapacity > 0 && totalTransfer == 0) {
 			
-				double modify = totalCapacity * 1.10;
+				double modify = (totalCapacity * 0.10) + 1;
 				double upgradeCap = baseCapacity * modify;
 		
 				this.upgradedCapacity = (int)upgradeCap;

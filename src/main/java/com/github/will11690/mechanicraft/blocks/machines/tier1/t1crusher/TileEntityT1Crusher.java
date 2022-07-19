@@ -80,12 +80,8 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
 			switch (index) {
 
 			case 0:
-				return energyStorage.getEnergyStored();
-			case 1:
 				return progress;
-			case 2:
-				return energyStorage.getCapacity();
-			case 3:
+			case 1:
 				return WORK_TIME;
 			default:
 				return 0;
@@ -99,15 +95,9 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
 			switch (index) {
 
 			case 0:
-				energyStorage.setEnergy(value);
-				break;
-			case 1:
 				progress = value;
 				break;
-			case 2:
-				energyStorage.setCapacity(value);
-				break;
-			case 3:
+			case 1:
 				WORK_TIME = value;
 				break;
 			default:
@@ -118,7 +108,7 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
 		@Override
 		public int getCount() {
         	
-			return 4;
+			return 2;
             
 		}
 	};
@@ -315,49 +305,51 @@ public class TileEntityT1Crusher extends TileEntity implements ITickableTileEnti
 	}
 
 	private boolean canCrush() {
-
-		Inventory recipeInventory = new Inventory(this.inputSlotHandler.getStackInSlot(0));
-    	
-    	Optional<CrusherRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.CRUSHER_RECIPES, recipeInventory, this.level);
-    	CrusherRecipes recipe = rOpt.orElse(null);
-
-		ItemStack output = outputSlotHandler.getStackInSlot(0);
-		ItemStack outputSecondary = outputSlotHandler.getStackInSlot(1);
 		
-		if(recipe != null) {
-			ItemStack result = recipe.assemble(recipeInventory);
-			ItemStack secondaryResult = recipe.assembleSecondary(recipeInventory);
+		if(allSlots.isPresent()) {
+			
+			Inventory recipeInventory = new Inventory(this.inputSlotHandler.getStackInSlot(0));
+    	
+			Optional<CrusherRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.CRUSHER_RECIPES, recipeInventory, this.level);
+			CrusherRecipes recipe = rOpt.orElse(null);
 
-			if(energyStorage.getEnergyStored() >= crushingEnergy) {
+			ItemStack output = outputSlotHandler.getStackInSlot(0);
+			ItemStack outputSecondary = outputSlotHandler.getStackInSlot(1);
+		
+			if(recipe != null) {
+				ItemStack result = recipe.assemble(recipeInventory);
+				ItemStack secondaryResult = recipe.assembleSecondary(recipeInventory);
 
-				if (result.isEmpty() || recipeInventory.isEmpty()) {
+				if(energyStorage.getEnergyStored() >= crushingEnergy) {
 
-					return false;
-				}
+					if(result.isEmpty() || recipeInventory.isEmpty()) {
 
-				if ((output.getCount() + result.getCount()) > output.getMaxStackSize()) {
+						return false;
+					}
 
-					return false;
-				}
+					if((output.getCount() + result.getCount()) > output.getMaxStackSize()) {
+
+						return false;
+					}
 					
-				if ((secondaryResult.getCount() + outputSecondary.getCount()) > outputSecondary.getMaxStackSize()) {
+					if((secondaryResult.getCount() + outputSecondary.getCount()) > outputSecondary.getMaxStackSize()) {
 
-					return false;
-				}
+						return false;
+					}
 				
-				if (output.isEmpty() || output.getItem().equals(result.getItem())) {
+					if(output.isEmpty() || output.getItem().equals(result.getItem())) {
 
-					if(outputSecondary.isEmpty() || outputSecondary.getItem().equals(secondaryResult.getItem()) || secondaryResult.equals(ItemStack.EMPTY)) {
+						if(outputSecondary.isEmpty() || outputSecondary.getItem().equals(secondaryResult.getItem()) || secondaryResult.equals(ItemStack.EMPTY)) {
 					
-						return true;
+							return true;
+						}
 					}
 				}
-			}
-			
-			return false;
+				return false;
+				
+			} else return false;
 		}
-
-		else return false;
+		return false;
 	}
 
 	private void startCrushing() {

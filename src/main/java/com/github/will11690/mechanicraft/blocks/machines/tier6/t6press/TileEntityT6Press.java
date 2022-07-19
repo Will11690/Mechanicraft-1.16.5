@@ -91,12 +91,8 @@ public class TileEntityT6Press extends TileEntity implements ITickableTileEntity
 			switch (index) {
 
 			case 0:
-				return energyStorage.getEnergyStored();
-			case 1:
 				return progress;
-			case 2:
-				return energyStorage.getCapacity();
-			case 3:
+			case 1:
 				return upgradableWorkTime;
 			default:
 				return 0;
@@ -110,15 +106,9 @@ public class TileEntityT6Press extends TileEntity implements ITickableTileEntity
 			switch (index) {
 
 			case 0:
-				energyStorage.setEnergy(value);
-				break;
-			case 1:
 				progress = value;
 				break;
-			case 2:
-				energyStorage.setCapacity(value);
-				break;
-			case 3:
+			case 1:
 				upgradableWorkTime = value;
 				break;
 			default:
@@ -129,7 +119,7 @@ public class TileEntityT6Press extends TileEntity implements ITickableTileEntity
 		@Override
 		public int getCount() {
         	
-			return 4;
+			return 2;
             
 		}
 	};
@@ -496,9 +486,7 @@ public class TileEntityT6Press extends TileEntity implements ITickableTileEntity
 
 				receivePowerItem(chargeSlotHandler.getStackInSlot(0));
 
-			}
-
-			else
+			} else
 
 				receivePower();
 
@@ -578,37 +566,41 @@ public class TileEntityT6Press extends TileEntity implements ITickableTileEntity
 
 	private boolean canPress() {
 
-		Inventory recipeInventory = new Inventory(this.inputSlotHandler.getStackInSlot(0), this.inputSlotHandler.getStackInSlot(1), this.inputSlotHandler.getStackInSlot(2),
-				this.inputSlotHandler.getStackInSlot(3), this.inputSlotHandler.getStackInSlot(4), this.inputSlotHandler.getStackInSlot(5),
-				this.inputSlotHandler.getStackInSlot(6), this.inputSlotHandler.getStackInSlot(7), this.inputSlotHandler.getStackInSlot(8));
+		if(allSlots.isPresent()) {
+		
+			Inventory recipeInventory = new Inventory(this.inputSlotHandler.getStackInSlot(0), this.inputSlotHandler.getStackInSlot(1), this.inputSlotHandler.getStackInSlot(2),
+													  this.inputSlotHandler.getStackInSlot(3), this.inputSlotHandler.getStackInSlot(4), this.inputSlotHandler.getStackInSlot(5),
+													  this.inputSlotHandler.getStackInSlot(6), this.inputSlotHandler.getStackInSlot(7), this.inputSlotHandler.getStackInSlot(8));
     	
-    	Optional<PressRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.PRESS_RECIPES, recipeInventory, this.level);
-    	PressRecipes recipe = rOpt.orElse(null);
+			Optional<PressRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.PRESS_RECIPES, recipeInventory, this.level);
+    		PressRecipes recipe = rOpt.orElse(null);
     	
-    	int outputHandlerCount = 0;
-    	ItemStack output = ItemStack.EMPTY;
-    	if(!this.inputSlotHandler.getStackInSlot(0).equals(ItemStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(1).equals(ItemStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(2).equals(ItemStack.EMPTY) &&
-		   !this.inputSlotHandler.getStackInSlot(3).equals(ItemStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(4).equals(ItemStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(5).equals(ItemStack.EMPTY) &&
-		   !this.inputSlotHandler.getStackInSlot(6).equals(ItemStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(7).equals(ItemStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(8).equals(ItemStack.EMPTY)) {
+    		int outputHandlerCount = 0;
+    		ItemStack output = ItemStack.EMPTY;
+    		if(!this.inputSlotHandler.getStackInSlot(0).equals(ItemStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(1).equals(ItemStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(2).equals(ItemStack.EMPTY) &&
+    			!this.inputSlotHandler.getStackInSlot(3).equals(ItemStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(4).equals(ItemStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(5).equals(ItemStack.EMPTY) &&
+    			!this.inputSlotHandler.getStackInSlot(6).equals(ItemStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(7).equals(ItemStack.EMPTY) && !this.inputSlotHandler.getStackInSlot(8).equals(ItemStack.EMPTY)) {
     		
-    		if(recipe != null)
-    			output = recipe.assemble(recipeInventory).copy();
-    	}
+    			if(recipe != null)
+    				output = recipe.assemble(recipeInventory).copy();
+    		}
     	
-    	ItemStack outputHandler = outputSlotHandler.getStackInSlot(0);
+    		ItemStack outputHandler = outputSlotHandler.getStackInSlot(0);
     	
-    	if(!(outputHandler.equals(ItemStack.EMPTY))) {
+    		if(!(outputHandler.equals(ItemStack.EMPTY))) {
     		
-    		outputHandlerCount = outputHandler.getCount();
-    	}
+    			outputHandlerCount = outputHandler.getCount();
+    		}
 
-    	if(recipe != null && (output.getItem().equals(outputHandler.getItem()) || outputHandler.equals(ItemStack.EMPTY)) && (output.getCount() + outputHandlerCount <= outputHandler.getMaxStackSize())) {
+    		if(recipe != null && (output.getItem().equals(outputHandler.getItem()) || outputHandler.equals(ItemStack.EMPTY)) && (output.getCount() + outputHandlerCount <= outputHandler.getMaxStackSize())) {
     	
-    		if(energyStorage.getEnergyStored() >= upgradablePressingEnergy) {
+    			if(energyStorage.getEnergyStored() >= upgradablePressingEnergy) {
 	    		
-	    		return true;
-	    	}
-			return false;
+    				return true;
+    			}
+    			return false;
+    		}
+    		return false;
 		}
 		return false;
 	}
@@ -616,8 +608,8 @@ public class TileEntityT6Press extends TileEntity implements ITickableTileEntity
 	private void startPressing() {
 
 		Inventory recipeInventory = new Inventory(this.inputSlotHandler.getStackInSlot(0), this.inputSlotHandler.getStackInSlot(1), this.inputSlotHandler.getStackInSlot(2),
-				this.inputSlotHandler.getStackInSlot(3), this.inputSlotHandler.getStackInSlot(4), this.inputSlotHandler.getStackInSlot(5),
-				this.inputSlotHandler.getStackInSlot(6), this.inputSlotHandler.getStackInSlot(7), this.inputSlotHandler.getStackInSlot(8));
+												  this.inputSlotHandler.getStackInSlot(3), this.inputSlotHandler.getStackInSlot(4), this.inputSlotHandler.getStackInSlot(5),
+												  this.inputSlotHandler.getStackInSlot(6), this.inputSlotHandler.getStackInSlot(7), this.inputSlotHandler.getStackInSlot(8));
 		
     	Inventory outputInventory = new Inventory(this.outputSlotHandler.getStackInSlot(0));
     	

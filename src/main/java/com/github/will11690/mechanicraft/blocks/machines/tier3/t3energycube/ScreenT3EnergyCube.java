@@ -60,7 +60,7 @@ public class ScreenT3EnergyCube extends ContainerScreen<ContainerT3EnergyCube> {
         	if (x > (getGuiLeft() + INFO_ENERGY_BAR_TO_X) && x < (getGuiLeft() + INFO_ENERGY_BAR_TO_X) + INFO_ENERGY_BAR_WIDTH && y > (getGuiTop() + INFO_ENERGY_BAR_TO_Y) && y < (getGuiTop() + INFO_ENERGY_BAR_TO_Y) + INFO_ENERGY_BAR_HEIGHT) {
             	
                 this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-                new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t3_energy_cube.energy", this.menu.getEnergy(), this.menu.getCapacity()))), x, y);
+                new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t3_energy_cube.energy", this.menu.getEnergyStored(), this.menu.getEnergyCapacity()))), x, y);
         	
         	}
         	
@@ -70,7 +70,7 @@ public class ScreenT3EnergyCube extends ContainerScreen<ContainerT3EnergyCube> {
         	if (x > (getGuiLeft() + INFO_ENERGY_BAR_TO_X) && x < (getGuiLeft() + INFO_ENERGY_BAR_TO_X) + INFO_ENERGY_BAR_WIDTH && y > (getGuiTop() + INFO_ENERGY_BAR_TO_Y) && y < (getGuiTop() + INFO_ENERGY_BAR_TO_Y) + INFO_ENERGY_BAR_HEIGHT) {
         	
         		this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-        		new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t3_energy_cube.energy", Utils.withSuffix(this.menu.getEnergy()), Utils.withSuffix(this.menu.getCapacity())),
+        		new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t3_energy_cube.energy", Utils.withSuffix(this.menu.getEnergyStored()), Utils.withSuffix(this.menu.getEnergyCapacity())),
         		new TranslationTextComponent("com.github.will11690.mechanicraft.screen.gui_details"))), x, y);
         		
         	}
@@ -94,11 +94,11 @@ public class ScreenT3EnergyCube extends ContainerScreen<ContainerT3EnergyCube> {
 
         blit(matrixStack, posX, posY, 0, 0, this.imageWidth, this.imageHeight);
 
-        int maxEnergy = this.menu.getCapacity(), height = ENERGY_BAR_HEIGHT;
+        int maxEnergy = this.menu.getEnergyCapacity(), height = ENERGY_BAR_HEIGHT;
         
-        if (this.menu.getEnergy() > 0) {
+        if (this.menu.getEnergyStored() > 0) {
         	
-            int remaining = (this.menu.getEnergy() * height) / maxEnergy;
+            int remaining = (this.menu.getEnergyStored() * height) / maxEnergy;
             this.blit(matrixStack, posX + ENERGY_BAR_TO_X, posY + ENERGY_BAR_TO_Y - remaining, ENERGY_BAR_FROM_X, /*Pixels from top of gui to bottom of drawn texture*/65 - remaining, ENERGY_BAR_WIDTH, remaining + 1);
             
         }

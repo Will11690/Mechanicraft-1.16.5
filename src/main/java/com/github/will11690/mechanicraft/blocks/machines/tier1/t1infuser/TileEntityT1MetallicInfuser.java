@@ -84,15 +84,9 @@ public class TileEntityT1MetallicInfuser extends TileEntity implements ITickable
             switch (index) {
             
                 case 0:
-                	return energyStorage.getEnergyStored();
-                case 1:
                 	return progress;
-                case 2:
-                	return Math.max(energyStorage.getBaseCapacity(), energyStorage.getUpgradedCapacity());
-    			case 3:
+    			case 1:
     				return WORK_TIME;
-    			case 4:
-    				energyStorage.getBaseCapacity();
                 default:
                     return 0;
                     
@@ -105,19 +99,10 @@ public class TileEntityT1MetallicInfuser extends TileEntity implements ITickable
             switch (index) {
             
             	case 0:
-            		energyStorage.setEnergy(value);
-            		break;
-            	case 1:
             		progress = value;
             		break;
-            	case 2:
-            		energyStorage.setCapacity(value);
-            		break;
-            	case 3:
+            	case 1:
             		WORK_TIME = value;
-            		break;
-            	case 4:
-            		energyStorage.setBaseCapacity(value);
             		break;
             	default:
             		break;
@@ -128,7 +113,7 @@ public class TileEntityT1MetallicInfuser extends TileEntity implements ITickable
         @Override
         public int getCount() {
         	
-            return 5;
+            return 2;
             
         }
     };
@@ -379,33 +364,37 @@ public class TileEntityT1MetallicInfuser extends TileEntity implements ITickable
     
     private boolean canCraft() {
     	
-    	Inventory recipeInventory = new Inventory(this.inputSlotHandler1.getStackInSlot(0), this.inputSlotHandler2.getStackInSlot(0));
-    	
-    	Optional<InfuserRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.INFUSER_RECIPES, recipeInventory, this.level);
-    	InfuserRecipes recipe = rOpt.orElse(null);
-    	
-    	int outputHandlerCount = 0;
-    	
-    	ItemStack output = ItemStack.EMPTY;
-    	if(!this.inputSlotHandler1.getStackInSlot(0).equals(ItemStack.EMPTY) && !this.inputSlotHandler2.getStackInSlot(0).equals(ItemStack.EMPTY)) {
+    	if(allSlots.isPresent()) {
     		
-    		if(recipe != null)
-    			output = recipe.assemble(recipeInventory).copy();
-    	}
+    		Inventory recipeInventory = new Inventory(this.inputSlotHandler1.getStackInSlot(0), this.inputSlotHandler2.getStackInSlot(0));
     	
-    	ItemStack outputHandler = outputSlotHandler.getStackInSlot(0);
+    		Optional<InfuserRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.INFUSER_RECIPES, recipeInventory, this.level);
+    		InfuserRecipes recipe = rOpt.orElse(null);
     	
-    	if(!(outputHandler.equals(ItemStack.EMPTY))) {
+    		int outputHandlerCount = 0;
+    	
+    		ItemStack output = ItemStack.EMPTY;
+    		if(!this.inputSlotHandler1.getStackInSlot(0).equals(ItemStack.EMPTY) && !this.inputSlotHandler2.getStackInSlot(0).equals(ItemStack.EMPTY)) {
     		
-    		outputHandlerCount = outputHandler.getCount();
-    	}
-    	
-    	if(energyStorage.getEnergyStored() >= infusingEnergy) {
-    	
-    		if(recipe != null && (output.getItem().equals(outputHandler.getItem()) || outputHandler.equals(ItemStack.EMPTY)) && (output.getCount() + outputHandlerCount <= outputHandler.getMaxStackSize())) {
-    		
-    			return true;
+    			if(recipe != null)
+    				output = recipe.assemble(recipeInventory).copy();
     		}
+    	
+    		ItemStack outputHandler = outputSlotHandler.getStackInSlot(0);
+    	
+    		if(!(outputHandler.equals(ItemStack.EMPTY))) {
+    		
+    			outputHandlerCount = outputHandler.getCount();
+    		}
+    	
+    		if(energyStorage.getEnergyStored() >= infusingEnergy) {
+    	
+    			if(recipe != null && (output.getItem().equals(outputHandler.getItem()) || outputHandler.equals(ItemStack.EMPTY)) && (output.getCount() + outputHandlerCount <= outputHandler.getMaxStackSize())) {
+    		
+    				return true;
+    			}
+    		}
+    		return false;
     	}
     	return false;
     }
@@ -647,17 +636,25 @@ public class TileEntityT1MetallicInfuser extends TileEntity implements ITickable
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
     	
-        if (!this.remove && side != null && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+    	if (!this.remove && side != null) {
         	
-        	return allSlots.cast();
-            
+        	if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        	
+        		return allSlots.cast();
+        	}
+        	
+        	if(cap == CapabilityEnergy.ENERGY) {
+        		
+        		return energy.cast();
+        	}
+        	
         } else if(breakBlock == true && side == null) {
 
-			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-				
-				return dropSlots.cast();
-			}
-		}
+ 			if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+ 				
+ 				return dropSlots.cast();
+ 			}
+ 		}
         	
         return super.getCapability(cap, side);
     }

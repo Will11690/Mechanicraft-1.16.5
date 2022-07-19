@@ -9,6 +9,7 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -55,17 +56,16 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
 	private final LazyOptional<IItemHandler> outputSlot  = LazyOptional.of(() -> outputSlotHandler);
 	private final LazyOptional<IItemHandler> fuelSlotWrapper  = LazyOptional.of(() -> fuelSlotWrapperHandler);
 	
-	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(inputSlotWrapperHandler1, inputSlotWrapperHandler2, outputSlotHandler));
+	private final LazyOptional<IItemHandler> allSlots  = LazyOptional.of(() -> new CombinedInvWrapper(inputSlotWrapperHandler1, inputSlotWrapperHandler2, fuelSlotWrapperHandler, outputSlotHandler));
 	
 	private final LazyOptional<IItemHandler> dropSlots  = LazyOptional.of(() -> new CombinedInvWrapper(inputSlotHandler1, inputSlotHandler2, fuelSlotHandler, outputSlotHandler));
 	boolean breakBlock = false;
 	
-    private int burnTime = 0;
+    public int burnTime = 0;
     public int totalBurnTime = 0;
     private int progress = 0;
     
-    static final int WORK_TIME = 10 * 20;
-    static int BURN_TIME;
+    public static final int WORK_TIME = 10 * 20;
 
     private final IIntArray fields = new IIntArray() {
     	
@@ -75,10 +75,6 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
             switch (index) {
             
                 case 0:
-                    return burnTime;
-                case 1:
-                	return totalBurnTime;
-                case 2:
                 	return progress;
                 default:
                     return 0;
@@ -92,12 +88,6 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
             switch (index) {
             
                 case 0:
-                	burnTime = value;
-                    break;
-                case 1:
-                	totalBurnTime = value;
-                    break;
-                case 2:
                 	progress = value;
                     break;
                 default:
@@ -109,7 +99,7 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
         @Override
         public int getCount() {
         	
-            return 3;
+            return 1;
             
         }
     };
@@ -318,90 +308,91 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
         if (this.level == null || this.level.isClientSide) {
         	
             return;
-            
         }
         
-    	if(canCraft() && !fuelSlotHandler.getStackInSlot(0).isEmpty() && burnTime == 0) {
-    		
-    		if(!outputSlotHandler.getStackInSlot(0).isEmpty() && outputSlotHandler.getStackInSlot(0).getCount() < outputSlotHandler.getStackInSlot(0).getMaxStackSize()) {
-    			
-    			consumeFuel();
-    			
-    		}
-    		
-    		if(outputSlotHandler.getStackInSlot(0).isEmpty()) {
-    			
-    			consumeFuel();
-    			
-    		}
-    	}
-    	
 
+    	ItemStack fuelStack = fuelSlotHandler.getStackInSlot(0);
     	
-    	if((inputSlotHandler1.getStackInSlot(0).isEmpty() || inputSlotHandler2.getStackInSlot(0).isEmpty()) && progress > 0) {
+    	if(!(fuelStack.isEmpty()) && totalBurnTime == 0) {
     		
-    		progress = 0;
-    		
-    	}
-    	
-    	if(!canCraft() && progress > 0) {
+    		totalBurnTime = ForgeHooks.getBurnTime(fuelStack);
+        }
+        
+        if(!canCraft() && burnTime <= 0 && this.level.getBlockState(this.worldPosition).getValue(BasicMetallicInfuser.LIT) == true) {
+        	
+        	this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(BasicMetallicInfuser.LIT, Boolean.valueOf(false)));
+        }
+        	
+        if(!fuelStack.isEmpty() && burnTime <= 0 && canCraft()) {
+        		
+        	consumeFuel();
+        }
+        	
+        if(canCraft()) {
+        		
+        	if(burnTime > 0) {
+            			
+        		startCrafting();
+        	}	
+        }
+        
+        if(canCraft() && burnTime > 0 && this.level.getBlockState(this.worldPosition).getValue(BasicMetallicInfuser.LIT) == false) {
+        	
+        	this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(BasicMetallicInfuser.LIT, Boolean.valueOf(true)));
+        }
+        
+        if(burnTime > 0) {
+        	
+        	--burnTime;
+        }
+        
+        if((fuelStack.equals(ItemStack.EMPTY) || fuelSlotHandler.getStackInSlot(0).getItem().equals(Items.BUCKET)) && burnTime <= 0) {
+        	
+        	burnTime = 0;
+        	totalBurnTime = 0;
+        }
+        
+        if(!canCraft() && progress > 0) {
     		
     		progress -= 2;
-    		
     	}
     	
     	if(burnTime <= 0 && progress > 0) {
     		
     		progress -= 2;
-    		
     	}
-        
-        if(burnTime > 0) {
-        	
-        	this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(BasicMetallicInfuser.LIT, Boolean.valueOf(true)));
-        	
-        	if(canCraft()) {
-            	
-            	startCrafting();
-            	
-            }
-        	
-        	--burnTime;
-        	
-        }
-        
-        if(burnTime <= 0) {
-        	
-        	this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(BasicMetallicInfuser.LIT, Boolean.valueOf(false)));
-        	
-        }
     }
     
     private boolean canCraft() {
     	
-    	Inventory recipeInventory = new Inventory(this.inputSlotHandler1.getStackInSlot(0), this.inputSlotHandler2.getStackInSlot(0));
+    	if(allSlots.isPresent()) {
     	
-    	Optional<InfuserRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.INFUSER_RECIPES, recipeInventory, this.level);
-    	InfuserRecipes recipe = rOpt.orElse(null);
+    		Inventory recipeInventory = new Inventory(this.inputSlotHandler1.getStackInSlot(0), this.inputSlotHandler2.getStackInSlot(0));
     	
-    	int outputHandlerCount = 0;
+    		Optional<InfuserRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.INFUSER_RECIPES, recipeInventory, this.level);
+    		InfuserRecipes recipe = rOpt.orElse(null);
     	
-    	ItemStack output = ItemStack.EMPTY;
-    	if(!this.inputSlotHandler1.getStackInSlot(0).equals(ItemStack.EMPTY) && !this.inputSlotHandler2.getStackInSlot(0).equals(ItemStack.EMPTY)) {
+    		int outputHandlerCount = 0;
+    	
+    		ItemStack output = ItemStack.EMPTY;
+    		if(!this.inputSlotHandler1.getStackInSlot(0).equals(ItemStack.EMPTY) && !this.inputSlotHandler2.getStackInSlot(0).equals(ItemStack.EMPTY)) {
     		
-    		output = recipe.assemble(recipeInventory);
-    	}
+    			if(recipe != null)
+    				output = recipe.assemble(recipeInventory);
+    		}
     	
-    	ItemStack outputHandler = outputSlotHandler.getStackInSlot(0);
+    		ItemStack outputHandler = outputSlotHandler.getStackInSlot(0);
     	
-    	if(!(outputHandler.equals(ItemStack.EMPTY))) {
+    		if(!(outputHandler.equals(ItemStack.EMPTY))) {
     		
-    		outputHandlerCount = outputHandler.getCount();
-    	}
+    			outputHandlerCount = outputHandler.getCount();
+    		}
     	
-    	if(recipe != null && (output.getItem().equals(outputHandler.getItem()) || outputHandler.equals(ItemStack.EMPTY)) && (output.getCount() + outputHandlerCount <= outputHandler.getMaxStackSize())) {
+    		if(recipe != null && (output.getItem().equals(outputHandler.getItem()) || outputHandler.equals(ItemStack.EMPTY)) && (output.getCount() + outputHandlerCount <= outputHandler.getMaxStackSize())) {
     		
-    		return true;
+    			return true;
+    		}
+    		return false;
     	}
     	return false;
     }
@@ -418,8 +409,6 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
     	ItemStack output = recipe.assemble(recipeInventory);
     	
     	if(burnTime > 0) {
-    		
-    		BURN_TIME = burnTime;
     		
     		if (progress < WORK_TIME) {
     			
@@ -450,41 +439,31 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
     				}
     			}
     		}
-    	
-    		if(burnTime <= 0) {
-    		
-    			burnTime = 0;
-    			BURN_TIME = burnTime;
-    			
-    			 if(fuelSlotHandler.getStackInSlot(0).isEmpty() || fuelSlotHandler.getStackInSlot(0).getItem().equals(Items.BUCKET)) {
-    		        	
-    		        	totalBurnTime = 0;
-    		        	
-    		        }
-    		
-    		}
     	}
     }
     
     @SuppressWarnings("deprecation")
 	public void consumeFuel() {
     	
-    	if(!(fuelSlotHandler.getStackInSlot(0).equals(ItemStack.EMPTY))) {
+    	if(fuelSlotWrapper.isPresent() || allSlots.isPresent()) {
     		
-    		if(ForgeHooks.getBurnTime(fuelSlotHandler.getStackInSlot(0)) != 0 && burnTime == 0) {
+    		if(!(fuelSlotHandler.getStackInSlot(0).equals(ItemStack.EMPTY))) {
+    		
+    			if(ForgeHooks.getBurnTime(fuelSlotHandler.getStackInSlot(0)) != 0 && burnTime == 0) {
     			
-    			this.burnTime = ForgeHooks.getBurnTime(fuelSlotHandler.getStackInSlot(0));
+    				this.burnTime = ForgeHooks.getBurnTime(fuelSlotHandler.getStackInSlot(0));
     			
-    			if(fuelSlotHandler.getStackInSlot(0).getItem().equals(Items.LAVA_BUCKET)) {
+    				if(fuelSlotHandler.getStackInSlot(0).getItem().equals(Items.LAVA_BUCKET)) {
     				
-    				totalBurnTime = ForgeHooks.getBurnTime(fuelSlotHandler.getStackInSlot(0));
-    				fuelSlotHandler.setStackInSlot(0, new ItemStack(Items.BUCKET, 1));
+    					totalBurnTime = ForgeHooks.getBurnTime(fuelSlotHandler.getStackInSlot(0));
+    					fuelSlotHandler.setStackInSlot(0, new ItemStack(Items.BUCKET, 1));
     				
-    			} else {
+    				} else {
     				
-    				totalBurnTime = ForgeHooks.getBurnTime(fuelSlotHandler.getStackInSlot(0));
-    				fuelSlotHandler.getStackInSlot(0).shrink(1);
+    					totalBurnTime = ForgeHooks.getBurnTime(fuelSlotHandler.getStackInSlot(0));
+    					fuelSlotHandler.getStackInSlot(0).shrink(1);
     				
+    				}
     			}
     		}
     	}
@@ -531,11 +510,6 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
 		return new TranslationTextComponent("container.mechanicraft.basic_metallic_infuser");
 		
 	}
-    
-    public static int getWorkTime() {
-    	
-    	return WORK_TIME;
-    }
 
     @Nullable
     @Override
@@ -545,9 +519,7 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
 		return new ContainerBasicMetallicInfuser(this, this.fields, id, playerInventory, new CombinedInvWrapper(inputSlotHandler1, inputSlotHandler2, fuelSlotHandler, outputSlotHandler));
         
     }
-
-
-
+    
     @Override
     public void load(BlockState state, CompoundNBT tags) {
     	
@@ -556,9 +528,9 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
         this.inputSlotHandler2.deserializeNBT(tags.getCompound("inputSlot2"));
 		this.outputSlotHandler.deserializeNBT(tags.getCompound("outputSlot"));
 		this.fuelSlotHandler.deserializeNBT(tags.getCompound("fuelSlot"));
-        this.burnTime = tags.getInt("BurnTime");
-        this.progress = tags.getInt("Progress");
-        this.totalBurnTime = tags.getInt("TotalBurnTime");
+        this.burnTime = tags.getInt("burnTime");
+        this.progress = tags.getInt("progress");
+        this.totalBurnTime = tags.getInt("totalBurnTime");
         
     }
 
@@ -570,9 +542,9 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
         tags.put("inputSlot2", inputSlotHandler2.serializeNBT());
 		tags.put("outputSlot", outputSlotHandler.serializeNBT());
 		tags.put("fuelSlot", fuelSlotHandler.serializeNBT());
-        tags.putInt("Progress", this.progress);
-        tags.putInt("BurnTime", this.burnTime);
-        tags.putInt("TotalBurnTime", this.totalBurnTime);
+        tags.putInt("progress", this.progress);
+        tags.putInt("burnTime", this.burnTime);
+        tags.putInt("totalBurnTime", this.totalBurnTime);
         return tags;
         
     }
@@ -585,15 +557,23 @@ public class TileEntityBasicMetallicInfuser extends TileEntity implements ITicka
         return new SUpdateTileEntityPacket(this.worldPosition, 1, tags);
         
     }
-
+    
     @Override
     public CompoundNBT getUpdateTag() {
     	
-        CompoundNBT tags = super.getUpdateTag();
-        tags.putInt("Progress", this.progress);
-        tags.putInt("BurnTime", this.burnTime);
-        return tags;
-        
+        return save(new CompoundNBT());
+    }
+
+    @Override
+    public void handleUpdateTag(BlockState stateIn, CompoundNBT tag) {
+    	
+        load(stateIn, tag);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+    	
+        load(this.getBlockState(), pkt.getTag());
     }
 
 	boolean blockBeingBroken(boolean onRemoved) {

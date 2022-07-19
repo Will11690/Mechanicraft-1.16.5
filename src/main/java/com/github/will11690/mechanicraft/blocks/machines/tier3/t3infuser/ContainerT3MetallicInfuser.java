@@ -5,18 +5,27 @@ import javax.annotation.Nullable;
 import com.github.will11690.mechanicraft.blocks.machines.common.slots.SlotEnergyItem;
 import com.github.will11690.mechanicraft.blocks.machines.common.slots.SlotUpgrade;
 import com.github.will11690.mechanicraft.init.ModItems;
+import com.github.will11690.mechanicraft.network.packet.PacketHandler;
+import com.github.will11690.mechanicraft.network.packet.burntime.ClientboundEnergyPacket;
 import com.github.will11690.mechanicraft.util.handlers.ContainerTypeHandler;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.network.PacketDistributor.PacketTarget;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -25,13 +34,16 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 public class ContainerT3MetallicInfuser extends Container {
 	
 	private final IItemHandler playerInventory;
+	private PlayerEntity player;
     private IItemHandler handler;
     private IIntArray fields;
     private TileEntityT3MetallicInfuser tile;
+    private int energyStored;
+    private int energyCapacity;
 
     public ContainerT3MetallicInfuser(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-    	this((TileEntityT3MetallicInfuser) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(4), id, playerInventory, new ItemStackHandler(5));
+    	this((TileEntityT3MetallicInfuser) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(2), id, playerInventory, new ItemStackHandler(5));
     	
     }
     
@@ -42,7 +54,12 @@ public class ContainerT3MetallicInfuser extends Container {
     	this.handler = iItemHandler;
         this.fields = fields;
         this.tile = tile;
+        this.player = playerInventory.player;
         this.playerInventory = new InvWrapper(playerInventory);
+        
+        this.energyStored = 0;
+        this.energyCapacity = 0;
+        
         layoutPlayerInventorySlots(8, 86);
         
         this.addSlot(new SlotUpgrade(this.handler, 0, 153, 33) {
@@ -150,42 +167,75 @@ public class ContainerT3MetallicInfuser extends Container {
         
     }
     
+    private IEnergyStorage getEnergy() {
+    	
+    	return tile.getCapability(CapabilityEnergy.ENERGY, Direction.DOWN).orElse(null);
+    }
+    
+    @Override
+    public void broadcastChanges() {
+    	super.broadcastChanges();
+    	if((player instanceof ServerPlayerEntity) && !(player instanceof FakePlayer)) {
+    		
+    		PacketTarget target = PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player);
+    		ClientboundEnergyPacket messageEnergy = new ClientboundEnergyPacket(this.energyStored, this.energyCapacity, tile.getBlockPos(), player.getUUID());
+			
+			int newEnergyStored = getEnergy().getEnergyStored();
+			int newEnergyCapacity = getEnergy().getMaxEnergyStored();
+			
+			if(getEnergy() != null) {
+				
+				PacketHandler.INSTANCE_ENERGY.send(target, messageEnergy);
+				this.energyStored = newEnergyStored;
+				this.energyCapacity = newEnergyCapacity;
+			}
+    	}
+    }
+	
+	public int setEnergyStored(int energyStored) {
+		
+       return this.energyStored = energyStored;
+    }
+
+    public int setEnergyCapacity(int energyCapacity) {
+    	
+        return this.energyCapacity = energyCapacity;
+    }
+    
     private boolean canExtractSpeedorEfficiency() {
     	
-    	return tile.upgradeHandler.canExtractFromSlot(this.fields.get(1));
+    	return tile.upgradeHandler.canExtractFromSlot(this.fields.get(0));
     }
 
     public int getProgress() {
     	
-		return this.fields.get(1);
+		return this.fields.get(0);
 		
 	}
     
     public int getMaxProgress() {
     	
-    	return this.fields.get(3);
+    	return this.fields.get(1);
     	
     }
 
 	public int getProgressionScaled() {
 		
 		int cookProgress = this.getProgress();
-		int cookTimeForRecipe = this.fields.get(3);
+		int cookTimeForRecipe = this.fields.get(1);
 		return cookTimeForRecipe != 0 && cookProgress != 0 ? cookProgress * 24 / cookTimeForRecipe : 0;
 		
 	}
 	
-	public int getEnergy() {
+	public int getEnergyStored() {
 		
-		return this.fields.get(0);
-		
-	}
-	
-	public int getCapacity() {
-		
-		return this.fields.get(2);
-		
-	}
+       return this.energyStored;
+    }
+
+    public int getEnergyCapacity() {
+    	
+        return this.energyCapacity;
+    }
 
     @Override
     public boolean stillValid(PlayerEntity player) {

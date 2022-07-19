@@ -95,12 +95,8 @@ public class TileEntityT5PoweredSieve extends TileEntity implements ITickableTil
             switch (index) {
             
                 case 0:
-                	return energyStorage.getEnergyStored();
-                case 1:
                 	return progress;
-                case 2:
-                	return energyStorage.getCapacity();
-    			case 3:
+    			case 1:
     				return upgradableWorkTime;
                 default:
                     return 0;
@@ -114,15 +110,9 @@ public class TileEntityT5PoweredSieve extends TileEntity implements ITickableTil
             switch (index) {
             
             	case 0:
-            		energyStorage.setEnergy(value);
-            		break;
-            	case 1:
             		progress = value;
             		break;
-            	case 2:
-            		energyStorage.setCapacity(value);
-            		break;
-            	case 3:
+            	case 1:
             		upgradableWorkTime = value;
             		break;
             	default:
@@ -134,7 +124,7 @@ public class TileEntityT5PoweredSieve extends TileEntity implements ITickableTil
         @Override
         public int getCount() {
         	
-            return 4;
+            return 2;
             
         }
     };
@@ -461,9 +451,7 @@ public class TileEntityT5PoweredSieve extends TileEntity implements ITickableTil
 
 				receivePowerItem(chargeSlotHandler.getStackInSlot(0));
 
-			}
-
-			else
+			} else
 
 				receivePower();
 
@@ -538,48 +526,50 @@ public class TileEntityT5PoweredSieve extends TileEntity implements ITickableTil
     
     private boolean canCraft() {
     	
-    	Inventory recipeInventory = new Inventory(this.inputSlotHandler1.getStackInSlot(0), this.inputSlotHandler2.getStackInSlot(0));
+    	if(allSlots.isPresent()) {
     	
-    	Optional<SieveRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.SIEVE_RECIPES, recipeInventory, this.level);
-    	SieveRecipes recipe = rOpt.orElse(null);
+    		Inventory recipeInventory = new Inventory(this.inputSlotHandler1.getStackInSlot(0), this.inputSlotHandler2.getStackInSlot(0));
     	
-		ItemStack output = outputSlotHandler.getStackInSlot(0);
-		ItemStack outputSecondary = outputSlotHandler.getStackInSlot(1);
+    		Optional<SieveRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.SIEVE_RECIPES, recipeInventory, this.level);
+    		SieveRecipes recipe = rOpt.orElse(null);
+    	
+    		ItemStack output = outputSlotHandler.getStackInSlot(0);
+    		ItemStack outputSecondary = outputSlotHandler.getStackInSlot(1);
 		
-		if(recipe != null) {
-			ItemStack result = recipe.assemble(recipeInventory);
-			ItemStack secondaryResult = recipe.assembleSecondary(recipeInventory);
+    		if(recipe != null) {
+    			ItemStack result = recipe.assemble(recipeInventory);
+    			ItemStack secondaryResult = recipe.assembleSecondary(recipeInventory);
 
-			if(energyStorage.getEnergyStored() >= upgradableSievingEnergy) {
+    			if(energyStorage.getEnergyStored() >= upgradableSievingEnergy) {
 
-				if (result.isEmpty() || recipeInventory.getItem(0).isEmpty() || recipeInventory.getItem(1).isEmpty()) {
+    				if (result.isEmpty() || recipeInventory.getItem(0).isEmpty() || recipeInventory.getItem(1).isEmpty()) {
 
-					return false;
-				}
+    					return false;
+    				}
 
-				if ((output.getCount() + result.getCount()) > output.getMaxStackSize()) {
+    				if ((output.getCount() + result.getCount()) > output.getMaxStackSize()) {
 
-					return false;
-				}
+    					return false;
+    				}
 					
-				if ((secondaryResult.getCount() + outputSecondary.getCount()) > outputSecondary.getMaxStackSize()) {
+    				if ((secondaryResult.getCount() + outputSecondary.getCount()) > outputSecondary.getMaxStackSize()) {
 
-					return false;
-				}
+    					return false;
+    				}
 				
-				if (output.isEmpty() || output.getItem().equals(result.getItem())) {
+    				if (output.isEmpty() || output.getItem().equals(result.getItem())) {
 
-					if(outputSecondary.isEmpty() || outputSecondary.getItem().equals(secondaryResult.getItem()) || secondaryResult.equals(ItemStack.EMPTY)) {
+    					if(outputSecondary.isEmpty() || outputSecondary.getItem().equals(secondaryResult.getItem()) || secondaryResult.equals(ItemStack.EMPTY)) {
 					
-						return true;
-					}
-				}
-			}
+    						return true;
+    					}
+    				}
+    			}
+    			return false;
 			
-			return false;
-		}
-
-		else return false;
+    		} else return false;
+    	}
+    	return false;
     }
     
     private void startCrafting() {

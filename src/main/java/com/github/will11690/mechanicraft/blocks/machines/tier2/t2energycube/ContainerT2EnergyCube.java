@@ -2,14 +2,19 @@ package com.github.will11690.mechanicraft.blocks.machines.tier2.t2energycube;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.IntArray;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.network.PacketDistributor.PacketTarget;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -20,28 +25,36 @@ import javax.annotation.Nullable;
 import com.github.will11690.mechanicraft.blocks.machines.common.slots.SlotEnergyItem;
 import com.github.will11690.mechanicraft.blocks.machines.common.slots.SlotStorageUpgrade;
 import com.github.will11690.mechanicraft.init.ModItems;
+import com.github.will11690.mechanicraft.network.packet.PacketHandler;
+import com.github.will11690.mechanicraft.network.packet.burntime.ClientboundEnergyPacket;
 import com.github.will11690.mechanicraft.util.handlers.ContainerTypeHandler;
 
 public class ContainerT2EnergyCube extends Container {
 	
 	private final IItemHandler playerInventory;
+	private PlayerEntity player;
     private IItemHandler handler;
-    private IIntArray fields;
     private TileEntityT2EnergyCube tile;
+    private int energyStored;
+    private int energyCapacity;
 
     public ContainerT2EnergyCube(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-        this((TileEntityT2EnergyCube) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(2), id, playerInventory, new ItemStackHandler(5));
+        this((TileEntityT2EnergyCube) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), id, playerInventory, new ItemStackHandler(5));
         
     }
 
-    public ContainerT2EnergyCube(@Nullable TileEntityT2EnergyCube tile, IIntArray fields, int id, PlayerInventory playerInventory, IItemHandler iItemHandler) {
+    public ContainerT2EnergyCube(@Nullable TileEntityT2EnergyCube tile, int id, PlayerInventory playerInventory, IItemHandler iItemHandler) {
         super(ContainerTypeHandler.CONTAINER_T2_ENERGY_CUBE.get(), id);
 
         this.handler = iItemHandler;
-        this.fields = fields;
         this.tile = tile;
+        this.player = playerInventory.player;
         this.playerInventory = new InvWrapper(playerInventory);
+        
+        this.energyStored = 0;
+        this.energyCapacity = 0;
+        
         layoutPlayerInventorySlots(8, 86);
 
         this.addSlot(new SlotEnergyItem(this.handler, 0, 34, 35));
@@ -66,9 +79,6 @@ public class ContainerT2EnergyCube extends Container {
         			return super.mayPickup(playerIn);
             }
         });
-        
-        this.addDataSlots(fields);
-        
     }
     
     private int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {
@@ -106,29 +116,50 @@ public class ContainerT2EnergyCube extends Container {
         addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
         
     }
-	
-	public int getEnergy() {
-		
-		return this.fields.get(0);
-		
-	}
-	
-	public int getCapacity() {
-		
-		return this.fields.get(1);
-		
-	}
     
-    private boolean canExtractCapacity() {
+    private IEnergyStorage getEnergy() {
     	
-    	if(this.fields.get(1) > this.fields.get(2)) {
+    	return tile.getCapability(CapabilityEnergy.ENERGY, Direction.DOWN).orElse(null);
+    }
+    
+    @Override
+    public void broadcastChanges() {
+    	super.broadcastChanges();
+    	if((player instanceof ServerPlayerEntity) && !(player instanceof FakePlayer)) {
     		
-    		return false;
-    		
-    	} else
-    		
-    		return true;
+    		PacketTarget target = PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player);
+    		ClientboundEnergyPacket messageEnergy = new ClientboundEnergyPacket(this.energyStored, this.energyCapacity, tile.getBlockPos(), player.getUUID());
+			
+			int newEnergyStored = getEnergy().getEnergyStored();
+			int newEnergyCapacity = getEnergy().getMaxEnergyStored();
+			
+			if(getEnergy() != null) {
+				
+				PacketHandler.INSTANCE_ENERGY.send(target, messageEnergy);
+				this.energyStored = newEnergyStored;
+				this.energyCapacity = newEnergyCapacity;
+			}
+    	}
+    }
+	
+	public int setEnergyStored(int energyStored) {
+		
+       return this.energyStored = energyStored;
+    }
+
+    public int setEnergyCapacity(int energyCapacity) {
     	
+        return this.energyCapacity = energyCapacity;
+    }
+	
+	public int getEnergyStored() {
+		
+       return this.energyStored;
+    }
+
+    public int getEnergyCapacity() {
+    	
+        return this.energyCapacity;
     }
 
 	@Override

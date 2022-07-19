@@ -30,7 +30,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidAttributes;
@@ -189,7 +188,6 @@ public class T6OreWasher extends Block {
         
         if((!fluidHandlerCapStack.isPresent() && !(heldItem.getItem() instanceof BucketItem)) || player.isShiftKeyDown()) {
         	
-			te.getLevel().sendBlockUpdated(pos, state, state, Constants.BlockFlags.DEFAULT);
         	NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) te, pos);
         	return ActionResultType.SUCCESS;
         }

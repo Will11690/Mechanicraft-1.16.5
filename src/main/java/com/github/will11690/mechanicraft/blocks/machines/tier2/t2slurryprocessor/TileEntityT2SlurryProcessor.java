@@ -100,25 +100,9 @@ public class TileEntityT2SlurryProcessor extends TileEntity implements ITickable
             switch (index) {
             
                 case 0:
-                	return energyStorage.getEnergyStored();
-                case 1:
                 	return progress;
-                case 2:
-                	return energyStorage.getCapacity();
-    			case 3:
+    			case 1:
     				return upgradableWorkTime;
-    			case 4:
-    				return inputFluidTank1.getCapacity();
-    			case 5:
-    				return inputFluidTank1.getFluidInTank(0).getAmount();
-    			case 6:
-    				return inputFluidTank2.getCapacity();
-    			case 7:
-    				return inputFluidTank2.getFluidInTank(0).getAmount();
-    			case 8:
-    				return outputFluidTank.getCapacity();
-    			case 9:
-    				return outputFluidTank.getFluidInTank(0).getAmount();
                 default:
                     return 0;
                     
@@ -131,15 +115,9 @@ public class TileEntityT2SlurryProcessor extends TileEntity implements ITickable
             switch (index) {
             
             	case 0:
-            		energyStorage.setEnergy(value);
-            		break;
-            	case 1:
             		progress = value;
             		break;
-            	case 2:
-            		energyStorage.setCapacity(value);
-            		break;
-            	case 3:
+            	case 1:
             		upgradableWorkTime = value;
             		break;
             	default:
@@ -151,7 +129,7 @@ public class TileEntityT2SlurryProcessor extends TileEntity implements ITickable
         @Override
         public int getCount() {
         	
-            return 10;
+            return 2;
             
         }
     };
@@ -509,6 +487,19 @@ public class TileEntityT2SlurryProcessor extends TileEntity implements ITickable
     		energyStorage.oneUpgradeModifier(capacity, receive, 0, upgradeSlotHandler.getStackInSlot(0));
     		
     	}
+    	
+    	if(upgradeSlotHandler.getStackInSlot(0).getItem().equals(ModItems.CAPACITY_UPGRADE.get())) {
+    		
+    		inputFluidTank1.upgradeCapacity(upgradeSlotHandler.getStackInSlot(0), ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
+    		inputFluidTank2.upgradeCapacity(upgradeSlotHandler.getStackInSlot(0), ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
+    		outputFluidTank.upgradeCapacity(upgradeSlotHandler.getStackInSlot(0), ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
+    		
+    	} else {
+    		
+    		inputFluidTank1.setCapacity(fluid_capacity);
+    		inputFluidTank2.setCapacity(fluid_capacity);
+    		outputFluidTank.setCapacity(fluid_capacity);
+    	}
     }
 
 	public boolean canExtractCapacity() {
@@ -523,83 +514,86 @@ public class TileEntityT2SlurryProcessor extends TileEntity implements ITickable
     
     private boolean canCraft() {
     	
-    	ItemStack bucket1 = ItemStack.EMPTY;
-    	ItemStack bucket2 = ItemStack.EMPTY;
+    	if(allSlots.isPresent()) {
     	
-    	if(!inputFluidTank1.getFluidInTank(0).isEmpty() && !inputFluidTank2.getFluidInTank(0).isEmpty()) {
+    		ItemStack bucket1 = ItemStack.EMPTY;
+    		ItemStack bucket2 = ItemStack.EMPTY;
+    	
+    		if(!inputFluidTank1.getFluidInTank(0).isEmpty() && !inputFluidTank2.getFluidInTank(0).isEmpty()) {
     		
-    		bucket1 = new ItemStack(inputFluidTank1.getFluidInTank(0).getFluid().getBucket());
-    		bucket2 = new ItemStack(inputFluidTank2.getFluidInTank(0).getFluid().getBucket());
+    			bucket1 = new ItemStack(inputFluidTank1.getFluidInTank(0).getFluid().getBucket());
+    			bucket2 = new ItemStack(inputFluidTank2.getFluidInTank(0).getFluid().getBucket());
     		
-    	}
-    	
-    	Inventory recipeInventory = new Inventory(bucket1, bucket2);
-    	
-    	Optional<SlurryRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.SLURRY_RECIPES, recipeInventory, this.level);
-    	SlurryRecipes recipe = rOpt.orElse(null);
-    	
-    	int outputFluidHandlerCount = 0;
-    	
-    	ItemStack outputStack = ItemStack.EMPTY;
-    	FluidStack outputFluid = FluidStack.EMPTY;
-    	if(!this.inputFluidTank1.getFluidInTank(0).equals(FluidStack.EMPTY) && !this.inputFluidTank2.getFluidInTank(0).equals(FluidStack.EMPTY)) {
-    		
-    		if(recipe != null && !bucket1.isEmpty() && !bucket2.isEmpty())
-    			
-    			outputStack = recipe.assembleStack(inputFluidTank1.getFluidInTank(0), inputFluidTank2.getFluidInTank(0));
-    			outputFluid = recipe.assembleFluid(inputFluidTank1.getFluidInTank(0), inputFluidTank2.getFluidInTank(0));
     		}
     	
-    	ItemStack outputStackHandler = outputSlotHandler.getStackInSlot(0);
-    	FluidStack outputFluidHandler = outputFluidTank.getFluidInTank(0);
+    		Inventory recipeInventory = new Inventory(bucket1, bucket2);
     	
-    	if(!(outputFluidHandler.equals(FluidStack.EMPTY))) {
+    		Optional<SlurryRecipes> rOpt = this.level.getRecipeManager().getRecipeFor(ModRecipes.SLURRY_RECIPES, recipeInventory, this.level);
+    		SlurryRecipes recipe = rOpt.orElse(null);
+    	
+    		int outputFluidHandlerCount = 0;
+    	
+    		ItemStack outputStack = ItemStack.EMPTY;
+    		FluidStack outputFluid = FluidStack.EMPTY;
+    		if(!this.inputFluidTank1.getFluidInTank(0).equals(FluidStack.EMPTY) && !this.inputFluidTank2.getFluidInTank(0).equals(FluidStack.EMPTY)) {
     		
-    		outputFluidHandlerCount = outputFluidHandler.getAmount();
-    	}
+    			if(recipe != null && !bucket1.isEmpty() && !bucket2.isEmpty())
+    			
+    				outputStack = recipe.assembleStack(inputFluidTank1.getFluidInTank(0), inputFluidTank2.getFluidInTank(0));
+    				outputFluid = recipe.assembleFluid(inputFluidTank1.getFluidInTank(0), inputFluidTank2.getFluidInTank(0));
+    			}
     	
-    	boolean ouputFluidMatchesBool = outputFluid.getFluid().equals(outputFluidHandler.getFluid());
-    	boolean ouputStackMatchesBool = outputStack.getItem().equals(outputStackHandler.getItem());
-    	boolean outputFluidEmptyBool = outputFluidHandler.equals(FluidStack.EMPTY);
-    	boolean outputStackEmptyBool = outputStackHandler.equals(ItemStack.EMPTY);
-    	boolean outputFluidNotFullBool = outputFluid.getAmount() + outputFluidHandlerCount <= outputFluidTank.getCapacity();
-    	boolean outputStackNotFullBool = outputStack.getCount() + outputStackHandler.getCount() <= outputSlotHandler.getSlotLimit(0);
+    		ItemStack outputStackHandler = outputSlotHandler.getStackInSlot(0);
+    		FluidStack outputFluidHandler = outputFluidTank.getFluidInTank(0);
     	
-    	if(energyStorage.getEnergyStored() >= upgradableProcessingEnergy) {
+    		if(!(outputFluidHandler.equals(FluidStack.EMPTY))) {
+    		
+    			outputFluidHandlerCount = outputFluidHandler.getAmount();
+    		}
     	
-    		if(recipe != null && !outputStack.isEmpty() && !outputFluid.isEmpty()) {
+    		boolean ouputFluidMatchesBool = outputFluid.getFluid().equals(outputFluidHandler.getFluid());
+    		boolean ouputStackMatchesBool = outputStack.getItem().equals(outputStackHandler.getItem());
+    		boolean outputFluidEmptyBool = outputFluidHandler.equals(FluidStack.EMPTY);
+    		boolean outputStackEmptyBool = outputStackHandler.equals(ItemStack.EMPTY);
+    		boolean outputFluidNotFullBool = outputFluid.getAmount() + outputFluidHandlerCount <= outputFluidTank.getCapacity();
+    		boolean outputStackNotFullBool = outputStack.getCount() + outputStackHandler.getCount() <= outputSlotHandler.getSlotLimit(0);
+    	
+    		if(energyStorage.getEnergyStored() >= upgradableProcessingEnergy) {
+    	
+    			if(recipe != null && !outputStack.isEmpty() && !outputFluid.isEmpty()) {
     	    	
-    	    	boolean inputFluid1Empty = inputFluidTank1.getFluid().equals(FluidStack.EMPTY);
-    	    	boolean inputFluid2Empty = inputFluidTank2.getFluid().equals(FluidStack.EMPTY);
-	    		boolean inputFluid1AmountNotSmall = recipe.getInputFluid1().getAmount() <= inputFluidTank1.getFluidInTank(0).getAmount();
-	    		boolean inputFluid2AmountNotSmall = recipe.getInputFluid2().getAmount() <= inputFluidTank2.getFluidInTank(0).getAmount();
+    				boolean inputFluid1Empty = inputFluidTank1.getFluid().equals(FluidStack.EMPTY);
+    				boolean inputFluid2Empty = inputFluidTank2.getFluid().equals(FluidStack.EMPTY);
+    				boolean inputFluid1AmountNotSmall = recipe.getInputFluid1().getAmount() <= inputFluidTank1.getFluidInTank(0).getAmount();
+    				boolean inputFluid2AmountNotSmall = recipe.getInputFluid2().getAmount() <= inputFluidTank2.getFluidInTank(0).getAmount();
 			
-				if((!inputFluid1Empty && !inputFluid2Empty) && (inputFluid1AmountNotSmall && inputFluid2AmountNotSmall)) {
+    				if((!inputFluid1Empty && !inputFluid2Empty) && (inputFluid1AmountNotSmall && inputFluid2AmountNotSmall)) {
     			
-    				if(outputFluidEmptyBool && outputStackEmptyBool) {
+    					if(outputFluidEmptyBool && outputStackEmptyBool) {
     				
-    					return true;
+    						return true;
     			
-    				} else if(outputFluidEmptyBool && ouputStackMatchesBool && outputStackNotFullBool) {
+    					} else if(outputFluidEmptyBool && ouputStackMatchesBool && outputStackNotFullBool) {
     				
-    					return true;
+    						return true;
     				
-    				} else if(outputStackEmptyBool && ouputFluidMatchesBool && outputFluidNotFullBool) {
+    					} else if(outputStackEmptyBool && ouputFluidMatchesBool && outputFluidNotFullBool) {
     				
-    					return true;
+    						return true;
     				
-    				} else if((ouputFluidMatchesBool && ouputStackMatchesBool) && (outputFluidNotFullBool && outputStackNotFullBool)) {
+    					} else if((ouputFluidMatchesBool && ouputStackMatchesBool) && (outputFluidNotFullBool && outputStackNotFullBool)) {
     				
-    					return true;
+    						return true;
     				
-    				} else {
+    					} else {
     			
-    					return false;
+    						return false;
+    					}
     				}
     			}
     		}
+    		return false;
     	}
-    	
     	return false;
     }
     
@@ -791,21 +785,6 @@ public class TileEntityT2SlurryProcessor extends TileEntity implements ITickable
         }
 
         return false;
-    }
-	
-    public FluidStack getInputFluidStack1() {
-		
-        return this.inputFluidTank1.getFluidInTank(0);
-    }
-	
-    public FluidStack getInputFluidStack2() {
-		
-        return this.inputFluidTank2.getFluidInTank(0);
-    }
-	
-    public FluidStack getOutputFluidStack() {
-		
-        return this.outputFluidTank.getFluidInTank(0);
     }
 
     @Override

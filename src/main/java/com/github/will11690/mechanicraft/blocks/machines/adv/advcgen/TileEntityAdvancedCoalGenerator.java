@@ -19,7 +19,6 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.ForgeHooks;
@@ -33,7 +32,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
-import com.github.will11690.mechanicraft.blocks.machines.basic.basiccgen.BasicCoalGenerator;
 import com.github.will11690.mechanicraft.energy.MechaniCraftEnergyStorage;
 import com.github.will11690.mechanicraft.init.ModConfigs;
 import com.github.will11690.mechanicraft.init.ModItems;
@@ -70,66 +68,14 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     private static int extract = ModConfigs.advancedCoalGeneratorExtractInt;
     private int powerGenBase = ModConfigs.advancedCoalGeneratorPowerGenInt;
     
-    private int burnTime = 0;
-    private int totalBurnTime = 0;
+    public int burnTime = 0;
+    public int totalBurnTime = 0;
     
     //For upgrade capability
     private int burnTimeBase = 0;
     
     private int upgradableBurnTime = 0;
     private int upgradablePowerGen = 0;
-
-    private final IIntArray fields = new IIntArray() {
-    	
-        @Override
-        public int get(int index) {
-        	
-            switch (index) {
-            
-                case 0:
-                    return burnTime;
-                case 1:
-                	return totalBurnTime;
-                case 2:
-                	return energyStorage.getEnergyStored();
-                case 3:
-                	return energyStorage.getCapacity();
-                default:
-                    return 0;
-                    
-            }
-        }
-
-        @Override
-        public void set(int index, int value) {
-        	
-            switch (index) {
-            
-                case 0:
-                	burnTime = value;
-                    break;
-                case 1:
-                	totalBurnTime = value;
-                    break;
-                case 2:
-                	energyStorage.setEnergy(value);
-                    break;
-                case 3:
-                	energyStorage.setCapacity(value);
-                    break;
-                default:
-                	break;
-                    
-            }
-        }
-
-        @Override
-        public int getCount() {
-        	
-            return 4;
-            
-        }
-    };
 
     public TileEntityAdvancedCoalGenerator() {
     	
@@ -392,9 +338,9 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     		
         }
         
-        if(burnTime <= 0 && this.level.getBlockState(this.worldPosition).getValue(BasicCoalGenerator.LIT) == true) {
+        if(burnTime <= 0 && this.level.getBlockState(this.worldPosition).getValue(AdvancedCoalGenerator.LIT) == true) {
         	
-        	this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(BasicCoalGenerator.LIT, Boolean.valueOf(false)));
+        	this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(AdvancedCoalGenerator.LIT, Boolean.valueOf(false)));
         
         }
         	
@@ -425,9 +371,9 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
         	}	
         }
         
-        if(burnTime > 0 && this.level.getBlockState(this.worldPosition).getValue(BasicCoalGenerator.LIT) == false) {
+        if(burnTime > 0 && this.level.getBlockState(this.worldPosition).getValue(AdvancedCoalGenerator.LIT) == false) {
         	
-        	this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(BasicCoalGenerator.LIT, Boolean.valueOf(true)));
+        	this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(AdvancedCoalGenerator.LIT, Boolean.valueOf(true)));
         	
         }
         
@@ -495,16 +441,19 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     
     private boolean canGenerate() {
     	
-    	if(upgradablePowerGen > 0 && energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored() > 0) {
-    		
-    		return true;
-    		
-    	} else {
-    		
-    		return false;
-    		
-    	}
+    	if(allSlots.isPresent()) {
     	
+    		if(upgradablePowerGen > 0 && energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored() > 0) {
+    		
+    			return true;
+    		
+    		} else {
+    		
+    			return false;
+    		
+    		}
+    	}
+		return false;
     }
     
     private void startGenerating() {
@@ -624,7 +573,7 @@ public class TileEntityAdvancedCoalGenerator extends TileEntity implements ITick
     @Override
     public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity playerEntity) {
         assert level != null;
-        return new ContainerAdvancedCoalGenerator(this, this.fields, id, playerInventory, new CombinedInvWrapper(chargeSlotHandler, fuelSlotHandler, upgradeSlotHandler));
+        return new ContainerAdvancedCoalGenerator(this, id, playerInventory, new CombinedInvWrapper(chargeSlotHandler, fuelSlotHandler, upgradeSlotHandler));
     }
 
     @Override

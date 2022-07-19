@@ -4,21 +4,29 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.github.will11690.mechanicraft.blocks.machines.common.slots.SlotEnergyItem;
+import com.github.will11690.mechanicraft.network.packet.PacketHandler;
+import com.github.will11690.mechanicraft.network.packet.burntime.ClientboundEnergyPacket;
+import com.github.will11690.mechanicraft.network.packet.energy.ClientboundBurnTimePacket;
 import com.github.will11690.mechanicraft.util.handlers.ContainerTypeHandler;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.IntArray;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.network.PacketDistributor.PacketTarget;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -27,23 +35,33 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 public class ContainerBasicCoalGenerator extends Container {
 	
 	private final IItemHandler playerInventory;
+	private PlayerEntity player;
     private IItemHandler handler;
-    private IIntArray fields;
     private TileEntityBasicCoalGenerator tile;
+    private int burnTime;
+    private int totalBurnTime;
+    private int energyStored;
+    private int energyCapacity;
 
     public ContainerBasicCoalGenerator(int id, PlayerInventory playerInventory, PacketBuffer exData) {
     	
-        this((TileEntityBasicCoalGenerator) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), new IntArray(4), id, playerInventory, new ItemStackHandler(2));
+        this((TileEntityBasicCoalGenerator) playerInventory.player.level.getBlockEntity(exData.readBlockPos()), id, playerInventory, new ItemStackHandler(2));
         
     }
 
-    public ContainerBasicCoalGenerator(@Nullable TileEntityBasicCoalGenerator tile, IIntArray fields, int id, PlayerInventory playerInventory, IItemHandler iItemHandler) {
+    public ContainerBasicCoalGenerator(@Nullable TileEntityBasicCoalGenerator tile, int id, PlayerInventory playerInventory, IItemHandler iItemHandler) {
         super(ContainerTypeHandler.CONTAINER_BASIC_COAL_GENERATOR.get(), id);
 
         this.handler = iItemHandler;
-        this.fields = fields;
         this.tile = tile;
+        this.player = playerInventory.player;
         this.playerInventory = new InvWrapper(playerInventory);
+        
+        this.burnTime = 0;
+        this.totalBurnTime = 0;
+        this.energyStored = 0;
+        this.energyCapacity = 0;
+        
         layoutPlayerInventorySlots(8, 86);
 
         this.addSlot(new SlotEnergyItem(this.handler, 0, 8, 55));
@@ -70,9 +88,6 @@ public class ContainerBasicCoalGenerator extends Container {
 			}
         	
         });
-        
-        this.addDataSlots(fields);
-        
     }
     
     private int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {
@@ -110,30 +125,92 @@ public class ContainerBasicCoalGenerator extends Container {
         addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
         
     }
+    
+    private IEnergyStorage getEnergy() {
+    	
+    	return tile.getCapability(CapabilityEnergy.ENERGY, Direction.DOWN).orElse(null);
+    }
+    
+    private int getBurn() {
+    	
+    	return tile.burnTime;
+    }
+    
+    private int getTotalBurn() {
+    	
+    	return tile.totalBurnTime;
+    }
+    
+    @Override
+    public void broadcastChanges() {
+    	super.broadcastChanges();
+    	if((player instanceof ServerPlayerEntity) && !(player instanceof FakePlayer)) {
+    		
+    		PacketTarget target = PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player);
+    		ClientboundBurnTimePacket messageBurn = new ClientboundBurnTimePacket(this.burnTime, this.totalBurnTime, tile.getBlockPos(), player.getUUID());
+    		ClientboundEnergyPacket messageEnergy = new ClientboundEnergyPacket(this.energyStored, this.energyCapacity, tile.getBlockPos(), player.getUUID());
+    		
+    		int newBurnTime = getBurn();
+			int newTotalBurnTime = getTotalBurn();
+			
+			int newEnergyStored = getEnergy().getEnergyStored();
+			int newEnergyCapacity = getEnergy().getMaxEnergyStored();
+			
+			if(getEnergy() != null) {
+				
+				PacketHandler.INSTANCE_ENERGY.send(target, messageEnergy);
+				this.energyStored = newEnergyStored;
+				this.energyCapacity = newEnergyCapacity;
+			}
+    		
+			if(getBurn() > -1 || getTotalBurn() > -1) {
+				
+				PacketHandler.INSTANCE_BURN_TIME.send(target, messageBurn);
+				this.burnTime = newBurnTime;
+				this.totalBurnTime = newTotalBurnTime;
+			}
+    	}
+    }
+    
+    public int setBurnTime(int burnTime) {
+    	
+    	return this.burnTime = burnTime;
+    }
+    
+    public int setTotalBurnTime(int totalBurnTime) {
+    	
+    	return this.totalBurnTime = totalBurnTime;
+    }
+	
+	public int setEnergyStored(int energyStored) {
+		
+       return this.energyStored = energyStored;
+    }
 
-	public int getBurnTimeRemaining() {
-		
-		return this.fields.get(0);
-		
-	}
+    public int setEnergyCapacity(int energyCapacity) {
+    	
+        return this.energyCapacity = energyCapacity;
+    }
+    
+    public int getBurnTime() {
+    	
+    	return this.burnTime;
+    }
+    
+    public int getTotalBurnTime() {
+    	
+    	return this.totalBurnTime;
+    }
 	
-	public int getItemBurnTime() {
+	public int getEnergyStored() {
 		
-		return this.fields.get(1);
-		
-	}
-	
-	public int getEnergy() {
-		
-		return this.fields.get(2);
-		
-	}
-	
-	public int getCapacity() {
-		
-		return this.fields.get(3);
-		
-	}
+       return this.energyStored;
+    }
+
+    public int getEnergyCapacity() {
+    	
+        return this.energyCapacity;
+    }
 
 	@Override
 	public boolean stillValid(PlayerEntity player) {

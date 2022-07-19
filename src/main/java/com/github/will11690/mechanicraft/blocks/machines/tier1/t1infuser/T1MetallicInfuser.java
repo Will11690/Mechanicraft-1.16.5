@@ -27,7 +27,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -73,7 +72,6 @@ public class T1MetallicInfuser extends Block {
         if (!(te instanceof TileEntityT1MetallicInfuser))
             return ActionResultType.FAIL;
 
-        te.getLevel().sendBlockUpdated(pos, state, state, Constants.BlockFlags.DEFAULT);
         NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) te, pos);
         return ActionResultType.SUCCESS;
         

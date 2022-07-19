@@ -82,7 +82,7 @@ public class ScreenBasicMetallicInfuser extends ContainerScreen<ContainerBasicMe
         	if (x > (getGuiLeft() + INFO_BURN_METER_TO_X) && x < (getGuiLeft() + INFO_BURN_METER_TO_X) + INFO_BURN_METER_WIDTH && y > (getGuiTop() + INFO_BURN_METER_TO_Y) && y < (getGuiTop() + INFO_BURN_METER_TO_Y) + INFO_BURN_METER_HEIGHT) {
         	
             	this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-            	new TranslationTextComponent("com.github.will11690.mechanicraft.screen.basic_metallic_infuser.burn_time", this.menu.getBurnTimeRemaining(), this.menu.getItemBurnTime()))), x, y);
+            	new TranslationTextComponent("com.github.will11690.mechanicraft.screen.basic_metallic_infuser.burn_time", this.menu.getBurnTime(), this.menu.getTotalBurnTime()))), x, y);
     	
     		}
         	
@@ -101,7 +101,7 @@ public class ScreenBasicMetallicInfuser extends ContainerScreen<ContainerBasicMe
         	if (x > (getGuiLeft() + INFO_BURN_METER_TO_X) && x < (getGuiLeft() + INFO_BURN_METER_TO_X) + INFO_BURN_METER_WIDTH && y > (getGuiTop() + INFO_BURN_METER_TO_Y) && y < (getGuiTop() + INFO_BURN_METER_TO_Y) + INFO_BURN_METER_HEIGHT) {
         	
             	this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-            	new TranslationTextComponent("com.github.will11690.mechanicraft.screen.basic_metallic_infuser.burn_time", Utils.withSuffix(this.menu.getBurnTimeRemaining()), Utils.withSuffix(this.menu.getItemBurnTime())),
+            	new TranslationTextComponent("com.github.will11690.mechanicraft.screen.basic_metallic_infuser.burn_time", Utils.withSuffix(this.menu.getBurnTime()), Utils.withSuffix(this.menu.getTotalBurnTime())),
         		new TranslationTextComponent("com.github.will11690.mechanicraft.screen.gui_details"))), x, y);
     	
     		}
@@ -125,10 +125,12 @@ public class ScreenBasicMetallicInfuser extends ContainerScreen<ContainerBasicMe
 
         blit(matrixStack, posX, posY, 0, 0, this.imageWidth, this.imageHeight);
 
-     	if (this.menu.isBurning()) {
+        int maxHeight = BURN_METER_HEIGHT;
+        
+     	if (this.menu.getBurnTime() > 0) {
      			
-     		int burnAmount = this.menu.getBurnLeftScaled() + 1;
-     		this.blit(matrixStack, posX + BURN_METER_TO_X, posY + BURN_METER_TO_Y + BURN_METER_HEIGHT - burnAmount, BURN_METER_FROM_X, BURN_METER_HEIGHT - burnAmount, BURN_METER_WIDTH, burnAmount);
+     		int remaining = (this.menu.getBurnTime() * maxHeight) / this.menu.getTotalBurnTime();
+     		this.blit(matrixStack, posX + BURN_METER_TO_X, posY + BURN_METER_TO_Y + BURN_METER_HEIGHT - remaining, BURN_METER_FROM_X, BURN_METER_HEIGHT - remaining, BURN_METER_WIDTH, remaining);
      		
      	}
 

@@ -80,11 +80,7 @@ public class TileEntityBasicFurnace extends TileEntity implements ITickableTileE
 			switch (index) {
 
 			case 0:
-				return energyStorage.getEnergyStored();
-			case 1:
 				return progress;
-			case 2:
-				return energyStorage.getCapacity();
 			default:
 				return 0;
 
@@ -97,13 +93,7 @@ public class TileEntityBasicFurnace extends TileEntity implements ITickableTileE
 			switch (index) {
 
 			case 0:
-				energyStorage.setEnergy(value);
-				break;
-			case 1:
 				progress = value;
-				break;
-			case 2:
-				energyStorage.setCapacity(value);
 				break;
 			default:
 				break;
@@ -114,7 +104,7 @@ public class TileEntityBasicFurnace extends TileEntity implements ITickableTileE
 		@Override
 		public int getCount() {
         	
-			return 3;
+			return 1;
             
 		}
 	};
@@ -321,37 +311,38 @@ public class TileEntityBasicFurnace extends TileEntity implements ITickableTileE
 
 	private boolean canSmelt() {
 
-		ItemStack input = inputSlotHandler.getStackInSlot(0);
-		ItemStack output = outputSlotHandler.getStackInSlot(0);
+		if(allSlots.isPresent()) {
+		
+			ItemStack input = inputSlotHandler.getStackInSlot(0);
+			ItemStack output = outputSlotHandler.getStackInSlot(0);
 
-		ItemStack result = getResultForItem(level, input);
+			ItemStack result = getResultForItem(level, input);
 
-		if(energyStorage.getEnergyStored() >= smeltingEnergy) {
+			if(energyStorage.getEnergyStored() >= smeltingEnergy) {
 
-			if (result.isEmpty() || input.isEmpty()) {
+				if (result.isEmpty() || input.isEmpty()) {
+
+					return false;
+
+				}
+
+				if ((output.getCount() + result.getCount()) > output.getMaxStackSize()) {
+
+					return false;
+
+				}
+
+				if (output.isEmpty() || output.getItem().equals(result.getItem())) {
+
+					return true;
+
+				}
 
 				return false;
 
-			}
-
-			if ((output.getCount() + result.getCount()) > output.getMaxStackSize()) {
-
-				return false;
-
-			}
-
-			if (output.isEmpty() || output.getItem().equals(result.getItem())) {
-
-				return true;
-
-			}
-
-			return false;
-
+			} else return false;
 		}
-
-		else return false;
-
+		return false;
 	}
 
 	private void startSmelting() {

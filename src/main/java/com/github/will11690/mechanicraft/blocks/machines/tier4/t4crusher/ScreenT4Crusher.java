@@ -18,7 +18,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 public class ScreenT4Crusher extends ContainerScreen<ContainerT4Crusher> {
 	
 	private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID + ":textures/gui/crusher/t4crusher.png");
-
+	
 	//Progress INFO
 	public static final int PROGRESS_METER_FROM_X = 176;
 	public static final int PROGRESS_METER_FROM_Y = 0;
@@ -50,7 +50,6 @@ public class ScreenT4Crusher extends ContainerScreen<ContainerT4Crusher> {
 	public ScreenT4Crusher(ContainerT4Crusher container, PlayerInventory playerInventory, ITextComponent title) {
 	        
 		super(container, playerInventory, title);
-	    	
 	}
 	    
 	@Override
@@ -74,7 +73,7 @@ public class ScreenT4Crusher extends ContainerScreen<ContainerT4Crusher> {
 			if (x > (getGuiLeft() + INFO_ENERGY_BAR_TO_X) && x < (getGuiLeft() + INFO_ENERGY_BAR_TO_X) + INFO_ENERGY_BAR_WIDTH && y > (getGuiTop() + INFO_ENERGY_BAR_TO_Y) && y < (getGuiTop() + INFO_ENERGY_BAR_TO_Y) + INFO_ENERGY_BAR_HEIGHT) {
 	            	
 				this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-				new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t4_crusher.energy", this.menu.getEnergy(), this.menu.getCapacity()))), x, y);
+				new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t4_crusher.energy", this.menu.getEnergyStored(), this.menu.getEnergyCapacity()))), x, y);
 	        	
 			}
 	        	
@@ -92,7 +91,7 @@ public class ScreenT4Crusher extends ContainerScreen<ContainerT4Crusher> {
 			if (x > (getGuiLeft() + INFO_ENERGY_BAR_TO_X) && x < (getGuiLeft() + INFO_ENERGY_BAR_TO_X) + INFO_ENERGY_BAR_WIDTH && y > (getGuiTop() + INFO_ENERGY_BAR_TO_Y) && y < (getGuiTop() + INFO_ENERGY_BAR_TO_Y) + INFO_ENERGY_BAR_HEIGHT) {
 	        	
 				this.renderTooltip(matrixStack, LanguageMap.getInstance().getVisualOrder(Arrays.asList(
-	        	new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t4_crusher.energy", Utils.withSuffix(this.menu.getEnergy()), Utils.withSuffix(this.menu.getCapacity())),
+	        	new TranslationTextComponent("com.github.will11690.mechanicraft.screen.t4_crusher.energy", Utils.withSuffix(this.menu.getEnergyStored()), Utils.withSuffix(this.menu.getEnergyCapacity())),
 	        	new TranslationTextComponent("com.github.will11690.mechanicraft.screen.gui_details"))), x, y);
 	    	
 			}
@@ -132,11 +131,11 @@ public class ScreenT4Crusher extends ContainerScreen<ContainerT4Crusher> {
 	         	
 		}
 
-		int maxEnergy = this.menu.getCapacity(), height = ENERGY_BAR_HEIGHT;
+		int maxEnergy = this.menu.getEnergyCapacity(), height = ENERGY_BAR_HEIGHT;
 	        
-		if (maxEnergy > 0) {
+		if (this.menu.getEnergyStored() > 0) {
 	        	
-			int remaining = (this.menu.getEnergy() * height) / maxEnergy;
+			int remaining = (this.menu.getEnergyStored() * height) / maxEnergy;
 			this.blit(matrixStack, posX + ENERGY_BAR_TO_X, posY + ENERGY_BAR_TO_Y - remaining, ENERGY_BAR_FROM_X, /*Pixels from top of gui to bottom of drawn texture*/64 - remaining, ENERGY_BAR_WIDTH, remaining + 1);
 	            
 		}
