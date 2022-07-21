@@ -58,32 +58,58 @@ public class UpgradeMachineHandlerFactory implements IUpgradeMachineHandler {
 			totalSpeed = speedCount;
 			totalEfficiency = efficiencyCount;
 			
-		}
-		
-		if(upgrade.getItem().equals(ModItems.SPEED_UPGRADE.get())) {
-			
-			double modify1 = (totalSpeed * 0.10) + 1;
-			double efficencyDropEnergy = energyUsed * 0.05;
-			double workTime1 = processingTime / modify1;
-			double workEnergy1 = (energyUsed + (efficencyDropEnergy * totalSpeed));
-    		
-			this.totalEnergyUsed = (int)workEnergy1;
-    		this.totalProcessingTime = (int)workTime1;
-    		this.onUpgradeChanged();
-			
-		} else if(upgrade.getItem().equals(ModItems.EFFICIENCY_UPGRADE.get())) {
-			
-			double modify1 = (totalEfficiency * 0.10) + 1;
-			double efficencyDropTime = processingTime * 0.05;
-			double workEnergy1 = energyUsed / modify1;
-			double workTime1 = (processingTime + (efficencyDropTime * totalEfficiency));
-			
-			this.totalEnergyUsed = (int)workEnergy1;
-			this.totalProcessingTime = (int)workTime1;
-			this.onUpgradeChanged();
+			if(totalSpeed > 19) {
 				
-		} else {
+				totalSpeed = 19;
+			}
 			
+			if(totalEfficiency > 19) {
+				
+				totalEfficiency = 19;
+			}
+		}
+			
+		if(totalSpeed > 0 || totalEfficiency > 0) {
+			
+			if(totalSpeed != 0 && totalEfficiency != 0) {
+				
+				double totalEnergy = energyUsed * processingTime;
+				double efficiencyLossEnergy = totalEnergy + ((totalEnergy * 0.05) * totalSpeed);
+				double efficiencyLossTime = totalEnergy + ((totalEnergy * 0.05) * totalEfficiency);
+				
+				double workTime = efficiencyLossEnergy / energyUsed - (energyUsed / (totalSpeed * 0.10));
+				double workEnergy = efficiencyLossTime / processingTime - (processingTime / (totalEfficiency * 0.10));
+		    		
+		    	this.totalEnergyUsed = (int)workEnergy;
+		    	this.totalProcessingTime = (int)workTime;
+		    	this.onUpgradeChanged();
+					
+			} else if(totalSpeed > 0 && totalEfficiency == 0) {
+				
+				double totalEnergy = energyUsed * processingTime;
+				double efficiencyLoss = totalEnergy + ((totalEnergy * 0.05) * totalSpeed);
+				
+				double workEnergy = efficiencyLoss / processingTime + (processingTime * (totalSpeed * 0.10));
+				double workTime = efficiencyLoss / workEnergy;
+    			
+	    		this.totalEnergyUsed = (int)workEnergy;
+	    		this.totalProcessingTime = (int)workTime;
+	    		this.onUpgradeChanged();
+					
+			} else if(totalEfficiency > 0 && totalSpeed == 0) {
+					
+				double totalEnergy = energyUsed * processingTime;
+				double efficiencyLoss = totalEnergy + ((totalEnergy * 0.05) * totalEfficiency);
+				
+				double workTime = efficiencyLoss / energyUsed + (energyUsed * (totalEfficiency * 0.10));
+				double workEnergy = efficiencyLoss / workTime;
+        			
+        		this.totalEnergyUsed = (int)workEnergy;
+        		this.totalProcessingTime = (int)workTime;
+        		this.onUpgradeChanged();
+			}
+			
+		} else {
 			//Default(No Upgrades)
 			this.totalEnergyUsed = this.baseEnergyUsed;
 			this.totalProcessingTime = this.baseProcessingTime;
@@ -144,30 +170,40 @@ public class UpgradeMachineHandlerFactory implements IUpgradeMachineHandler {
 			
 			totalSpeed = speedCount1 + speedCount2;
 			totalEfficiency = efficiencyCount1 + efficiencyCount2;
+			
+			if(totalSpeed > 19) {
+				
+				totalSpeed = 19;
+			}
+			
+			if(totalEfficiency > 19) {
+				
+				totalEfficiency = 19;
+			}
 		}
 			
 		if(totalSpeed > 0 || totalEfficiency > 0) {
 			
 			if(totalSpeed != 0 && totalEfficiency != 0) {
-					
-				double modify1 = (totalSpeed * 0.10) + 1;
-				double efficencyDropEnergy = energyUsed * 0.05;
-	    		double modify2 = (totalEfficiency * 0.10) + 1;
-				double efficencyDropTime = processingTime * 0.05;
 				
-				double workTime = (processingTime / modify1) + (efficencyDropTime * totalEfficiency);
-				double workEnergy = (energyUsed / modify2) + ((efficencyDropEnergy * totalSpeed));
+				double totalEnergy = energyUsed * processingTime;
+				double efficiencyLossEnergy = totalEnergy + ((totalEnergy * 0.05) * totalSpeed);
+				double efficiencyLossTime = totalEnergy + ((totalEnergy * 0.05) * totalEfficiency);
+				
+				double workTime = efficiencyLossEnergy / energyUsed - (energyUsed / (totalSpeed * 0.10));
+				double workEnergy = efficiencyLossTime / processingTime - (processingTime / (totalEfficiency * 0.10));
 		    		
-		    	this.totalEnergyUsed = (int)Math.round(workEnergy);
-		    	this.totalProcessingTime = (int)Math.round(workTime);
+		    	this.totalEnergyUsed = (int)workEnergy;
+		    	this.totalProcessingTime = (int)workTime;
 		    	this.onUpgradeChanged();
 					
 			} else if(totalSpeed > 0 && totalEfficiency == 0) {
-					
-				double modify = (totalSpeed * 0.10) + 1;
-				double efficencyDropEnergy = energyUsed * 0.05;
-				double workTime = processingTime / modify;
-				double workEnergy = (energyUsed + (efficencyDropEnergy * totalSpeed));
+				
+				double totalEnergy = energyUsed * processingTime;
+				double efficiencyLoss = totalEnergy + ((totalEnergy * 0.05) * totalSpeed);
+				
+				double workEnergy = efficiencyLoss / processingTime + (processingTime * (totalSpeed * 0.10));
+				double workTime = efficiencyLoss / workEnergy;
     			
 	    		this.totalEnergyUsed = (int)workEnergy;
 	    		this.totalProcessingTime = (int)workTime;
@@ -175,10 +211,11 @@ public class UpgradeMachineHandlerFactory implements IUpgradeMachineHandler {
 					
 			} else if(totalEfficiency > 0 && totalSpeed == 0) {
 					
-				double modify = (totalEfficiency * 0.10) + 1;
-		    	double efficencyDropEnergy = energyUsed * 0.05;
-		    	double workTime = processingTime * modify;
-		    	double workEnergy = energyUsed - (efficencyDropEnergy * totalEfficiency);
+				double totalEnergy = energyUsed * processingTime;
+				double efficiencyLoss = totalEnergy + ((totalEnergy * 0.05) * totalEfficiency);
+				
+				double workTime = efficiencyLoss / energyUsed + (energyUsed * (totalEfficiency * 0.10));
+				double workEnergy = efficiencyLoss / workTime;
         			
         		this.totalEnergyUsed = (int)workEnergy;
         		this.totalProcessingTime = (int)workTime;
@@ -266,52 +303,63 @@ public class UpgradeMachineHandlerFactory implements IUpgradeMachineHandler {
 			
 			totalSpeed = speedCount1 + speedCount2 + speedCount3;
 			totalEfficiency = efficiencyCount1 + efficiencyCount2 + efficiencyCount3;
+			
+			if(totalSpeed > 19) {
+				
+				totalSpeed = 19;
+			}
+			
+			if(totalEfficiency > 19) {
+				
+				totalEfficiency = 19;
+			}
 		}
 			
-			if(totalSpeed > 0 || totalEfficiency > 0) {
+		if(totalSpeed > 0 || totalEfficiency > 0) {
+			
+			if(totalSpeed != 0 && totalEfficiency != 0) {
 				
-				if(totalSpeed != 0 && totalEfficiency != 0) {
-						
-					double modify1 = (totalSpeed * 0.10) + 1;
-					double efficencyDropEnergy = energyUsed * 0.05;
-		    		double modify2 = (totalEfficiency * 0.10) + 1;
-					double efficencyDropTime = processingTime * 0.05;
+				double totalEnergy = energyUsed * processingTime;
+				double efficiencyLossEnergy = totalEnergy + ((totalEnergy * 0.05) * totalSpeed);
+				double efficiencyLossTime = totalEnergy + ((totalEnergy * 0.05) * totalEfficiency);
+				
+				double workTime = efficiencyLossEnergy / energyUsed - (energyUsed / (totalSpeed * 0.10));
+				double workEnergy = efficiencyLossTime / processingTime - (processingTime / (totalEfficiency * 0.10));
+		    		
+		    	this.totalEnergyUsed = (int)workEnergy;
+		    	this.totalProcessingTime = (int)workTime;
+		    	this.onUpgradeChanged();
 					
-					double workTime = (processingTime / modify1) + (efficencyDropTime * totalEfficiency);
-					double workEnergy = (energyUsed / modify2) + ((efficencyDropEnergy * totalSpeed));
-			    		
-			    	this.totalEnergyUsed = (int)Math.round(workEnergy);
-			    	this.totalProcessingTime = (int)Math.round(workTime);
-			    	this.onUpgradeChanged();
-						
-				} else if(totalSpeed > 0 && totalEfficiency == 0) {
-						
-					double modify = (totalSpeed * 0.10) + 1;
-					double efficencyDropEnergy = energyUsed * 0.05;
-					double workTime = processingTime / modify;
-					double workEnergy = (energyUsed + (efficencyDropEnergy * totalSpeed));
-	    			
-		    		this.totalEnergyUsed = (int)workEnergy;
-		    		this.totalProcessingTime = (int)workTime;
-		    		this.onUpgradeChanged();
-						
-				} else if(totalEfficiency > 0 && totalSpeed == 0) {
-						
-					double modify = (totalEfficiency * 0.10) + 1;
-					double efficencyDropTime = processingTime * 0.05;
-					double workEnergy = energyUsed / modify;
-					double workTime = (processingTime + (efficencyDropTime * totalEfficiency));
-	        			
-	        		this.totalEnergyUsed = (int)workEnergy;
-	        		this.totalProcessingTime = (int)workTime;
-	        		this.onUpgradeChanged();
-				}
+			} else if(totalSpeed > 0 && totalEfficiency == 0) {
 				
-			} else {
+				double totalEnergy = energyUsed * processingTime;
+				double efficiencyLoss = totalEnergy + ((totalEnergy * 0.05) * totalSpeed);
 				
-				this.totalEnergyUsed = this.baseEnergyUsed;
-	    		this.totalProcessingTime = this.baseProcessingTime;
+				double workEnergy = efficiencyLoss / processingTime + (processingTime * (totalSpeed * 0.10));
+				double workTime = efficiencyLoss / workEnergy;
+    			
+	    		this.totalEnergyUsed = (int)workEnergy;
+	    		this.totalProcessingTime = (int)workTime;
 	    		this.onUpgradeChanged();
+					
+			} else if(totalEfficiency > 0 && totalSpeed == 0) {
+					
+				double totalEnergy = energyUsed * processingTime;
+				double efficiencyLoss = totalEnergy + ((totalEnergy * 0.05) * totalEfficiency);
+				
+				double workTime = efficiencyLoss / energyUsed + (energyUsed * (totalEfficiency * 0.10));
+				double workEnergy = efficiencyLoss / workTime;
+        			
+        		this.totalEnergyUsed = (int)workEnergy;
+        		this.totalProcessingTime = (int)workTime;
+        		this.onUpgradeChanged();
+			}
+			
+		} else {
+				
+			this.totalEnergyUsed = this.baseEnergyUsed;
+	    	this.totalProcessingTime = this.baseProcessingTime;
+	    	this.onUpgradeChanged();
 		}
 	}
 
@@ -406,53 +454,63 @@ public class UpgradeMachineHandlerFactory implements IUpgradeMachineHandler {
 			
 			totalSpeed = speedCount1 + speedCount2 + speedCount3 + speedCount4;
 			totalEfficiency = efficiencyCount1 + efficiencyCount2 + efficiencyCount3 + efficiencyCount4;
+			
+			if(totalSpeed > 19) {
+				
+				totalSpeed = 19;
+			}
+			
+			if(totalEfficiency > 19) {
+				
+				totalEfficiency = 19;
+			}
 		}
 			
-			if(totalSpeed > 0 || totalEfficiency > 0) {
+		if(totalSpeed > 0 || totalEfficiency > 0) {
+			
+			if(totalSpeed != 0 && totalEfficiency != 0) {
 				
-				if(totalSpeed != 0 && totalEfficiency != 0) {
-						
-					double modify1 = (totalSpeed * 0.10) + 1;
-					double efficencyDropEnergy = energyUsed * 0.05;
-		    		double modify2 = (totalEfficiency * 0.10) + 1;
-					double efficencyDropTime = processingTime * 0.05;
+				double totalEnergy = energyUsed * processingTime;
+				double efficiencyLossEnergy = totalEnergy + ((totalEnergy * 0.05) * totalSpeed);
+				double efficiencyLossTime = totalEnergy + ((totalEnergy * 0.05) * totalEfficiency);
+				
+				double workTime = efficiencyLossEnergy / energyUsed - (energyUsed / (totalSpeed * 0.10));
+				double workEnergy = efficiencyLossTime / processingTime - (processingTime / (totalEfficiency * 0.10));
+		    		
+		    	this.totalEnergyUsed = (int)workEnergy;
+		    	this.totalProcessingTime = (int)workTime;
+		    	this.onUpgradeChanged();
 					
-					double workTime = (processingTime / modify1) + (efficencyDropTime * totalEfficiency);
-					double workEnergy = (energyUsed / modify2) + ((efficencyDropEnergy * totalSpeed));
-			    		
-			    	this.totalEnergyUsed = (int)Math.round(workEnergy);
-			    	this.totalProcessingTime = (int)Math.round(workTime);
-			    	this.onUpgradeChanged();
-						
-				} else if(totalSpeed > 0 && totalEfficiency == 0) {
-						
-					double modify = (totalSpeed * 0.10) + 1;
-					double efficencyDropEnergy = energyUsed * 0.05;
-					double workTime = processingTime / modify;
-					double workEnergy = (energyUsed + (efficencyDropEnergy * totalSpeed));
-	    			
-		    		this.totalEnergyUsed = (int)workEnergy;
-		    		this.totalProcessingTime = (int)workTime;
-		    		this.onUpgradeChanged();
-						
-				} else if(totalEfficiency > 0 && totalSpeed == 0) {
-						
-					double modify = (totalEfficiency * 0.10) + 1;
-					double efficencyDropTime = processingTime * 0.05;
-					double workEnergy = energyUsed / modify;
-					double workTime = (processingTime + (efficencyDropTime * totalEfficiency));
-	        			
-	        		this.totalEnergyUsed = (int)workEnergy;
-	        		this.totalProcessingTime = (int)workTime;
-	        		this.onUpgradeChanged();
-						
-				}
+			} else if(totalSpeed > 0 && totalEfficiency == 0) {
 				
-			} else {
+				double totalEnergy = energyUsed * processingTime;
+				double efficiencyLoss = totalEnergy + ((totalEnergy * 0.05) * totalSpeed);
 				
-				this.totalEnergyUsed = this.baseEnergyUsed;
-	    		this.totalProcessingTime = this.baseProcessingTime;
+				double workEnergy = efficiencyLoss / processingTime + (processingTime * (totalSpeed * 0.10));
+				double workTime = efficiencyLoss / workEnergy;
+    			
+	    		this.totalEnergyUsed = (int)workEnergy;
+	    		this.totalProcessingTime = (int)workTime;
 	    		this.onUpgradeChanged();
+					
+			} else if(totalEfficiency > 0 && totalSpeed == 0) {
+					
+				double totalEnergy = energyUsed * processingTime;
+				double efficiencyLoss = totalEnergy + ((totalEnergy * 0.05) * totalEfficiency);
+				
+				double workTime = efficiencyLoss / energyUsed + (energyUsed * (totalEfficiency * 0.10));
+				double workEnergy = efficiencyLoss / workTime;
+        			
+        		this.totalEnergyUsed = (int)workEnergy;
+        		this.totalProcessingTime = (int)workTime;
+        		this.onUpgradeChanged();
+			}
+				
+		} else {
+				
+			this.totalEnergyUsed = this.baseEnergyUsed;
+	    	this.totalProcessingTime = this.baseProcessingTime;
+	    	this.onUpgradeChanged();
 		}
 	}
 

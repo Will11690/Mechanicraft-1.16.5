@@ -58,27 +58,48 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 			totalSpeed = speedCount;
 			totalEfficiency = efficiencyCount;
 			
+			if(totalSpeed > 19) {
+				
+				totalSpeed = 19;
+			}
+			
+			if(totalEfficiency > 19) {
+				
+				totalEfficiency = 19;
+			}
 		}
 			
 		if(totalSpeed > 0 || totalEfficiency > 0) {
 			
-			if(totalSpeed > 0 && totalEfficiency == 0) {
+			if(totalSpeed != 0 && totalEfficiency != 0) {
+				
+				double totalGen = energyGen * burnTime;
+				double efficiencyLossBurn = totalGen - ((totalGen * 0.05) * totalSpeed);
+				double efficiencyLossGen = totalGen - ((totalGen * 0.05) * totalEfficiency);
+				double upgradeBurn = efficiencyLossBurn / energyGen + (energyGen * (totalSpeed * 0.10));
+				double upgradeGen = efficiencyLossGen / burnTime + (burnTime * (totalEfficiency * 0.10));
+		    		
+		    	this.totalEnergyGen = (int)upgradeGen;
+		    	this.totalBurnTime = (int)upgradeBurn;
+		    	this.onUpgradeChanged();
 					
-				double modify = (totalSpeed * 0.10) + 1;
-	    		double efficencyDropBurn = burnTime * 0.05;
-	    		double upgradeGen = energyGen * modify;
-	    		double upgradeBurn = burnTime - (efficencyDropBurn * totalSpeed);
-    			
+			} else if(totalSpeed > 0 && totalEfficiency == 0) {
+				
+				double totalGen = energyGen * burnTime;
+				double efficiencyLoss = totalGen - ((totalGen * 0.05) * totalSpeed);
+				double upgradeBurn = efficiencyLoss / energyGen + (energyGen * (totalSpeed * 0.10));
+				double upgradeGen = efficiencyLoss / upgradeBurn;
+				
 	    		this.totalEnergyGen = (int)upgradeGen;
 	    		this.totalBurnTime = (int)upgradeBurn;
 	    		this.onUpgradeChanged();
 					
 			} else if(totalEfficiency > 0 && totalSpeed == 0) {
-					
-				double modify = (totalEfficiency * 0.10) + 1;
-		    	double efficencyDropPower = energyGen * 0.05;
-		    	double upgradeBurn = burnTime * modify;
-		    	double upgradeGen = energyGen - (efficencyDropPower * totalEfficiency);
+				
+				double totalGen = energyGen * burnTime;
+				double efficiencyLoss = totalGen - ((totalGen * 0.05) * totalEfficiency);
+				double upgradeGen = efficiencyLoss / burnTime + (burnTime * (totalEfficiency * 0.10));
+				double upgradeBurn = efficiencyLoss / upgradeGen;
         			
         		this.totalEnergyGen = (int)upgradeGen;
         		this.totalBurnTime = (int)upgradeBurn;
@@ -147,54 +168,61 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 			
 			totalSpeed = speedCount1 + speedCount2;
 			totalEfficiency = efficiencyCount1 + efficiencyCount2;
-		}
 			
-		if(totalSpeed > 0 || totalEfficiency > 0) {
-			
-			if(totalSpeed != 0 && totalEfficiency != 0) {
-					
-				double modify1 = (totalSpeed * 0.10) + 1;
-	    		double efficencyDropBurn = burnTime * 0.05;
-		    	double modify2 = (totalEfficiency * 0.10) + 1;
-		    	double efficencyDropPower = energyGen * 0.05;
-		    	
-		    	double upgradeGen = (energyGen * modify1) - (efficencyDropPower * totalEfficiency);
-		    	double upgradeBurn = (burnTime * modify2) - (efficencyDropBurn * totalSpeed);
-		    		
-		    	this.totalEnergyGen = (int)Math.round(upgradeGen);
-		    	this.totalBurnTime = (int)Math.round(upgradeBurn);
-		    	this.onUpgradeChanged();
-					
-			} else if(totalSpeed > 0 && totalEfficiency == 0) {
-					
-				double modify = (totalSpeed * 0.10) + 1;
-	    		double efficencyDropBurn = burnTime * 0.05;
-	    		double upgradeGen = energyGen * modify;
-	    		double upgradeBurn = burnTime - (efficencyDropBurn * totalSpeed);
-    			
-	    		this.totalEnergyGen = (int)upgradeGen;
-	    		this.totalBurnTime = (int)upgradeBurn;
-	    		this.onUpgradeChanged();
-					
-			} else if(totalEfficiency > 0 && totalSpeed == 0) {
-					
-				double modify = (totalEfficiency * 0.10) + 1;
-		    	double efficencyDropPower = energyGen * 0.05;
-		    	double upgradeBurn = burnTime * modify;
-		    	double upgradeGen = energyGen - (efficencyDropPower * totalEfficiency);
-        			
-        		this.totalEnergyGen = (int)upgradeGen;
-        		this.totalBurnTime = (int)upgradeBurn;
-        		this.onUpgradeChanged();
-					
+			if(totalSpeed > 19) {
+				
+				totalSpeed = 19;
 			}
 			
+			if(totalEfficiency > 19) {
+				
+				totalEfficiency = 19;
+			}
+		}
+		
+		if(totalSpeed > 0 || totalEfficiency > 0) {
+				
+			if(totalSpeed != 0 && totalEfficiency != 0) {
+					
+				double totalGen = energyGen * burnTime;
+				double efficiencyLossBurn = totalGen - ((totalGen * 0.05) * totalSpeed);
+				double efficiencyLossGen = totalGen - ((totalGen * 0.05) * totalEfficiency);
+				double upgradeBurn = efficiencyLossBurn / energyGen + (energyGen * (totalSpeed * 0.10));
+				double upgradeGen = efficiencyLossGen / burnTime + (burnTime * (totalEfficiency * 0.10));
+			    		
+			    this.totalEnergyGen = (int)upgradeGen;
+			    this.totalBurnTime = (int)upgradeBurn;
+			    this.onUpgradeChanged();
+						
+			} else if(totalSpeed > 0 && totalEfficiency == 0) {
+					
+				double totalGen = energyGen * burnTime;
+				double efficiencyLoss = totalGen - ((totalGen * 0.05) * totalSpeed);
+				double upgradeBurn = efficiencyLoss / energyGen + (energyGen * (totalSpeed * 0.10));
+				double upgradeGen = efficiencyLoss / upgradeBurn;
+					
+		    	this.totalEnergyGen = (int)upgradeGen;
+		    	this.totalBurnTime = (int)upgradeBurn;
+		    	this.onUpgradeChanged();
+						
+			} else if(totalEfficiency > 0 && totalSpeed == 0) {
+					
+				double totalGen = energyGen * burnTime;
+				double efficiencyLoss = totalGen - ((totalGen * 0.05) * totalEfficiency);
+				double upgradeGen = efficiencyLoss / burnTime + (burnTime * (totalEfficiency * 0.10));
+				double upgradeBurn = efficiencyLoss / upgradeGen;
+	        			
+	        	this.totalEnergyGen = (int)upgradeGen;
+	        	this.totalBurnTime = (int)upgradeBurn;
+	        	this.onUpgradeChanged();
+						
+			}
+				
 		} else {
 			//Default(No Upgrades)
 			this.totalEnergyGen = this.baseEnergyGen;
-    		this.totalBurnTime = this.baseBurnTime;
-    		this.onUpgradeChanged();
-			
+	    	this.totalBurnTime = this.baseBurnTime;
+	    	this.onUpgradeChanged();
 		}
 	}
 
@@ -270,53 +298,61 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 			
 			totalSpeed = speedCount1 + speedCount2 + speedCount3;
 			totalEfficiency = efficiencyCount1 + efficiencyCount2 + efficiencyCount3;
+			
+			if(totalSpeed > 19) {
+				
+				totalSpeed = 19;
+			}
+			
+			if(totalEfficiency > 19) {
+				
+				totalEfficiency = 19;
+			}
 		}
 			
-			if(totalSpeed > 0 || totalEfficiency > 0) {
+		if(totalSpeed > 0 || totalEfficiency > 0) {
 				
-				if(totalSpeed != 0 && totalEfficiency != 0) {
-						
-					double modify1 = (totalSpeed * 0.10) + 1;
-		    		double efficencyDropBurn = burnTime * 0.05;
-			    	double modify2 = (totalEfficiency * 0.10) + 1;
-			    	double efficencyDropPower = energyGen * 0.05;
-			    	
-			    	double upgradeGen = (energyGen * modify1) - (efficencyDropPower * totalEfficiency);
-			    	double upgradeBurn = (burnTime * modify2) - (efficencyDropBurn * totalSpeed);
+			if(totalSpeed != 0 && totalEfficiency != 0) {
+					
+				double totalGen = energyGen * burnTime;
+				double efficiencyLossBurn = totalGen - ((totalGen * 0.05) * totalSpeed);
+				double efficiencyLossGen = totalGen - ((totalGen * 0.05) * totalEfficiency);
+				double upgradeBurn = efficiencyLossBurn / energyGen + (energyGen * (totalSpeed * 0.10));
+				double upgradeGen = efficiencyLossGen / burnTime + (burnTime * (totalEfficiency * 0.10));
 			    		
-			    	this.totalEnergyGen = (int)Math.round(upgradeGen);
-			    	this.totalBurnTime = (int)Math.round(upgradeBurn);
-			    	this.onUpgradeChanged();
+			    this.totalEnergyGen = (int)upgradeGen;
+			    this.totalBurnTime = (int)upgradeBurn;
+			    this.onUpgradeChanged();
 						
-				} else if(totalSpeed > 0 && totalEfficiency == 0) {
+			} else if(totalSpeed > 0 && totalEfficiency == 0) {
+					
+				double totalGen = energyGen * burnTime;
+				double efficiencyLoss = totalGen - ((totalGen * 0.05) * totalSpeed);
+				double upgradeBurn = efficiencyLoss / energyGen + (energyGen * (totalSpeed * 0.10));
+				double upgradeGen = efficiencyLoss / upgradeBurn;
+					
+		    	this.totalEnergyGen = (int)upgradeGen;
+		    	this.totalBurnTime = (int)upgradeBurn;
+		    	this.onUpgradeChanged();
 						
-					double modify = (totalSpeed * 0.10) + 1;
-		    		double efficencyDropBurn = burnTime * 0.05;
-		    		double upgradeGen = energyGen * modify;
-		    		double upgradeBurn = burnTime - (efficencyDropBurn * totalSpeed);
-	    			
-		    		this.totalEnergyGen = (int)upgradeGen;
-		    		this.totalBurnTime = (int)upgradeBurn;
-		    		this.onUpgradeChanged();
-						
-				} else if(totalEfficiency > 0 && totalSpeed == 0) {
-						
-					double modify = (totalEfficiency * 0.10) + 1;
-			    	double efficencyDropPower = energyGen * 0.05;
-			    	double upgradeBurn = burnTime * modify;
-			    	double upgradeGen = energyGen - (efficencyDropPower * totalEfficiency);
+			} else if(totalEfficiency > 0 && totalSpeed == 0) {
+					
+				double totalGen = energyGen * burnTime;
+				double efficiencyLoss = totalGen - ((totalGen * 0.05) * totalEfficiency);
+				double upgradeGen = efficiencyLoss / burnTime + (burnTime * (totalEfficiency * 0.10));
+				double upgradeBurn = efficiencyLoss / upgradeGen;
 	        			
-	        		this.totalEnergyGen = (int)upgradeGen;
-	        		this.totalBurnTime = (int)upgradeBurn;
-	        		this.onUpgradeChanged();
+	        	this.totalEnergyGen = (int)upgradeGen;
+	        	this.totalBurnTime = (int)upgradeBurn;
+	        	this.onUpgradeChanged();
 						
-				}
+			}
 				
-			} else {
-				//Default(No Upgrades)
-				this.totalEnergyGen = this.baseEnergyGen;
-	    		this.totalBurnTime = this.baseBurnTime;
-	    		this.onUpgradeChanged();
+		} else {
+			//Default(No Upgrades)
+			this.totalEnergyGen = this.baseEnergyGen;
+	    	this.totalBurnTime = this.baseBurnTime;
+	    	this.onUpgradeChanged();
 		}
 	}
 
@@ -411,53 +447,61 @@ public class UpgradeGeneratorHandlerFactory implements IUpgradeGeneratorHandler 
 			
 			totalSpeed = speedCount1 + speedCount2 + speedCount3 + speedCount4;
 			totalEfficiency = efficiencyCount1 + efficiencyCount2 + efficiencyCount3 + efficiencyCount4;
-		}
 			
-			if(totalSpeed > 0 || totalEfficiency > 0) {
+			if(totalSpeed > 19) {
 				
-				if(totalSpeed != 0 && totalEfficiency != 0) {
-						
-					double modify1 = (totalSpeed * 0.10) + 1;
-		    		double efficencyDropBurn = burnTime * 0.05;
-			    	double modify2 = (totalEfficiency * 0.10) + 1;
-			    	double efficencyDropPower = energyGen * 0.05;
-			    	
-			    	double upgradeGen = (energyGen * modify1) - (efficencyDropPower * totalEfficiency);
-			    	double upgradeBurn = (burnTime * modify2) - (efficencyDropBurn * totalSpeed);
+				totalSpeed = 19;
+			}
+			
+			if(totalEfficiency > 19) {
+				
+				totalEfficiency = 19;
+			}
+		}
+		
+		if(totalSpeed > 0 || totalEfficiency > 0) {
+				
+			if(totalSpeed != 0 && totalEfficiency != 0) {
+					
+				double totalGen = energyGen * burnTime;
+				double efficiencyLossBurn = totalGen - ((totalGen * 0.05) * totalSpeed);
+				double efficiencyLossGen = totalGen - ((totalGen * 0.05) * totalEfficiency);
+				double upgradeBurn = efficiencyLossBurn / energyGen + (energyGen * (totalSpeed * 0.10));
+				double upgradeGen = efficiencyLossGen / burnTime + (burnTime * (totalEfficiency * 0.10));
 			    		
-			    	this.totalEnergyGen = (int)Math.round(upgradeGen);
-			    	this.totalBurnTime = (int)Math.round(upgradeBurn);
-			    	this.onUpgradeChanged();
+			    this.totalEnergyGen = (int)upgradeGen;
+			    this.totalBurnTime = (int)upgradeBurn;
+			    this.onUpgradeChanged();
 						
-				} else if(totalSpeed > 0 && totalEfficiency == 0) {
+			} else if(totalSpeed > 0 && totalEfficiency == 0) {
+					
+				double totalGen = energyGen * burnTime;
+				double efficiencyLoss = totalGen - ((totalGen * 0.05) * totalSpeed);
+				double upgradeBurn = efficiencyLoss / energyGen + (energyGen * (totalSpeed * 0.10));
+				double upgradeGen = efficiencyLoss / upgradeBurn;
+					
+		    	this.totalEnergyGen = (int)upgradeGen;
+		    	this.totalBurnTime = (int)upgradeBurn;
+		    	this.onUpgradeChanged();
 						
-					double modify = (totalSpeed * 0.10) + 1;
-		    		double efficencyDropBurn = burnTime * 0.05;
-		    		double upgradeGen = energyGen * modify;
-		    		double upgradeBurn = burnTime - (efficencyDropBurn * totalSpeed);
-	    			
-		    		this.totalEnergyGen = (int)upgradeGen;
-		    		this.totalBurnTime = (int)upgradeBurn;
-		    		this.onUpgradeChanged();
-						
-				} else if(totalEfficiency > 0 && totalSpeed == 0) {
-						
-					double modify = (totalEfficiency * 0.10) + 1;
-			    	double efficencyDropPower = energyGen * 0.05;
-			    	double upgradeBurn = burnTime * modify;
-			    	double upgradeGen = energyGen - (efficencyDropPower * totalEfficiency);
+			} else if(totalEfficiency > 0 && totalSpeed == 0) {
+					
+				double totalGen = energyGen * burnTime;
+				double efficiencyLoss = totalGen - ((totalGen * 0.05) * totalEfficiency);
+				double upgradeGen = efficiencyLoss / burnTime + (burnTime * (totalEfficiency * 0.10));
+				double upgradeBurn = efficiencyLoss / upgradeGen;
 	        			
-	        		this.totalEnergyGen = (int)upgradeGen;
-	        		this.totalBurnTime = (int)upgradeBurn;
-	        		this.onUpgradeChanged();
+	        	this.totalEnergyGen = (int)upgradeGen;
+	        	this.totalBurnTime = (int)upgradeBurn;
+	        	this.onUpgradeChanged();
 						
-				}
+			}
 				
-			} else {
-				//Default(No Upgrades)
-				this.totalEnergyGen = this.baseEnergyGen;
-	    		this.totalBurnTime = this.baseBurnTime;
-	    		this.onUpgradeChanged();
+		} else {
+			//Default(No Upgrades)
+			this.totalEnergyGen = this.baseEnergyGen;
+	    	this.totalBurnTime = this.baseBurnTime;
+	    	this.onUpgradeChanged();
 		}
 	}
 

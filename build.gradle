@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.16.5-1.0.4-A'
+version = '1.16.5-1.0.5-A'
 group = 'com.github.will11690.mechanicraft' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'mechanicraft'
 
@@ -179,9 +179,9 @@ jar {
         attributes([
             "Specification-Title": "mechanicraft",
             "Specification-Vendor": "com.github.will11690.mechanicraft",
-            "Specification-Version": "1.16.5-1.0.4-A",
+            "Specification-Version": "1.16.5-1.0.5-A",
             "Implementation-Title": "mechanicraft",
-            "Implementation-Version": "1.16.5-1.0.4-A",
+            "Implementation-Version": "1.16.5-1.0.5-A",
             "Implementation-Vendor" :"com.github.will11690.mechanicraft",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])

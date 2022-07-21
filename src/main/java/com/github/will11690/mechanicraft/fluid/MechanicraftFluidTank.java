@@ -271,8 +271,8 @@ public class MechanicraftFluidTank implements IFluidHandler, IFluidTank {
 		int setMaxCapacity;
 		
 		if(baseCapacity != 0 && capacityUpgrade > 0) {
-			double modify = (capacityUpgrade * 0.10) + 1;
-			setMaxCapacity = (int)Math.round(baseCapacity * modify);
+			double modify = (baseCapacity * 0.10) * capacityUpgrade;
+			setMaxCapacity = (int)(baseCapacity + modify);
 			upgradedCapacity = setMaxCapacity;
 			
 			return upgradedCapacity;

@@ -326,7 +326,7 @@ public class ModItems {
     
     //UPGRADES
     public static final RegistryObject<Item> CAPACITY_UPGRADE = RegistryHandler.ITEMS.register("capacity_upgrade", () ->
-		new Item(new Item.Properties().tab(TabGroups.MOD_ITEM_GROUP)) {
+		new Item(new Item.Properties().stacksTo(8).tab(TabGroups.MOD_ITEM_GROUP)) {
             @Override
             @OnlyIn(Dist.CLIENT)
             public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag tooltipFlag) {
@@ -343,7 +343,7 @@ public class ModItems {
         });
     
     public static final RegistryObject<Item> EFFICIENCY_UPGRADE = RegistryHandler.ITEMS.register("efficiency_upgrade", () ->
-		new Item(new Item.Properties().tab(TabGroups.MOD_ITEM_GROUP)) {
+		new Item(new Item.Properties().stacksTo(8).tab(TabGroups.MOD_ITEM_GROUP)) {
             @Override
             @OnlyIn(Dist.CLIENT)
             public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag tooltipFlag) {
@@ -361,7 +361,7 @@ public class ModItems {
         });
     
     public static final RegistryObject<Item> SPEED_UPGRADE = RegistryHandler.ITEMS.register("speed_upgrade", () ->
-		new Item(new Item.Properties().tab(TabGroups.MOD_ITEM_GROUP)) {
+		new Item(new Item.Properties().stacksTo(8).tab(TabGroups.MOD_ITEM_GROUP)) {
             @Override
             @OnlyIn(Dist.CLIENT)
             public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag tooltipFlag) {
@@ -379,7 +379,7 @@ public class ModItems {
         });
     
     public static final RegistryObject<Item> TRANSFER_UPGRADE = RegistryHandler.ITEMS.register("transfer_upgrade", () ->
-		new Item(new Item.Properties().tab(TabGroups.MOD_ITEM_GROUP)) {
+		new Item(new Item.Properties().stacksTo(8).tab(TabGroups.MOD_ITEM_GROUP)) {
             @Override
             @OnlyIn(Dist.CLIENT)
             public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag tooltipFlag) {
