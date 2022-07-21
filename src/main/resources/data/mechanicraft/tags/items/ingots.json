@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "mechanicraft:bronze_ingot",
+    "mechanicraft:emeronium_ingot",
+    "mechanicraft:copper_ingot",
+    "mechanicraft:ender_ingot",
+    "mechanicraft:endonium_ingot",
+    "mechanicraft:gold_infused_iron_ingot",
+    "mechanicraft:lead_ingot",
+    "mechanicraft:obsidium_ingot",
+    "mechanicraft:rubonium_ingot",
+    "mechanicraft:saphonium_ingot",
+    "mechanicraft:silver_ingot",
+    "mechanicraft:steel_ingot",
+    "mechanicraft:tin_ingot"
+  ]
+}

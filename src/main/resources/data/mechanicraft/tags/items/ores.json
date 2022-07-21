@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "mechanicraft:copper_ore",
+    "mechanicraft:ender_ore",
+    "mechanicraft:lead_ore",
+    "mechanicraft:ruby_ore",
+    "mechanicraft:sapphire_ore",
+    "mechanicraft:silver_ore",
+    "mechanicraft:tin_ore"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "mechanicraft:bronze_dust",
+    "mechanicraft:gold_dust",
+    "mechanicraft:gold_infused_iron_dust",
+    "mechanicraft:endonium_dust",
+    "mechanicraft:endonium_crystal_dust",
+    "mechanicraft:ender_dust",
+    "mechanicraft:emeronium_dust",
+    "mechanicraft:emerald_dust",
+    "mechanicraft:diamonium_crystal_dust",
+    "mechanicraft:diamond_dust",
+    "mechanicraft:copper_dust",
+    "mechanicraft:iron_dust",
+    "mechanicraft:lead_dust",
+    "mechanicraft:obsidian_dust",
+    "mechanicraft:obsidium_dust",
+    "mechanicraft:rubonium_dust",
+    "mechanicraft:ruby_dust",
+    "mechanicraft:saphonium_dust",
+    "mechanicraft:sapphire_dust",
+    "mechanicraft:silver_dust",
+    "mechanicraft:steel_dust",
+    "mechanicraft:tin_dust"
+  ]
+}

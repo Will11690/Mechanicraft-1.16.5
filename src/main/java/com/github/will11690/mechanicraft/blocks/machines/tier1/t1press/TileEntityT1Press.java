@@ -11,6 +11,7 @@ import com.github.will11690.mechanicraft.energy.MechaniCraftEnergyStorage;
 import com.github.will11690.mechanicraft.init.ModConfigs;
 import com.github.will11690.mechanicraft.init.ModRecipes;
 import com.github.will11690.mechanicraft.recipes.Press.PressRecipes;
+import com.github.will11690.mechanicraft.util.compat.ModTags;
 import com.github.will11690.mechanicraft.util.handlers.NonExtractableStackHandler;
 import com.github.will11690.mechanicraft.util.handlers.TileEntityHandler;
 import com.google.common.collect.Iterables;
@@ -29,6 +30,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -442,6 +444,8 @@ public class TileEntityT1Press extends TileEntity implements ITickableTileEntity
 	}
 
 	private void startPressing() {
+		
+		final ResourceLocation forgeTag = new ResourceLocation("forge", "press_dies");
 
 		Inventory recipeInventory = new Inventory(this.inputSlotHandler.getStackInSlot(0), this.inputSlotHandler.getStackInSlot(1), this.inputSlotHandler.getStackInSlot(2),
 												  this.inputSlotHandler.getStackInSlot(3), this.inputSlotHandler.getStackInSlot(4), this.inputSlotHandler.getStackInSlot(5),
@@ -467,7 +471,7 @@ public class TileEntityT1Press extends TileEntity implements ITickableTileEntity
 			if (progress >= WORK_TIME) {
 
 				if(current.isEmpty()) {
-
+					
 					outputSlotHandler.setStackInSlot(0, output.copy());
 					progress = 0;
 					inputSlotHandler.extractItem(0, 1, false);
@@ -478,6 +482,12 @@ public class TileEntityT1Press extends TileEntity implements ITickableTileEntity
 					inputSlotHandler.extractItem(5, 1, false);
 					inputSlotHandler.extractItem(6, 1, false);
 					inputSlotHandler.extractItem(7, 1, false);
+					
+					if(!(ModTags.Items.MECHANICRAFT_PRESS_DIES.getValues().contains(inputSlotHandler.getStackInSlot(8).getItem())) ||
+					!(inputSlotHandler.getStackInSlot(8).getItem().getTags().contains(forgeTag))) {
+						
+						inputSlotHandler.extractItem(8, 1, false);
+					}
 
 				} else {
 
@@ -493,7 +503,12 @@ public class TileEntityT1Press extends TileEntity implements ITickableTileEntity
 						inputSlotHandler.extractItem(5, 1, false);
 						inputSlotHandler.extractItem(6, 1, false);
 						inputSlotHandler.extractItem(7, 1, false);
-
+						
+						if(!(ModTags.Items.MECHANICRAFT_PRESS_DIES.getValues().contains(inputSlotHandler.getStackInSlot(8).getItem())) ||
+						!(inputSlotHandler.getStackInSlot(8).getItem().getTags().contains(forgeTag))) {
+							
+							inputSlotHandler.extractItem(8, 1, false);
+						}
 					}
 				}
 			}

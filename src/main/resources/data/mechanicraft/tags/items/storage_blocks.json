@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "mechanicraft:bronze_block",
+    "mechanicraft:tin_block",
+    "mechanicraft:endonium_crystal_block",
+    "mechanicraft:ender_block",
+    "mechanicraft:endonium_block",
+    "mechanicraft:copper_block",
+    "mechanicraft:emeronium_block",
+    "mechanicraft:gold_infused_iron_block",
+    "mechanicraft:lead_block",
+    "mechanicraft:obsidium_block",
+    "mechanicraft:rubonium_block",
+    "mechanicraft:ruby_block",
+    "mechanicraft:saphonium_block",
+    "mechanicraft:sapphire_block",
+    "mechanicraft:silver_block",
+    "mechanicraft:steel_block"
+  ]
+}
